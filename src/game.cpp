@@ -59,7 +59,9 @@ Game::Game()
 
 Game::~Game()
 {
-	// TODO: liberar memoria reservada por la clase
+	for (size_t i = 0; i < textures.size(); i++) {
+		delete textures[i];
+	}
 }
 
 void
