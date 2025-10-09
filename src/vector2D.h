@@ -3,8 +3,11 @@
 
 #include <iostream>
 
+template<typename T>
+using Point2D = Vector2D;
+
 /**
- * Vector bidimensional genérico.
+  Vector bidimensional genérico.
  */
 template<typename T = float>
 class Vector2D
@@ -17,13 +20,21 @@ public:
 
 	// Coordenadas del vector
 	const T& getX() const { return x; }
+	const T& getY() const { return y; }
 
 	// Operadores
 	Vector2D operator+(const Vector2D& otro) const {
 		return {x + otro.x, y + otro.y};
 	}
 
-	// TODO: completar
+	Vector2D operator-(const Vector2D& otro) const {
+		return { x - otro.x, y - otro.y };
+	}
+
+	Vector2D operator*(double d) const;
+	T operator*(const Vector2D& d) const;
+
+	void normalize();
 
 	// Operadores de entrada/salida
 	friend std::ostream& operator<<(std::ostream& out, const Vector2D& v) {

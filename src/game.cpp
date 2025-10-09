@@ -69,6 +69,7 @@ Game::render() const
 {
 	SDL_RenderClear(renderer);
 
+	textures[1]->render();
 	// TODO
 
 	SDL_RenderPresent(renderer);
@@ -85,6 +86,7 @@ Game::run()
 {
 	while (!exit) {
 		// TODO: implementar bucle del juego
+		render();
 	}
 }
 
