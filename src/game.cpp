@@ -26,6 +26,15 @@ constexpr const char* const imgBase = "../assets/images/";
 constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	TextureSpec{"frog.png", 1, 2},
 	{"background.png"},
+	{"car1.png"},
+	{"car2.png"},
+	{"car3.png"},
+	{"car4.png"},
+	{"car5.png"},
+	{"log1.png"},
+	{"log2.png"},
+	{"wasp.png"}
+
 };
 
 Game::Game()

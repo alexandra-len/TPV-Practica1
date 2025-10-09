@@ -40,6 +40,14 @@ public:
 	{
 		FROG = 0,
 		BACKGROUND,
+		VEHICLE1,
+		VEHICLE2,
+		VEHICLE3,
+		VEHICLE4,
+		VEHICLE5,
+		LOG1,
+		LOG2,
+		WASP,
 		NUM_TEXTURES
 	};
 
