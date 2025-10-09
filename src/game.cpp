@@ -5,6 +5,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "texture.h"
+#include "vehicle.h"
 
 using namespace std;
 
@@ -62,6 +63,12 @@ Game::Game()
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
 
+	// Render la primera vez.
+	render();
+
+	// Crear vehiculo para testing
+	//Vehicle v1(&this, getTexture(TextureName::VEHICLE1), Point2D(0,0), Vector2D(0.0, 0.0))
+
 	// Configura que se pueden utilizar capas translúcidas
 	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
@@ -95,7 +102,7 @@ Game::run()
 {
 	while (!exit) {
 		// TODO: implementar bucle del juego
-		render();
+		
 	}
 }
 
