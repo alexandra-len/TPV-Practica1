@@ -13,8 +13,8 @@ class Vehicle
 public:
 	Vehicle(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p), speed(s) { }
 
-	void render() const { }
-	void update() {	}
+	void render() const;
+	void update();
 
-	Collision checkCollision(const SDL_FRect&) { }
+	Collision checkCollision(const SDL_FRect&);
 };
