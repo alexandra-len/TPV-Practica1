@@ -69,7 +69,7 @@ Game::render() const
 {
 	SDL_RenderClear(renderer);
 
-	textures[1]->render();
+	getTexture(TextureName::BACKGROUND)->render();
 	// TODO
 
 	SDL_RenderPresent(renderer);

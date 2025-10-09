@@ -3,9 +3,6 @@
 
 #include <iostream>
 
-template<typename T>
-using Point2D = Vector2D;
-
 /**
   Vector bidimensional genérico.
  */
@@ -43,3 +40,6 @@ public:
 };
 
 #endif // VECTOR2D_H
+
+template<typename T>
+using Point2D = Vector2D<T>;
