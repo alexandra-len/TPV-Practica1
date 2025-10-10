@@ -6,6 +6,7 @@
 
 #include "texture.h"
 #include "vehicle.h"
+#include "log.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ struct TextureSpec
 	const char* name;
 	int nrows = 1;
 	int ncols = 1;
+
 };
 
 constexpr const char* const imgBase = "../assets/images/";
@@ -63,14 +65,18 @@ Game::Game()
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
 
+	logShort = new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(0.5f, 0.0f), 84, 22);
+	logLong = new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(-0.3f, 0.0f), 116, 22);
+
 	// Render la primera vez.
 	render();
 
 	// Crear vehiculo para testing
-	//Vehicle v1(&this, getTexture(TextureName::VEHICLE1), Point2D(0,0), Vector2D(0.0, 0.0))
+	Vehicle v1(this, getTexture(TextureName::VEHICLE1), Point2D<int>(0, 0), Vector2D<float>(0.0, 0.0));
 
 	// Configura que se pueden utilizar capas translúcidas
 	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
 }
 
 Game::~Game()
@@ -78,6 +84,9 @@ Game::~Game()
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
+
+	delete logShort;
+	delete logLong;
 }
 
 void
@@ -88,7 +97,11 @@ Game::render() const
 	getTexture(TextureName::BACKGROUND)->render();
 	// TODO
 
+	logShort->render();
+	logLong->render();
+
 	SDL_RenderPresent(renderer);
+
 }
 
 void

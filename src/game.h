@@ -21,6 +21,7 @@ struct Collision
 
 // Declaraciones anticipadas
 class Texture;
+class Log;
 
 /**
  * Clase principal del juego.
@@ -55,6 +56,9 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	std::array<Texture*, NUM_TEXTURES> textures;
+
+	Log* logShort ;
+	Log* logLong ;
 
 	void render() const;
 	void update();

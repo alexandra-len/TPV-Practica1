@@ -10,12 +10,12 @@ class Log
 	Texture* texture;
 	Point2D<int> position;
 	Vector2D<float> speed;
+	int width;
+	int height;
 
 public:
 
-	Log(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p), speed(s) 
-	{
-	}
+	Log(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s, int w, int h) : game(g), texture(t), position(p), speed(s), width(w), height(h) {}
 
 	void render() const;
 	void update();
