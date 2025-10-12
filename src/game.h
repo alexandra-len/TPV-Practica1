@@ -6,6 +6,7 @@
 #include <istream>
 #include <vector>
 #include "vector2D.h"
+#include "wasp.h"
 
 struct Collision
 {
