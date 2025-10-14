@@ -15,7 +15,10 @@ class Log
 
 public:
 
-	Log(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s, int w, int h) : game(g), texture(t), position(p), speed(s), width(w), height(h) {}
+	Log(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p), speed(s) {
+		width = texture->getFrameWidth();
+		height = texture->getFrameHeight();
+	}
 
 	void render() const;
 	void update();

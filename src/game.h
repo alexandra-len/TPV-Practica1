@@ -23,6 +23,7 @@ struct Collision
 // Declaraciones anticipadas
 class Texture;
 class Log;
+class Vehicle;
 
 /**
  * Clase principal del juego.
@@ -35,6 +36,7 @@ public:
 	// Tamaño real de la ventana
 	static constexpr int WINDOW_WIDTH = 448;
 	static constexpr int WINDOW_HEIGHT = 484;
+	static constexpr int WINDOW_WIDTH_MARGIN = 150;
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 210;
 
@@ -60,6 +62,10 @@ private:
 
 	Log* logShort ;
 	Log* logLong ;
+	Vehicle* vehicleTest;
+
+	std::vector<Log*> logs;
+	std::vector<Vehicle*> vehicles;
 
 	void render() const;
 	void update();

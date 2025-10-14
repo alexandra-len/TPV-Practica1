@@ -65,15 +65,16 @@ Game::Game()
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
 
-	logShort = new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(0.5f, 0.0f), 84, 22);
-	logLong = new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(-0.3f, 0.0f), 116, 22);
+	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(72.6, 0.0f)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(96, 0.0f)));
+
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(50, 372), Vector2D<float>(-48, 0.0)));
+
 
 	// Render la primera vez.
 	render();
 
-	// Crear vehiculo para testing
-	Vehicle v1(this, getTexture(TextureName::VEHICLE1), Point2D<int>(0, 0), Vector2D<float>(0.0, 0.0));
-
+	
 	// Configura que se pueden utilizar capas translúcidas
 	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
@@ -84,9 +85,12 @@ Game::~Game()
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
-
-	delete logShort;
-	delete logLong;
+	for (int i = 0; i < logs.size(); i++) {
+		delete logs[i];
+	}
+	for (int i = 0; i < vehicles.size(); i++) {
+		delete vehicles[i];
+	}
 }
 
 void
@@ -97,8 +101,12 @@ Game::render() const
 	getTexture(TextureName::BACKGROUND)->render();
 	// TODO
 
-	logShort->render();
-	logLong->render();
+	for (int i = 0; i < logs.size(); i++) {
+		logs[i]->render();
+	}
+	for (int i = 0; i < vehicles.size(); i++) {
+		vehicles[i]->render();
+	}
 
 	SDL_RenderPresent(renderer);
 
@@ -107,7 +115,12 @@ Game::render() const
 void
 Game::update()
 {
-	// TODO
+	for (int i = 0; i < logs.size(); i++) {
+		logs[i]->update();
+	}
+	for (int i = 0; i < vehicles.size(); i++) {
+		vehicles[i]->update();
+	}
 }
 
 void
@@ -115,7 +128,8 @@ Game::run()
 {
 	while (!exit) {
 		// TODO: implementar bucle del juego
-		
+		update();
+		render();
 	}
 }
 

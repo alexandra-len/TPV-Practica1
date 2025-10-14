@@ -9,9 +9,9 @@ void Log::render() const
 
 void Log::update() 
 {
-	position = Point2D<int>( position.getX() + (speed.getX()), position.getY() + speed.getY());
+	position = Point2D<int>(position.getX() + (SDL_GetTicks()/speed.getX()), position.getY() + speed.getY());
 
-	const int windowWidth = Game::WINDOW_WIDTH;
+	const int windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN;
 	if (speed.getX() > 0 && position.getX() > windowWidth)
 	{
 		position = Point2D<int>(-width, position.getY());
@@ -24,11 +24,9 @@ void Log::update()
 
 Collision Log::checkCollision(const SDL_FRect& otherRect)
 {
-	Collision collision;
-	collision.type = Collision::NONE;
-	collision.speed = { 0.0f, 0.0f };
+	Collision collision(Collision::NONE, { 0, 0 });
 
-	SDL_FRect logRect{static_cast<float>(position.getX()), static_cast<float>(position.getY()),width,height};
+	SDL_FRect logRect(position.getX(), position.getY(), width, height);
 
 	if (SDL_HasRectIntersectionFloat(&logRect, &otherRect)) 
 	{
