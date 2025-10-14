@@ -3,20 +3,18 @@
 void Log::render() const
 {
 	texture->render(SDL_FRect(position.getX(), position.getY(), (width), (height)));
-
-	//texture->render();
 }
 
 void Log::update() 
 {
-	position = Point2D<int>(position.getX() + (SDL_GetTicks()/speed.getX()), position.getY() + speed.getY());
+	position = Point2D<int>(position.getX() + (speed.getX()), position.getY() + speed.getY());
 
 	const int windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN;
 	if (speed.getX() > 0 && position.getX() > windowWidth)
 	{
 		position = Point2D<int>(-width, position.getY());
 	}
-	else if (speed.getX() < 0 && position.getX() < width)
+	else if (speed.getX() < 0 && position.getX() < (-Game::WINDOW_WIDTH_MARGIN))
 	{
 		position = Point2D<int>(windowWidth, position.getY());
 	}

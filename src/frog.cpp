@@ -5,22 +5,22 @@ void Frog::render() {
 }
 
 void Frog::update() {
-
+	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY()* height);
+	position = position + move;
+	lastDirection = Point2D<int>(0, 0);
 }
 
 void Frog::handleEvent(const SDL_Event& event) {
 	switch (event.key.key) {
 	case SDLK_UP:
-		position = position + Point2D<int>(0, -height);
 		lastDirection = Point2D<int>(0, 1);
 	case SDLK_DOWN:
-		position = position + Point2D<int>(0, -height);
 		lastDirection = Point2D<int>(0, -1);
 	case SDLK_LEFT:
-		position = position + Point2D<int>(-width, 0);
 		lastDirection = Point2D<int>(-1, 0);
 	case SDLK_RIGHT:
-		position = position + Point2D<int>(width, 0);
 		lastDirection = Point2D<int>(1, 0);
+	default:
+		lastDirection = Point2D<int>(0, 0);
 	}
 }

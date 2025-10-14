@@ -13,7 +13,8 @@ class Vehicle
 	int height;
 
 public:
-	Vehicle(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p), speed(s) { 
+	Vehicle(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p) {
+		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	}

@@ -12,7 +12,7 @@ void Vehicle::update() {
 	{
 		position = Point2D<int>(-width, position.getY());
 	}
-	else if (speed.getX() < 0 && position.getX() < width)
+	else if (speed.getX() < 0 && position.getX() < (-Game::WINDOW_WIDTH_MARGIN))
 	{
 		position = Point2D<int>(windowWidth, position.getY());
 	}

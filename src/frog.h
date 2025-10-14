@@ -16,7 +16,7 @@ class Frog
 	int height;
 
 public:
-	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), position(p), lastDirection(Point2D<int>(0, 1)), hp(3) {
+	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), position(p), lastDirection(Point2D<int>(0, 0)), hp(3) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};

@@ -140,10 +140,16 @@ Game::update()
 void
 Game::run()
 {
+	uint64_t startTime, frameTime;
 	while (!exit) {
-		// TODO: implementar bucle del juego
+		startTime = SDL_GetTicks();
+		handleEvents();
 		update();
 		render();
+		frameTime = SDL_GetTicks() - startTime;
+		if (frameTime < FRAME_RATE) {
+			SDL_Delay(FRAME_RATE - frameTime);
+		}
 	}
 }
 
@@ -151,7 +157,6 @@ void
 Game::handleEvents()
 {
 	SDL_Event event;
-
 	// Only quit is handled directly, everything else is delegated
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_EVENT_QUIT)
@@ -159,7 +164,6 @@ Game::handleEvents()
 		else if (event.type == SDL_EVENT_KEY_DOWN) {
 			player->handleEvent(event);
 		}
-		// TODO
 	}
 }
 
