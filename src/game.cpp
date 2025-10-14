@@ -108,6 +108,8 @@ Game::render() const
 	getTexture(TextureName::BACKGROUND)->render();
 	// TODO
 
+	player->render();
+
 	for (int i = 0; i < logs.size(); i++) {
 		logs[i]->render();
 	}
@@ -116,6 +118,7 @@ Game::render() const
 	}
 	wasp->render();
 
+
 	SDL_RenderPresent(renderer);
 
 }
@@ -123,12 +126,15 @@ Game::render() const
 void
 Game::update()
 {
+	player->update();
 	for (int i = 0; i < logs.size(); i++) {
 		logs[i]->update();
 	}
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->update();
 	}
+	wasp->update();
+	
 }
 
 void
