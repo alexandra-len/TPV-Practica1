@@ -1,7 +1,7 @@
 #include "vehicle.h"
 
 void Vehicle::render() const {
-	texture->render(SDL_FRect(position.getX(), position.getY(), texture->getFrameWidth(), texture->getFrameHeight()));
+	texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
 }
 
 void Vehicle::update() {

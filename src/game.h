@@ -5,9 +5,9 @@
 #include <array>
 #include <istream>
 #include <vector>
-#include "vector2D.h"
-#include "wasp.h"
 #include <random>
+#include "vector2D.h"
+
 
 struct Collision
 {
@@ -25,6 +25,8 @@ struct Collision
 class Texture;
 class Log;
 class Vehicle;
+class Wasp;
+class Frog;
 
 /**
  * Clase principal del juego.
@@ -61,12 +63,11 @@ private:
 	SDL_Renderer* renderer;
 	std::array<Texture*, NUM_TEXTURES> textures;
 
-	Log* logShort ;
-	Log* logLong ;
-	Vehicle* vehicleTest;
+	Frog* player;
 
 	std::vector<Log*> logs;
 	std::vector<Vehicle*> vehicles;
+	Wasp* wasp;
 
 	std::mt19937 randomGenerator;
 

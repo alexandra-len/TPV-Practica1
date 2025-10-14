@@ -7,6 +7,8 @@
 #include "texture.h"
 #include "vehicle.h"
 #include "log.h"
+#include "wasp.h"
+#include "frog.h"
 
 using namespace std;
 
@@ -67,11 +69,14 @@ Game::Game()
 
 	randomGenerator = std::mt19937(std::time(nullptr));
 
+	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(50, 50));
+
 	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(72.6, 0.0f)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(96, 0.0f)));
 
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(50, 372), Vector2D<float>(-48, 0.0)));
 
+	wasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0));
 
 	// Render la primera vez.
 	render();
@@ -109,6 +114,7 @@ Game::render() const
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->render();
 	}
+	wasp->render();
 
 	SDL_RenderPresent(renderer);
 
@@ -144,7 +150,9 @@ Game::handleEvents()
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_EVENT_QUIT)
 			exit = true;
-
+		else if (event.type == SDL_EVENT_KEY_DOWN) {
+			player->handleEvent(event);
+		}
 		// TODO
 	}
 }

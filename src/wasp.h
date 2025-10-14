@@ -12,7 +12,7 @@ class Wasp
 	Vector2D<float> speed;
 	int width;
 	int height;
-	int lifeTime;
+	//int lifeTime;
 
 public:
 	Wasp(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p), speed(s) {

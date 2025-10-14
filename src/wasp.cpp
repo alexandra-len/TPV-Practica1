@@ -9,5 +9,5 @@ void Wasp::update() {
 }
 
 bool Wasp::isAlive() const {
-
+	return true;
 }
