@@ -7,6 +7,7 @@
 #include <vector>
 #include "vector2D.h"
 #include "wasp.h"
+#include <random>
 
 struct Collision
 {
@@ -67,6 +68,8 @@ private:
 	std::vector<Log*> logs;
 	std::vector<Vehicle*> vehicles;
 
+	std::mt19937 randomGenerator;
+
 	void render() const;
 	void update();
 	void handleEvents();
@@ -88,6 +91,8 @@ public:
 
 	// Comprueba si hay algún objeto colocado en ese rectángulo
 	bool checkCollision(const SDL_FRect& rect) const;
+
+	int getRandomRange(int, int);
 };
 
 inline Texture*

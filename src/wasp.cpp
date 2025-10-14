@@ -1,9 +1,13 @@
 #include "wasp.h"
 
-//void Wasp::update()
-//{
-//
-//    position = Point2D<int>(position.getX() + (speed.getX()), position.getY() + speed.getY());
-//
-//
-//}
+void Wasp::render() const {
+	texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
+}
+
+void Wasp::update() {
+
+}
+
+bool Wasp::isAlive() const {
+
+}

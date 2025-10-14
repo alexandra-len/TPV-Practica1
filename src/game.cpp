@@ -65,6 +65,8 @@ Game::Game()
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
 
+	randomGenerator = std::mt19937(std::time(nullptr));
+
 	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(72.6, 0.0f)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(96, 0.0f)));
 
@@ -152,4 +154,8 @@ Game::checkCollision(const SDL_FRect& rect) const
 {
 	// TODO: cambiar el tipo de retorno a Collision e implementar
 	return false;
+}
+
+int Game::getRandomRange(int min, int max) {
+	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
 }
