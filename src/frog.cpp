@@ -11,7 +11,7 @@ void Frog::render() {
 
 SDL_FRect Frog::getRect()
 {
-	const SDL_FRect destRect = { position.getX(),position.getY(),(float)36, (float)36 };
+	const SDL_FRect destRect = { position.getX(),position.getY(),width, height };
 	return destRect;
 }
 

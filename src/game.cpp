@@ -69,7 +69,7 @@ Game::Game()
 
 	randomGenerator = std::mt19937(std::time(nullptr));
 
-	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(50, 50));
+	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(205, 402));
 
 	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(72.6, 0)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(96, 0)));
