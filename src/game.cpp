@@ -71,8 +71,8 @@ Game::Game()
 
 	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(50, 50));
 
-	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(72.6, 0.0f)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(96, 0.0f)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(72.6, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(96, 0)));
 
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(50, 372), Vector2D<float>(-48, 0.0)));
 
@@ -163,6 +163,7 @@ Game::handleEvents()
 			exit = true;
 		else if (event.type == SDL_EVENT_KEY_DOWN) {
 			player->handleEvent(event);
+			cout << player->lastDir();
 		}
 	}
 }

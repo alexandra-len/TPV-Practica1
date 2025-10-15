@@ -16,7 +16,7 @@ class Log
 public:
 
 	Log(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p) {
-		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
+		speed = Vector2D<float>(static_cast<float>(s.getX()) / Game::FRAME_RATE, static_cast<float>(s.getY()) / Game::FRAME_RATE);
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	}

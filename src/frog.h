@@ -23,6 +23,6 @@ public:
 
 	void render();
 	void update();
-
+	Point2D<int> lastDir();
 	void handleEvent(const SDL_Event&);
 };
