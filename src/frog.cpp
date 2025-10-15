@@ -1,7 +1,18 @@
 #include "frog.h"
 
 void Frog::render() {
-	texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
+	//texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
+	if (texture != nullptr)
+	{
+		SDL_FRect destRect = getRect();
+		texture->renderFrame(destRect, 0, 0);
+	}
+}
+
+SDL_FRect Frog::getRect()
+{
+	const SDL_FRect destRect = { position.getX(),position.getY(),(float)36, (float)36 };
+	return destRect;
 }
 
 void Frog::update() {
