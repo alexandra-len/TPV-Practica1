@@ -31,6 +31,11 @@ public:
 	Vector2D operator*(double d) const;
 	T operator*(const Vector2D& d) const;
 
+	bool operator==(const Vector2D& otro) const {
+		return (x == otro.x) && (y == otro.y);
+	}
+
+
 	void normalize();
 
 	// Operadores de entrada/salida
