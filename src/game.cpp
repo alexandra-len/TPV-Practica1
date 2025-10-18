@@ -71,10 +71,37 @@ Game::Game()
 
 	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(205, 402));
 
-	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(50, 100), Vector2D<float>(72.6, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(200, 150), Vector2D<float>(96, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-100, 60), Vector2D<float>(72.6, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(75, 60), Vector2D<float>(72.6, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(250, 60), Vector2D<float>(72.6, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(425, 60), Vector2D<float>(72.6, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(370, 121), Vector2D<float>(96, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(460, 121), Vector2D<float>(96, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(120, 121), Vector2D<float>(96, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(210, 121), Vector2D<float>(96, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-130, 121), Vector2D<float>(96, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(-40, 121), Vector2D<float>(96, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(30, 153), Vector2D<float>(48, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(180, 153), Vector2D<float>(48, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(330, 153), Vector2D<float>(48, 0)));
+	//temporales
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(0, 185), Vector2D<float>(48, 0)));
+	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(0, 90), Vector2D<float>(48, 0)));
 
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(50, 372), Vector2D<float>(-48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(200, 372), Vector2D<float>(-48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(350, 372), Vector2D<float>(-48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE2), Point2D<int>(25, 342), Vector2D<float>(48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE2), Point2D<int>(175, 342), Vector2D<float>(48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE2), Point2D<int>(325, 342), Vector2D<float>(48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE3), Point2D<int>(175, 312), Vector2D<float>(-72, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE3), Point2D<int>(325, 312), Vector2D<float>(-72, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE3), Point2D<int>(475, 312), Vector2D<float>(-72, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE4), Point2D<int>(150, 280), Vector2D<float>(48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE4), Point2D<int>(0, 280), Vector2D<float>(48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE4), Point2D<int>(-150, 280), Vector2D<float>(48, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(165, 252), Vector2D<float>(-72, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(365, 252), Vector2D<float>(-72, 0.0)));
 
 	wasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0));
 

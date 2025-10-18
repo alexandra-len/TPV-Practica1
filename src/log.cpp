@@ -7,16 +7,16 @@ void Log::render() const
 
 void Log::update() 
 {
-	position = Point2D<int>(position.getX() + (speed.getX()), position.getY() + speed.getY());
-
-	const int windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN;
-	if (speed.getX() > 0 && position.getX() > windowWidth)
+	if (speed.getX() > 0 && position.getX() >= windowWidth)
 	{
-		position = Point2D<int>(-width, position.getY());
+		position = Point2D<int>(-(Game::WINDOW_WIDTH_MARGIN+width), position.getY());
 	}
 	else if (speed.getX() < 0 && position.getX() < (-Game::WINDOW_WIDTH_MARGIN))
 	{
 		position = Point2D<int>(windowWidth, position.getY());
+	}
+	else {
+		position = Point2D<int>(position.getX() + (speed.getX()), position.getY() + speed.getY());
 	}
 }
 

@@ -11,12 +11,14 @@ class Vehicle
 	Vector2D<float> speed;
 	int width;
 	int height;
+	int windowWidth;
 
 public:
 	Vehicle(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p) {
 		speed = Vector2D<float>(static_cast<float>(s.getX()) / Game::FRAME_RATE, static_cast<float>(s.getY()) / Game::FRAME_RATE);
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
+		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
 
 	void render() const;
