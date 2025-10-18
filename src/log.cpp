@@ -1,4 +1,6 @@
 #include "log.h"
+#include <cmath>
+using namespace std;
 
 void Log::render() const
 {
@@ -16,7 +18,7 @@ void Log::update()
 		position = Point2D<int>(windowWidth, position.getY());
 	}
 	else {
-		position = Point2D<int>(position.getX() + (speed.getX()), position.getY() + speed.getY());
+		position = Point2D<int>(round(position.getX() + speed.getX()), position.getY());
 	}
 }
 

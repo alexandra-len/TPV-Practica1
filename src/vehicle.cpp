@@ -1,5 +1,6 @@
 #include "vehicle.h"
-
+#include <cmath>
+using namespace std;
 void Vehicle::render() const {
 	texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
 }
@@ -14,7 +15,7 @@ void Vehicle::update() {
 		position = Point2D<int>(Game::WINDOW_WIDTH, position.getY());
 	}
 	else {
-		position = Point2D<int>(position.getX() + (speed.getX()), position.getY() + speed.getY());
+		position = Point2D<int>(round(position.getX() + speed.getX()), position.getY());
 	}
 }
 

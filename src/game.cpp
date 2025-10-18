@@ -190,7 +190,6 @@ Game::handleEvents()
 			exit = true;
 		else if (event.type == SDL_EVENT_KEY_DOWN) {
 			player->handleEvent(event);
-			cout << player->lastDir();
 		}
 	}
 }

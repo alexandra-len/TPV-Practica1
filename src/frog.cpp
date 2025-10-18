@@ -33,9 +33,9 @@ SDL_FRect Frog::getRect()
 }
 
 void Frog::update() {
-	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * height);
-	position = position + move;
-	lastDirection = Point2D<int>(0, 0);
+	//Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * height);
+	//position = position + move;
+	//lastDirection = Point2D<int>(0, 0);
 
 	/*position = position + lastDirection * 32;
 	lastDirection = lastDirection * 0;
@@ -61,6 +61,8 @@ void Frog::handleEvent(const SDL_Event& event) {
 		lastDirection = Point2D<int>(1, 0);
 		break;
 	}
+	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * height);
+	position = position + move;
 }
 
 Point2D<int> Frog::lastDir() {
