@@ -7,7 +7,7 @@
 #include <vector>
 #include <random>
 #include "vector2D.h"
-
+#include <random> 
 
 struct Collision
 {
@@ -70,6 +70,8 @@ private:
 	Wasp* wasp;
 
 	std::mt19937 randomGenerator;
+	std::vector<std::unique_ptr<Wasp>> wasps;
+	Uint32 lastWaspSpawn = 0;
 
 	void render() const;
 	void update();

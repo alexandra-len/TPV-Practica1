@@ -103,7 +103,7 @@ Game::Game()
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(165, 252), Vector2D<float>(-72, 0.0)));
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(365, 252), Vector2D<float>(-72, 0.0)));
 
-	wasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0));
+	wasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0), 3000);
 
 	// Render la primera vez.
 	render();
@@ -144,6 +144,8 @@ Game::render() const
 		vehicles[i]->render();
 	}
 	wasp->render();
+	//for (const auto& w : wasps)
+	//	w->render();
 
 
 	SDL_RenderPresent(renderer);
@@ -160,7 +162,24 @@ Game::update()
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->update();
 	}
-	wasp->update();
+	//wasp->update();
+
+	Uint32 now = SDL_GetTicks();
+	if (now - lastWaspSpawn > getRandomRange(3000, 5000)) 
+	{
+		Point2D<int> pos(getRandomRange(50, WINDOW_WIDTH - 100),getRandomRange(50, WINDOW_HEIGHT / 2));
+		Vector2D<float> vel(getRandomRange(-2, 2), 0);
+		Uint32 life = getRandomRange(3000, 5000); 
+
+		wasps.push_back(std::make_unique<Wasp>(this, getTexture(TextureName::WASP), pos, vel, life));
+
+		lastWaspSpawn = now;
+	}
+
+	//for (auto& w : wasps)
+	//	w->update();
+
+
 	
 }
 
