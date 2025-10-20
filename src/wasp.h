@@ -29,4 +29,5 @@ public:
 	void update();
 	void render() const;
 	bool isAlive() const;
+	Collision checkCollision(const SDL_FRect&);
 };

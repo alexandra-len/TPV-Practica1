@@ -22,4 +22,5 @@ public:
 	bool isHome() const;
 	void setHome();
 	int getX() const;
+	Collision checkCollision(const SDL_FRect&);
 };

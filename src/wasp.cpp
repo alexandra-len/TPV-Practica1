@@ -14,3 +14,14 @@ void Wasp::update() {
 bool Wasp::isAlive() const {
 	return lives;
 }
+
+Collision Wasp::checkCollision(const SDL_FRect& otherRect) {
+	Collision collision(Collision::NONE, { 0, 0 });
+
+	SDL_FRect vehicleRect(position.getX(), position.getY(), width, height);
+
+	if (SDL_HasRectIntersectionFloat(&vehicleRect, &otherRect)) {
+		collision.type = Collision::ENEMY;
+	}
+	return collision;
+}

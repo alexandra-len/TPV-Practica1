@@ -181,14 +181,12 @@ Game::update()
 		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(nests[nestNr]->getX(), 25), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
 		timeUntilWasp = getRandomRange(1000, SDL_GetTicks() + 1000);
 		waspDestructionTime = currentTime + timeUntilWasp;
-		cout << "Avispa creada";
 	}
 	for (int i = 0; i < wasps.size(); i++) {
 		wasps[i]->update();
 		if (!wasps[i]->isAlive()) {
 			delete wasps[i];
 			wasps.erase(wasps.begin() + i);
-			cout << "Avispa destruida";
 		}
 	}
 }
@@ -223,11 +221,46 @@ Game::handleEvents()
 	}
 }
 
-bool
+Collision
 Game::checkCollision(const SDL_FRect& rect) const
 {
-	// TODO: cambiar el tipo de retorno a Collision e implementar
-	return false;
+	Collision col{ Collision::NONE, {0,0} };
+	for (const auto& l : logs) {
+		col = l->checkCollision(rect);
+		if (col.type != Collision::NONE) {
+			break;
+		}
+	}
+	if (col.type != Collision::NONE) {
+		return col;
+	}
+
+	for (const auto& v : vehicles) {
+		col = v->checkCollision(rect);
+		if (col.type != Collision::NONE) {
+			break;
+		}
+	}
+	if (col.type != Collision::NONE) {
+		return col;
+	}
+
+	for (const auto& w : wasps) {
+		col = w->checkCollision(rect);
+		if (col.type != Collision::NONE) {
+			break;
+		}
+	}
+	if (col.type != Collision::NONE) {
+		return col;
+	}
+	for (const auto& n : nests) {
+		col = n->checkCollision(rect);
+		if (col.type != Collision::NONE) {
+			break;
+		}
+	}
+	return col;
 }
 
 int Game::getRandomRange(int min, int max) {

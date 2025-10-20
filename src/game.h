@@ -6,7 +6,7 @@
 #include <istream>
 #include <vector>
 #include <random>
-#include "vector2D.h" 
+#include "vector2D.h"
 
 struct Collision
 {
@@ -97,7 +97,7 @@ public:
 	void run();
 
 	// Comprueba si hay algún objeto colocado en ese rectángulo
-	bool checkCollision(const SDL_FRect& rect) const;
+	Collision checkCollision(const SDL_FRect& rect) const;
 
 	int getRandomRange(int, int);
 };

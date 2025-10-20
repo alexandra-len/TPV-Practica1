@@ -15,3 +15,14 @@ void HomedFrog::setHome() {
 int HomedFrog::getX() const {
 	return position.getX();
 }
+
+Collision HomedFrog::checkCollision(const SDL_FRect& otherRect) {
+	Collision collision(Collision::NONE, { 0, 0 });
+
+	SDL_FRect vehicleRect(position.getX(), position.getY(), width, height);
+
+	if (SDL_HasRectIntersectionFloat(&vehicleRect, &otherRect)) {
+		collision.type = Collision::HOME;
+	}
+	return collision;
+}

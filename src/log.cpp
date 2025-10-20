@@ -33,8 +33,6 @@ Collision Log::checkCollision(const SDL_FRect& otherRect)
 		collision.type = Collision::PLATFORM;
 		collision.speed = speed;
 	}
-
 	return collision;
 }
-
 
