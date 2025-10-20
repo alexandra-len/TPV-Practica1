@@ -9,6 +9,7 @@
 #include "log.h"
 #include "wasp.h"
 #include "frog.h"
+#include "homedfrog.h"
 
 using namespace std;
 
@@ -71,6 +72,12 @@ Game::Game()
 
 	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(205, 402));
 
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(20, 25)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(116, 25)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(212, 25)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(308, 25)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(404, 25)));
+
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-100, 60), Vector2D<float>(72.6, 0)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(75, 60), Vector2D<float>(72.6, 0)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(250, 60), Vector2D<float>(72.6, 0)));
@@ -84,6 +91,7 @@ Game::Game()
 	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(30, 153), Vector2D<float>(48, 0)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(180, 153), Vector2D<float>(48, 0)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(330, 153), Vector2D<float>(48, 0)));
+	
 	//temporales
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(0, 185), Vector2D<float>(48, 0)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(0, 90), Vector2D<float>(48, 0)));
@@ -103,11 +111,8 @@ Game::Game()
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(165, 252), Vector2D<float>(-72, 0.0)));
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(365, 252), Vector2D<float>(-72, 0.0)));
 
-	timeUntilWasp = getRandomRange(1, SDL_GetTicks());
+	timeUntilWasp = getRandomRange(1000, SDL_GetTicks() + 1000);
 	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
-	timeSinceWasp = 0;
-
-	wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
 
 	// Render la primera vez.
 	render();
@@ -148,6 +153,11 @@ Game::render() const
 	for (const auto& w : wasps) {
 		w->render();
 	}
+	for (const auto& hFrog : nests) {
+		if (hFrog->isHome()) {
+			hFrog->render();
+		}
+	}
 
 	SDL_RenderPresent(renderer);
 
@@ -167,17 +177,20 @@ Game::update()
 	currentTime = SDL_GetTicks();
 
 	if (currentTime >= waspDestructionTime) {
-		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
-		timeUntilWasp = getRandomRange(1, SDL_GetTicks());
+		int nestNr = getRandomRange(0, nests.size());
+		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(nests[nestNr]->getX(), 25), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
+		timeUntilWasp = getRandomRange(1000, SDL_GetTicks() + 1000);
 		waspDestructionTime = currentTime + timeUntilWasp;
+		cout << "Avispa creada";
 	}
-
-	for (auto& w : wasps) {
-		w->update();
-		if (!w->isAlive()) {
-			delete w;
+	for (int i = 0; i < wasps.size(); i++) {
+		wasps[i]->update();
+		if (!wasps[i]->isAlive()) {
+			delete wasps[i];
+			wasps.erase(wasps.begin() + i);
+			cout << "Avispa destruida";
 		}
-	}	
+	}
 }
 
 void

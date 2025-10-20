@@ -6,15 +6,15 @@
 #include <istream>
 #include <vector>
 #include <random>
-#include "vector2D.h"
-#include <random> 
+#include "vector2D.h" 
 
 struct Collision
 {
 	enum Type {
 		NONE,
 		ENEMY,
-		PLATFORM
+		PLATFORM,
+		HOME
 	};
 
 	Type type;
@@ -27,6 +27,7 @@ class Log;
 class Vehicle;
 class Wasp;
 class Frog;
+class HomedFrog;
 
 /**
  * Clase principal del juego.
@@ -67,11 +68,11 @@ private:
 
 	std::vector<Log*> logs;
 	std::vector<Vehicle*> vehicles;
-	std::vector<Wasp*> wasps;
+	std::vector<Wasp*> wasps; 
+	std::vector<HomedFrog*> nests;
 
 	std::mt19937 randomGenerator;
 	int timeUntilWasp;
-	int timeSinceWasp;
 	int waspDestructionTime;
 	int currentTime;
 
