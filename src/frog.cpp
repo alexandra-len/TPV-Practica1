@@ -1,7 +1,6 @@
 #include "frog.h"
 
 void Frog::render() {
-	//texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
 	if (texture != nullptr)
 	{
 		SDL_FRect destRect = getRect();
@@ -13,7 +12,6 @@ void Frog::render() {
 		{
 			texture->renderFrame(destRect, 0, 0, SDL_FLIP_NONE);
 		}
-
 		else if (lastDirection == Point2D<int>(-1, 0))
 		{
 			texture->renderFrame(destRect, 0, 0,-90, nullptr, SDL_FLIP_NONE);
@@ -33,17 +31,6 @@ SDL_FRect Frog::getRect()
 }
 
 void Frog::update() {
-	//Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * height);
-	//position = position + move;
-	//lastDirection = Point2D<int>(0, 0);
-
-	/*position = position + lastDirection * 32;
-	lastDirection = lastDirection * 0;
-
-	Point2D<int> addvelo;
-	addvelo = position + velocity;
-	position = addvelo;*/
-
 }
 
 void Frog::handleEvent(const SDL_Event& event) {

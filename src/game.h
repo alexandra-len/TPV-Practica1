@@ -67,11 +67,14 @@ private:
 
 	std::vector<Log*> logs;
 	std::vector<Vehicle*> vehicles;
-	Wasp* wasp;
+	std::vector<Wasp*> wasps;
 
 	std::mt19937 randomGenerator;
-	std::vector<std::unique_ptr<Wasp>> wasps;
-	Uint32 lastWaspSpawn = 0;
+	int timeUntilWasp;
+	int timeSinceWasp;
+	int waspDestructionTime;
+	int currentTime;
+
 
 	void render() const;
 	void update();

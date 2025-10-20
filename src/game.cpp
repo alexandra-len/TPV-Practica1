@@ -103,12 +103,15 @@ Game::Game()
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(165, 252), Vector2D<float>(-72, 0.0)));
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(365, 252), Vector2D<float>(-72, 0.0)));
 
-	wasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0), 3000);
+	timeUntilWasp = getRandomRange(1, SDL_GetTicks());
+	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
+	timeSinceWasp = 0;
+
+	wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
 
 	// Render la primera vez.
 	render();
 
-	
 	// Configura que se pueden utilizar capas translúcidas
 	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
@@ -133,7 +136,6 @@ Game::render() const
 	SDL_RenderClear(renderer);
 
 	getTexture(TextureName::BACKGROUND)->render();
-	// TODO
 
 	player->render();
 
@@ -143,10 +145,9 @@ Game::render() const
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->render();
 	}
-	wasp->render();
-	//for (const auto& w : wasps)
-	//	w->render();
-
+	for (const auto& w : wasps) {
+		w->render();
+	}
 
 	SDL_RenderPresent(renderer);
 
@@ -162,25 +163,21 @@ Game::update()
 	for (int i = 0; i < vehicles.size(); i++) {
 		vehicles[i]->update();
 	}
-	//wasp->update();
 
-	Uint32 now = SDL_GetTicks();
-	if (now - lastWaspSpawn > getRandomRange(3000, 5000)) 
-	{
-		Point2D<int> pos(getRandomRange(50, WINDOW_WIDTH - 100),getRandomRange(50, WINDOW_HEIGHT / 2));
-		Vector2D<float> vel(getRandomRange(-2, 2), 0);
-		Uint32 life = getRandomRange(3000, 5000); 
+	currentTime = SDL_GetTicks();
 
-		wasps.push_back(std::make_unique<Wasp>(this, getTexture(TextureName::WASP), pos, vel, life));
-
-		lastWaspSpawn = now;
+	if (currentTime >= waspDestructionTime) {
+		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(0, 0), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
+		timeUntilWasp = getRandomRange(1, SDL_GetTicks());
+		waspDestructionTime = currentTime + timeUntilWasp;
 	}
 
-	//for (auto& w : wasps)
-	//	w->update();
-
-
-	
+	for (auto& w : wasps) {
+		w->update();
+		if (!w->isAlive()) {
+			delete w;
+		}
+	}	
 }
 
 void
