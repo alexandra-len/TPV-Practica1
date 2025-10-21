@@ -72,11 +72,11 @@ Game::Game()
 
 	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(205, 402));
 
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(20, 25)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(116, 25)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(212, 25)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(308, 25)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(404, 25)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(20, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(116, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(212, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(308, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(404, 23)));
 
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-100, 60), Vector2D<float>(72.6, 0)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(75, 60), Vector2D<float>(72.6, 0)));
@@ -177,8 +177,8 @@ Game::update()
 	currentTime = SDL_GetTicks();
 
 	if (currentTime >= waspDestructionTime) {
-		int nestNr = getRandomRange(0, nests.size());
-		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(nests[nestNr]->getX(), 25), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
+		int nestNr = getRandomRange(0, waspPositions.size() - 1);
+		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), 25), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
 		timeUntilWasp = getRandomRange(1000, SDL_GetTicks() + 1000);
 		waspDestructionTime = currentTime + timeUntilWasp;
 	}

@@ -71,6 +71,8 @@ private:
 	std::vector<Wasp*> wasps; 
 	std::vector<HomedFrog*> nests;
 
+	std::vector<Point2D<int>> waspPositions = {Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
+
 	std::mt19937 randomGenerator;
 	int timeUntilWasp;
 	int waspDestructionTime;

@@ -1,7 +1,7 @@
 #include "homedfrog.h"
 
 void HomedFrog::render() {
-	texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
+	texture->renderFrame(getRect(), 0, 0);
 }
 
 bool HomedFrog::isHome() const {
@@ -14,6 +14,12 @@ void HomedFrog::setHome() {
 
 int HomedFrog::getX() const {
 	return position.getX();
+}
+
+SDL_FRect HomedFrog::getRect()
+{
+	const SDL_FRect destRect = { position.getX(),position.getY(),width, height };
+	return destRect;
 }
 
 Collision HomedFrog::checkCollision(const SDL_FRect& otherRect) {

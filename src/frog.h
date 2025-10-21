@@ -26,7 +26,7 @@ public:
 
 	void render();
 	void update();
-	Point2D<int> lastDir();
+	Point2D<int> lastDir() const;
 	void handleEvent(const SDL_Event&);
 	void setVelocity(const Point2D<int>& vel) { velocity = vel; }
 	Point2D<int> getVelocity() const { return velocity; }

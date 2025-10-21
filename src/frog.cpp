@@ -54,6 +54,6 @@ void Frog::handleEvent(const SDL_Event& event) {
 	position = position + move;
 }
 
-Point2D<int> Frog::lastDir() {
+Point2D<int> Frog::lastDir() const {
 	return lastDirection;
 }

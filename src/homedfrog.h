@@ -13,7 +13,7 @@ class HomedFrog
 	bool visible;
 
 public:
-	HomedFrog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), position(p), visible(false) {
+	HomedFrog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), position(p), visible(true) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};
@@ -22,5 +22,6 @@ public:
 	bool isHome() const;
 	void setHome();
 	int getX() const;
+	SDL_FRect getRect();
 	Collision checkCollision(const SDL_FRect&);
 };
