@@ -119,19 +119,22 @@ Game::Game()
 
 	// Configura que se pueden utilizar capas translúcidas
 	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-
 }
 
 Game::~Game()
 {
-	for (size_t i = 0; i < textures.size(); i++) {
-		delete textures[i];
-	}
+	delete player;
 	for (int i = 0; i < logs.size(); i++) {
 		delete logs[i];
 	}
 	for (int i = 0; i < vehicles.size(); i++) {
 		delete vehicles[i];
+	}
+	for (int i = 0; i < nests.size(); i++) {
+		delete nests[i];
+	}
+	for (size_t i = 0; i < textures.size(); i++) {
+		delete textures[i];
 	}
 }
 

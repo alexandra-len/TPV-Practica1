@@ -13,7 +13,7 @@ class HomedFrog
 	bool visible;
 
 public:
-	HomedFrog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), position(p), visible(true) {
+	HomedFrog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), position(p), visible(false) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};

@@ -33,6 +33,15 @@ SDL_FRect Frog::getRect()
 void Frog::update() {
 	Collision collision;
 	collision = game->checkCollision(getRect());
+	switch (collision.type) {
+	case Collision::ENEMY:
+
+		break;
+	case Collision::PLATFORM:
+		break;
+	case Collision::HOME:
+		break;
+	}
 }
 
 void Frog::handleEvent(const SDL_Event& event) {
