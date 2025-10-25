@@ -139,7 +139,6 @@ Game::Game()
 
 Game::~Game()
 {
-	delete player;
 	for (int i = 0; i < logs.size(); i++) {
 		delete logs[i];
 	}
@@ -155,6 +154,7 @@ Game::~Game()
 	for (int i = 0; i < wasps.size(); i++) {
 		delete wasps[i];
 	}
+	delete player;
 }
 
 void
@@ -236,6 +236,7 @@ void
 Game::handleEvents()
 {
 	SDL_Event event;
+
 	// Only quit is handled directly, everything else is delegated
 	while (SDL_PollEvent(&event)) {
 		if (event.type == SDL_EVENT_QUIT)
@@ -314,8 +315,7 @@ void Game::loadMap() {
 	}
 
 	string c;
-	while (!map.eof()) {
-		map >> c;
+	while (map >> c) {
 		if (c == "#") {
 			map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		}

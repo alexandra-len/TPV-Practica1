@@ -47,11 +47,6 @@ void Frog::update() {
 		hurt();
 	}
 
-	cout << "posY: " << position.getY() << "  height: " << height
-		<< "  limite: " << Game::WINDOW_HEIGHT << std::endl;
-
-	position = Point2D<int>(round(position.getX() + velocity.getX()), position.getY());
-
 	Collision collision;
 	collision = game->checkCollision(getRect());
 	switch (collision.type) {
@@ -88,7 +83,7 @@ void Frog::handleEvent(const SDL_Event& event) {
 		lastDirection = Point2D<int>(1, 0);
 		break;
 	}
-	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * height);
+	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * 32);
 	position = position + move;
 }
 

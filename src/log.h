@@ -29,6 +29,7 @@ public:
 		height = texture->getFrameHeight();
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
+
 	Log(Game* g, istream& input) {
 		game = g;
 		int textureNr, x, y;
@@ -45,8 +46,10 @@ public:
 	}
 
 	void render() const;
+
 	//Actualiza la posici�n del tronco en cada frame
 	void update();
+	
 	//Comprueba si el tronco colisiona con la rana
 	Collision checkCollision(const SDL_FRect& otherRect);
 };
