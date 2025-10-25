@@ -1,6 +1,9 @@
 #include "game.h"
 
 #include <string>
+#include <iostream>
+#include <fstream>
+#include <filesystem>
 
 #include <SDL3_image/SDL_image.h>
 
@@ -65,11 +68,24 @@ Game::Game()
 	// Carga las texturas al inicio
 	for (size_t i = 0; i < textures.size(); i++) {
 		auto [name, nrows, ncols] = textureList[i];
+		if (!(filesystem::exists(string(imgBase) + name))) {
+			throw string("Image file invalid or does not exist.");
+		}
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
 
 	randomGenerator = std::mt19937(std::time(nullptr));
 
+	try {
+		loadMap();
+	}
+	catch (string& e) {
+		for (auto t : textures) {
+			delete t;
+		}
+		throw e;
+
+	}
 	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(205, 402));
 
 	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(16, 23)));
@@ -288,4 +304,38 @@ void Game::exitGame() {
 
 int Game::getRandomRange(int min, int max) {
 	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
+}
+
+void Game::loadMap() {
+	ifstream map;
+	map.open("../assets/maps/default.txt");
+
+	if (!map) {
+		throw string("Map file not found");
+	}
+
+	string c;
+	while (!map.eof()) {
+		map >> c;
+		cout << "Read: " << c << endl;
+		if (c == "#") {
+			map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			cout << " Ignored." << endl;
+		}
+		else {
+			if (c == "V") {
+				cout << "Crating vehicle";
+				//vehicles.push_back(new Vehicle(map));
+			}
+			else if (c == "L") {
+				cout << "Crating log";
+				//vehicles.push_back(new Vehicle(map));
+			}
+			else if (c == "F") {
+				cout << "Crating frog";
+				//vehicles.push_back(new Vehicle(map));
+			}
+		}
+	}
+
 }

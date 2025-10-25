@@ -6,12 +6,18 @@
 //
 
 #include "game.h"
+#include <string>
+#include <iostream>
+using namespace std;
 
 int main(int argc, char* argv[])
 {
-	Game().run();
-
-	// TODO: manejar excepciones
-
+	try {
+		Game game = Game();
+		game.run();
+	}
+	catch (string& e) {
+		cout << "Error running game: " + e << endl;
+	}
 	return 0;
 }

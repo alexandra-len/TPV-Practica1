@@ -82,6 +82,7 @@ private:
 	void render() const;
 	void update();
 	void handleEvents();
+	void loadMap();
 
 	bool exit;
 

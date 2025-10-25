@@ -2,6 +2,7 @@
 #include "game.h"
 #include "texture.h"
 #include "vector2D.h"
+using namespace std;
 
 class Vehicle
 {
@@ -20,6 +21,7 @@ public:
 		height = texture->getFrameHeight();
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
+	Vehicle(istream);
 
 	void render() const;
 	void update();
