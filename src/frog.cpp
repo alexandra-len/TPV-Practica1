@@ -6,7 +6,13 @@ using namespace std;
 void Frog::render() {
 	if (texture != nullptr)
 	{
-		SDL_FRect destRect = getRect();
+		SDL_FRect destRect = {
+			position.getX(),
+			position.getY(),
+			(float)width,
+			(float)height
+		};
+
 		if (lastDirection == Point2D<int>(0, 1))
 		{
 			texture->renderFrame(destRect, 0, 0, SDL_FLIP_VERTICAL);
@@ -25,25 +31,27 @@ void Frog::render() {
 			texture->renderFrame(destRect, 0, 0, 90, nullptr, SDL_FLIP_NONE);
 		}
 		else texture->renderFrame(destRect, 0, 0);
-		SDL_SetRenderDrawColor(game->renderer, 255, 255, 0, 255);
-		SDL_RenderRect(game->renderer, &destRect);
 	}
 }
 
 SDL_FRect Frog::getRect()
 {
-	const SDL_FRect destRect = { position.getX(),position.getY(),width, height };
+	const SDL_FRect destRect = { position.getX() + 8,position.getY() + 8, (float)width/2, (float)height/2};
 	return destRect;
 }
 
 void Frog::update() {
+	if (position.getX() < 0 || position.getX() > Game::WINDOW_WIDTH || position.getY() < 0 || position.getY() + height/2 > Game::WINDOW_HEIGHT) {
+		hurt();
+	}
+
 	position = Point2D<int>(round(position.getX() + velocity.getX()), position.getY());
 
 	Collision collision;
 	collision = game->checkCollision(getRect());
 	switch (collision.type) {
 		case Collision::ENEMY:
-			handleDeath();
+			hurt();
 			break;
 		case Collision::PLATFORM:
 			velocity = collision.speed;
@@ -54,8 +62,7 @@ void Frog::update() {
 		case Collision::NONE:
 			velocity = Vector2D<float>(0, 0);
 			if (position.getY() <= Game::RIVER_LOW) {
-				handleDeath();
-				cout << "river hit";
+				hurt();
 			}
 			break;
 	}
@@ -76,7 +83,7 @@ void Frog::handleEvent(const SDL_Event& event) {
 		lastDirection = Point2D<int>(1, 0);
 		break;
 	}
-	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * 31);
+	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * 32);
 	position = position + move;
 }
 
@@ -84,7 +91,7 @@ Point2D<int> Frog::lastDir() const {
 	return lastDirection;
 }
 
-void Frog::handleDeath() {
+void Frog::hurt() {
 	hp--;
 	position = initialPos;
 	lastDirection = Point2D<int>(0, 0);

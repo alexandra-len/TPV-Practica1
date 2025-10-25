@@ -18,7 +18,7 @@ class Frog
 	int height;
 
 	SDL_FRect getRect();
-	void handleDeath();
+	void hurt();
 
 public:
 	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), initialPos(p), position(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0, 0)), hp(3) {
