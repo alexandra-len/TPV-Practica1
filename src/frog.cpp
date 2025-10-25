@@ -41,9 +41,14 @@ SDL_FRect Frog::getRect()
 }
 
 void Frog::update() {
-	if (position.getX() < 0 || position.getX() > Game::WINDOW_WIDTH || position.getY() < 0 || position.getY() + height/2 > Game::WINDOW_HEIGHT) {
+	position = Point2D<int>(round(position.getX() + velocity.getX()), position.getY());
+
+	if (position.getX() < 0 || position.getX() +width > Game::WINDOW_WIDTH || position.getY() < 0 || position.getY() + height/2 > Game::WINDOW_HEIGHT) {
 		hurt();
 	}
+
+	cout << "posY: " << position.getY() << "  height: " << height
+		<< "  limite: " << Game::WINDOW_HEIGHT << std::endl;
 
 	position = Point2D<int>(round(position.getX() + velocity.getX()), position.getY());
 
@@ -83,7 +88,7 @@ void Frog::handleEvent(const SDL_Event& event) {
 		lastDirection = Point2D<int>(1, 0);
 		break;
 	}
-	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * 32);
+	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * height);
 	position = position + move;
 }
 

@@ -5,8 +5,12 @@
 #include "vector2D.h"
 #include <SDL3/SDL.h>
 
+/**
+* Clase que representa una avispa enemiga que aparece temporalmente en la mapa
+*/
 class Wasp
 {
+	//Atributos privados
 	Game* game;
 	Texture* texture;
 	Point2D<int> position;
@@ -19,6 +23,7 @@ class Wasp
 	int currentTime;
 
 public:
+	//Constructor de la clase
 	Wasp(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
 		: game(g), texture(t), position(p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true)
 	{
@@ -26,8 +31,12 @@ public:
 		height = texture->getFrameHeight();
 	}
 
+	//Actualiza el estado de la avispa
 	void update();
+	//Renderiza la avispa
 	void render() const;
+	//Comprueba si la avispa sigue viva
 	bool isAlive() const;
+	//Comprueba si la avispa colisiona con la rana
 	Collision checkCollision(const SDL_FRect&);
 };
