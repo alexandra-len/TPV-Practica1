@@ -6,6 +6,9 @@
 #include "homedfrog.h"
 using namespace std;
 
+/**
+* Clase que representa la rana controlada por el jugador
+*/
 class Frog
 {
 	Game* game;
@@ -22,15 +25,18 @@ class Frog
 	void hurt();
 
 public:
+	//Constructor
 	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), initialPos(p), position(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0, 0)), hp(3) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};
 
+	//Constructor que carga posicion desde un archivo
 	Frog(Game* g, istream& input) : hp(3), velocity(Vector2D<float>(0,0)), lastDirection(Point2D<int>(0,0)) {
 		game = g;
 		texture = game->getTexture(Game::TextureName::FROG);
 
+		// Lee las coordenadas de inicio desde un fichero
 		int x, y;
 		input >> x >> y;
 

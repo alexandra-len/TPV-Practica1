@@ -3,9 +3,11 @@
 #include <SDL3_image/SDL_image.h>
 using namespace std;
 
+// Render de la rana
 void Frog::render() {
 	if (texture != nullptr)
 	{
+		// Define el rectángulo donde se dibuja la rana
 		SDL_FRect destRect = {
 			position.getX(),
 			position.getY(),
@@ -13,6 +15,7 @@ void Frog::render() {
 			(float)height
 		};
 
+		// Dibuja la rana con orientación según su última dirección
 		if (lastDirection == Point2D<int>(0, 1))
 		{
 			texture->renderFrame(destRect, 0, 0, SDL_FLIP_VERTICAL);
@@ -34,25 +37,34 @@ void Frog::render() {
 	}
 }
 
+// Devuelve el rectángulo de colision de la rana
 SDL_FRect Frog::getRect()
 {
+	//ajusta el rectángulo para no usar todo el sprite
 	const SDL_FRect destRect = { position.getX() + 8,position.getY() + 8, (float)width/2, (float)height/2};
 	return destRect;
 }
 
+//Logica de la rana
 void Frog::update() {
+
+	// Actualiza posición según la velocidad
 	position = Point2D<int>(round(position.getX() + velocity.getX()), position.getY());
 
+	// Si la rana sale de los bordes, pierde una vida
 	if (position.getX() < 0 || position.getX() +width > Game::WINDOW_WIDTH || position.getY() < 0 || position.getY() + height/2 > Game::WINDOW_HEIGHT) {
 		hurt();
 	}
 
 	Collision collision;
 	collision = game->checkCollision(getRect());
+
 	switch (collision.type) {
+		// Si choca con un enemigo, pierde vida
 		case Collision::ENEMY:
 			hurt();
 			break;
+		// Si esta sobre un tronco, hereda su velocidad
 		case Collision::PLATFORM:
 			velocity = collision.speed;
 			break;
@@ -61,6 +73,7 @@ void Frog::update() {
 			break;
 		case Collision::NONE:
 			velocity = Vector2D<float>(0, 0);
+			// Si está en el área del río sin tronco debajo, muere
 			if (position.getY() <= Game::RIVER_LOW) {
 				hurt();
 			}
@@ -68,7 +81,10 @@ void Frog::update() {
 	}
 }
 
+// Gestión de eventos del teclado
 void Frog::handleEvent(const SDL_Event& event) {
+
+	// Cambia la dirección en función de la tecla pulsada
 	switch (event.key.key) {
 	case SDLK_UP:
 		lastDirection = Point2D<int>(0, -1);
@@ -83,18 +99,26 @@ void Frog::handleEvent(const SDL_Event& event) {
 		lastDirection = Point2D<int>(1, 0);
 		break;
 	}
+
+	// Calcula el desplazamiento
 	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * 32);
+
+	// Actualiza posición
 	position = position + move;
 }
 
+// Devuelve la última dirección de movimiento
 Point2D<int> Frog::lastDir() const {
 	return lastDirection;
 }
 
+// Resta una vida a la rana y la reinicia en su posicion inicial
 void Frog::hurt() {
 	hp--;
 	position = initialPos;
 	lastDirection = Point2D<int>(0, 0);
+
+	// Si no quedan vidas, se termina el juego
 	if (hp <= 0) {
 		game->exitGame();
 	}

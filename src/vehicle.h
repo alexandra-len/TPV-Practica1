@@ -16,12 +16,21 @@ class Vehicle
 	int windowWidth;
 
 public:
+
+	// Constructor que inicializa el vehículo
 	Vehicle(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p) {
+
+		// La velocidad ajustada al frame rate
 		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
+
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
+
+		// Calcula el limite lateral donde el vehiculo debe reaparecer
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
+
+	//Constructor que carga un vehiculo desde el archivo
 	Vehicle(Game* g, istream& input) {
 		game = g;
 		int textureNr, x, y, s;
@@ -36,8 +45,12 @@ public:
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
 
+	//Renderiza el vehiculo
 	void render() const;
+
+	//Actualiza vehiculo
 	void update();
 
+	//Verifica colisiones
 	Collision checkCollision(const SDL_FRect&);
 };

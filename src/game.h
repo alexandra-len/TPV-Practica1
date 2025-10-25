@@ -8,6 +8,7 @@
 #include <random>
 #include "vector2D.h"
 
+// Estructura que representa una colisión
 struct Collision
 {
 	enum Type {
@@ -71,8 +72,10 @@ private:
 	std::vector<Wasp*> wasps; 
 	std::vector<HomedFrog*> nests;
 
+	// Posiciones predefinidas para las avispas
 	std::vector<Point2D<int>> waspPositions = {Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
 
+	// Generador de numeros aleatorios
 	std::mt19937 randomGenerator;
 	int timeUntilWasp;
 	int waspDestructionTime;
@@ -88,8 +91,8 @@ private:
 
 public:
 	SDL_Renderer* renderer;
-	Game();
-	~Game();
+	Game(); // Constructor
+	~Game(); // Destructor
 
 	// Obtiene una textura por su nombre
 	Texture* getTexture(TextureName name) const;
@@ -105,6 +108,7 @@ public:
 	// Pone exit a true, cierra el juego
 	void exitGame();
 
+	// Maneja la colision con un nido
 	void handleNestCollision(Collision col, HomedFrog* f) const;
 };
 

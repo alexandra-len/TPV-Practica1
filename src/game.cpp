@@ -30,8 +30,10 @@ struct TextureSpec
 
 };
 
+// Ruta base para las imagenes
 constexpr const char* const imgBase = "../assets/images/";
 
+// Lista de texturas a cargar
 constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	TextureSpec{"frog.png", 1, 2},
 	{"background.png"},
