@@ -112,6 +112,7 @@ public:
 	void handleNestCollision(Collision col, HomedFrog* f) const;
 };
 
+// Implementacion inline de getTexture
 inline Texture*
 Game::getTexture(TextureName name) const
 {
