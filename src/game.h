@@ -85,9 +85,6 @@ private:
 
 	bool exit;
 
-	// Elemento del juego
-	// TODO: añadir atributos para los objetos del juego
-
 public:
 	Game();
 	~Game();
@@ -102,6 +99,11 @@ public:
 	Collision checkCollision(const SDL_FRect& rect) const;
 
 	int getRandomRange(int, int);
+	
+	// Pone exit a true, cierra el juego
+	void exitGame();
+
+	void handleNestCollision(Collision col, HomedFrog* f) const;
 };
 
 inline Texture*

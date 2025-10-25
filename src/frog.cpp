@@ -1,4 +1,6 @@
 #include "frog.h"
+#include <iostream>
+using namespace std;
 
 void Frog::render() {
 	if (texture != nullptr)
@@ -31,16 +33,27 @@ SDL_FRect Frog::getRect()
 }
 
 void Frog::update() {
+	position = Point2D<int>(round(position.getX() + velocity.getX()), position.getY());
+
 	Collision collision;
 	collision = game->checkCollision(getRect());
 	switch (collision.type) {
-	case Collision::ENEMY:
-
-		break;
-	case Collision::PLATFORM:
-		break;
-	case Collision::HOME:
-		break;
+		case Collision::ENEMY:
+			handleDeath();
+			break;
+		case Collision::PLATFORM:
+			velocity = collision.speed;
+			break;
+		case Collision::HOME:
+			position = initialPos;
+			break;
+		case Collision::NONE:
+			velocity = Vector2D<float>(0, 0);
+			if (position.getY() <= Game::RIVER_LOW) {
+				handleDeath();
+				cout << "river hit";
+			}
+			break;
 	}
 }
 
@@ -65,4 +78,10 @@ void Frog::handleEvent(const SDL_Event& event) {
 
 Point2D<int> Frog::lastDir() const {
 	return lastDirection;
+}
+
+void Frog::handleDeath() {
+	hp--;
+	position = initialPos;
+	lastDirection = Point2D<int>(0, 0);
 }

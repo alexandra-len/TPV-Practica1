@@ -136,6 +136,9 @@ Game::~Game()
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
+	for (int i = 0; i < wasps.size(); i++) {
+		delete wasps[i];
+	}
 }
 
 void
@@ -180,7 +183,12 @@ Game::update()
 	currentTime = SDL_GetTicks();
 
 	if (currentTime >= waspDestructionTime) {
-		int nestNr = getRandomRange(0, waspPositions.size() - 1);
+		int nestNr;
+		do {
+			nestNr = getRandomRange(0, waspPositions.size() - 1);
+			cout << "nesting";
+		} while (nests[nestNr]->isHome());
+
 		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), 25), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
 		timeUntilWasp = getRandomRange(1000, SDL_GetTicks() + 1000);
 		waspDestructionTime = currentTime + timeUntilWasp;
@@ -260,10 +268,23 @@ Game::checkCollision(const SDL_FRect& rect) const
 	for (const auto& n : nests) {
 		col = n->checkCollision(rect);
 		if (col.type != Collision::NONE) {
+			handleNestCollision(col, n);
 			break;
 		}
 	}
 	return col;
+}
+
+void Game::handleNestCollision(Collision col, HomedFrog* f) const {
+	switch (col.type) {
+	case Collision::HOME:
+		f->setHome();
+		break;
+	}
+}
+
+void Game::exitGame() {
+	exit = true;
 }
 
 int Game::getRandomRange(int min, int max) {
