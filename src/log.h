@@ -3,6 +3,8 @@
 #include "game.h"
 #include "texture.h"
 #include "vector2D.h"
+#include <istream>
+using namespace std;
 
 /**
 * Clase log que representa un tronco flotante sobre el que la rana puede subirse
@@ -27,9 +29,23 @@ public:
 		height = texture->getFrameHeight();
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
-	//Renderiza el tronco en pantalla
+	Log(Game* g, istream& input) {
+		game = g;
+		int textureNr, x, y;
+		float s;
+		input >> x >> y >> s >> textureNr;
+
+		position = Point2D<int>(x, y);
+		speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
+		texture = game->getTexture((Game::TextureName)(textureNr + 7));
+
+		width = texture->getFrameWidth();
+		height = texture->getFrameHeight();
+		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
+	}
+
 	void render() const;
-	//Actualiza la posición del tronco en cada frame
+	//Actualiza la posici�n del tronco en cada frame
 	void update();
 	//Comprueba si el tronco colisiona con la rana
 	Collision checkCollision(const SDL_FRect& otherRect);

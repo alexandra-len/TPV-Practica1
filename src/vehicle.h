@@ -2,6 +2,7 @@
 #include "game.h"
 #include "texture.h"
 #include "vector2D.h"
+#include <istream>
 using namespace std;
 
 class Vehicle
@@ -16,12 +17,24 @@ class Vehicle
 
 public:
 	Vehicle(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p) {
-		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, static_cast<float>(s.getY()) / Game::FRAME_RATE);
+		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
-	Vehicle(istream);
+	Vehicle(Game* g, istream& input) {
+		game = g;
+		int textureNr, x, y, s;
+		input >> x >> y >> s >> textureNr;
+
+		position = Point2D<int>(x, y);
+		speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
+		texture = game->getTexture((Game::TextureName)(textureNr + 1));
+
+		width = texture->getFrameWidth();
+		height = texture->getFrameHeight();
+		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
+	}
 
 	void render() const;
 	void update();

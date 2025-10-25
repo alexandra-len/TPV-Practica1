@@ -86,7 +86,7 @@ Game::Game()
 		throw e;
 
 	}
-	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(205, 402));
+	//player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(205, 402));
 
 	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(16, 23)));
 	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(112, 23)));
@@ -94,25 +94,25 @@ Game::Game()
 	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(304, 23)));
 	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(400, 23)));
 
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-100, 60), Vector2D<float>(72.6, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(75, 60), Vector2D<float>(72.6, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(250, 60), Vector2D<float>(72.6, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(425, 60), Vector2D<float>(72.6, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(370, 121), Vector2D<float>(96, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(460, 121), Vector2D<float>(96, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(120, 121), Vector2D<float>(96, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(210, 121), Vector2D<float>(96, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-130, 121), Vector2D<float>(96, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(-40, 121), Vector2D<float>(96, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(30, 153), Vector2D<float>(48, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(180, 153), Vector2D<float>(48, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(330, 153), Vector2D<float>(48, 0)));
-	
-	//temporales
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(0, 185), Vector2D<float>(48, 0)));
-	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(0, 90), Vector2D<float>(48, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-100, 60), Vector2D<float>(72.6, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(75, 60), Vector2D<float>(72.6, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(250, 60), Vector2D<float>(72.6, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(425, 60), Vector2D<float>(72.6, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(370, 121), Vector2D<float>(96, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(460, 121), Vector2D<float>(96, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(120, 121), Vector2D<float>(96, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(210, 121), Vector2D<float>(96, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-130, 121), Vector2D<float>(96, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(-40, 121), Vector2D<float>(96, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(30, 153), Vector2D<float>(48, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(180, 153), Vector2D<float>(48, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG1), Point2D<int>(330, 153), Vector2D<float>(48, 0)));
+	//
+	////temporales
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(0, 185), Vector2D<float>(48, 0)));
+	//logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(0, 90), Vector2D<float>(48, 0)));
 
-	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(50, 372), Vector2D<float>(-48, 0.0)));
+	/*vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(50, 372), Vector2D<float>(-48, 0.0)));
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(200, 372), Vector2D<float>(-48, 0.0)));
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE1), Point2D<int>(350, 372), Vector2D<float>(-48, 0.0)));
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE2), Point2D<int>(25, 342), Vector2D<float>(48, 0.0)));
@@ -125,7 +125,7 @@ Game::Game()
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE4), Point2D<int>(0, 280), Vector2D<float>(48, 0.0)));
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE4), Point2D<int>(-150, 280), Vector2D<float>(48, 0.0)));
 	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(165, 252), Vector2D<float>(-72, 0.0)));
-	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(365, 252), Vector2D<float>(-72, 0.0)));
+	vehicles.push_back(new Vehicle(this, getTexture(TextureName::VEHICLE5), Point2D<int>(365, 252), Vector2D<float>(-72, 0.0)));*/
 
 	timeUntilWasp = getRandomRange(1000, SDL_GetTicks() + 1000);
 	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
@@ -164,8 +164,6 @@ Game::render() const
 
 	getTexture(TextureName::BACKGROUND)->render();
 
-	player->render();
-
 	for (int i = 0; i < logs.size(); i++) {
 		logs[i]->render();
 	}
@@ -180,6 +178,7 @@ Game::render() const
 			hFrog->render();
 		}
 	}
+	player->render();
 
 	SDL_RenderPresent(renderer);
 
@@ -308,7 +307,7 @@ int Game::getRandomRange(int min, int max) {
 
 void Game::loadMap() {
 	ifstream map;
-	map.open("../assets/maps/default.txt");
+	map.open(MAP_FILE);
 
 	if (!map) {
 		throw string("Map file not found");
@@ -317,23 +316,18 @@ void Game::loadMap() {
 	string c;
 	while (!map.eof()) {
 		map >> c;
-		cout << "Read: " << c << endl;
 		if (c == "#") {
 			map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			cout << " Ignored." << endl;
 		}
 		else {
 			if (c == "V") {
-				cout << "Crating vehicle";
-				//vehicles.push_back(new Vehicle(map));
+				vehicles.push_back(new Vehicle(this, map));
 			}
 			else if (c == "L") {
-				cout << "Crating log";
-				//vehicles.push_back(new Vehicle(map));
+				logs.push_back(new Log(this, map));
 			}
 			else if (c == "F") {
-				cout << "Crating frog";
-				//vehicles.push_back(new Vehicle(map));
+				player = new Frog(this, map);
 			}
 		}
 	}
