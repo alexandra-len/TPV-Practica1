@@ -72,11 +72,11 @@ Game::Game()
 
 	player = new Frog(this, getTexture(TextureName::FROG), Point2D<int>(205, 402));
 
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(20, 23)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(116, 23)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(212, 23)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(308, 23)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(404, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(16, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(112, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(208, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(304, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(400, 23)));
 
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(-100, 60), Vector2D<float>(72.6, 0)));
 	logs.push_back(new Log(this, getTexture(TextureName::LOG2), Point2D<int>(75, 60), Vector2D<float>(72.6, 0)));
@@ -186,7 +186,6 @@ Game::update()
 		int nestNr;
 		do {
 			nestNr = getRandomRange(0, waspPositions.size() - 1);
-			cout << "nesting";
 		} while (nests[nestNr]->isHome());
 
 		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), 25), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));

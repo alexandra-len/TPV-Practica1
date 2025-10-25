@@ -138,3 +138,4 @@ Texture::render(const SDL_FRect& rect, SDL_Color color) const
 	render(rect);
 	SDL_SetTextureColorMod(texture, original.r, original.g, original.b);
 }
+

@@ -42,7 +42,7 @@ public:
 	static constexpr int WINDOW_HEIGHT = 484;
 	static constexpr int WINDOW_WIDTH_MARGIN = 150;
 	// Extremo inferior del río
-	static constexpr int RIVER_LOW = 210;
+	static constexpr int RIVER_LOW = 200;
 
 	enum TextureName
 	{
@@ -61,7 +61,7 @@ public:
 
 private:
 	SDL_Window* window;
-	SDL_Renderer* renderer;
+	
 	std::array<Texture*, NUM_TEXTURES> textures;
 
 	Frog* player;
@@ -86,6 +86,7 @@ private:
 	bool exit;
 
 public:
+	SDL_Renderer* renderer;
 	Game();
 	~Game();
 

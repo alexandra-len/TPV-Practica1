@@ -1,8 +1,12 @@
 #include "vehicle.h"
 #include <cmath>
+#include <SDL3_image/SDL_image.h>
 using namespace std;
 void Vehicle::render() const {
 	texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
+	SDL_SetRenderDrawColor(game->renderer, 255, 255, 0, 255);
+	SDL_FRect destRect = SDL_FRect(position.getX(), position.getY(), (width), (height));
+	SDL_RenderRect(game->renderer, &destRect);
 }
 
 void Vehicle::update() {	

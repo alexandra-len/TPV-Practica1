@@ -1,5 +1,6 @@
 #include "frog.h"
 #include <iostream>
+#include <SDL3_image/SDL_image.h>
 using namespace std;
 
 void Frog::render() {
@@ -9,6 +10,7 @@ void Frog::render() {
 		if (lastDirection == Point2D<int>(0, 1))
 		{
 			texture->renderFrame(destRect, 0, 0, SDL_FLIP_VERTICAL);
+			
 		}
 		else if (lastDirection == Point2D<int>(0, -1))
 		{
@@ -23,6 +25,8 @@ void Frog::render() {
 			texture->renderFrame(destRect, 0, 0, 90, nullptr, SDL_FLIP_NONE);
 		}
 		else texture->renderFrame(destRect, 0, 0);
+		SDL_SetRenderDrawColor(game->renderer, 255, 255, 0, 255);
+		SDL_RenderRect(game->renderer, &destRect);
 	}
 }
 
@@ -72,7 +76,7 @@ void Frog::handleEvent(const SDL_Event& event) {
 		lastDirection = Point2D<int>(1, 0);
 		break;
 	}
-	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * height);
+	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * 31);
 	position = position + move;
 }
 
@@ -84,4 +88,7 @@ void Frog::handleDeath() {
 	hp--;
 	position = initialPos;
 	lastDirection = Point2D<int>(0, 0);
+	if (hp <= 0) {
+		game->exitGame();
+	}
 }

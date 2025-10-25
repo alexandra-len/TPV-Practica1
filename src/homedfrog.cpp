@@ -1,7 +1,11 @@
 #include "homedfrog.h"
+#include <SDL3_image/SDL_image.h>
 
 void HomedFrog::render() {
+	SDL_FRect destRect = getRect();
 	texture->renderFrame(getRect(), 0, 0);
+	SDL_SetRenderDrawColor(game->renderer, 255, 255, 0, 255);
+	SDL_RenderRect(game->renderer, &destRect);
 }
 
 bool HomedFrog::isHome() const {
