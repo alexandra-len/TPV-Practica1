@@ -29,6 +29,7 @@ class Vehicle;
 class Wasp;
 class Frog;
 class HomedFrog;
+class InfoBar;
 
 /**
  * Clase principal del juego.
@@ -44,14 +45,16 @@ public:
 	static constexpr int WINDOW_WIDTH_MARGIN = 150;
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 200;
+	// Numero de nidos
+	static constexpr int NEST_NR = 5;
 	// Posiciones de nidos y avispas
 	static constexpr int NEST_ROW_Y = 25;
-	static constexpr int NEST_FROG_Y = 23;
+	static constexpr int NEST_FROG_Y = 22;
+	static constexpr int NEST_FROG_STARTING_X = 14;
+	static constexpr int NEST_FROG_DISTANCE_X = 96;
 	// Tiempos de aparición de avispas
 	static constexpr int WASP_MIN_DELAY = 1000;
 	static constexpr int WASP_MAX_DELAY = 10000;
-	// Vidas iniciales de la rana
-	static constexpr int MAX_LIVES = 3;
 
 	static constexpr int TILE_SIZE = 32;
 	static constexpr int FROG_COLLISION_MARGIN = 8;
@@ -82,6 +85,7 @@ private:
 	std::vector<Vehicle*> vehicles;
 	std::vector<Wasp*> wasps; 
 	std::vector<HomedFrog*> nests;
+	InfoBar* infoBar;
 
 	// Posiciones predefinidas para las avispas
 	std::vector<Point2D<int>> waspPositions = {Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };

@@ -13,6 +13,7 @@
 #include "wasp.h"
 #include "frog.h"
 #include "homedfrog.h"
+#include "infobar.h"
 
 using namespace std;
 
@@ -92,12 +93,13 @@ Game::Game()
 	}
 
 	// Crea los nidos
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(16, NEST_FROG_Y)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(112, NEST_FROG_Y)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(208, NEST_FROG_Y)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(304, NEST_FROG_Y)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(400, NEST_FROG_Y)));
+	for (int i = 0; i < NEST_NR; i++) {
+		nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y)));
+	}
 
+	// Inicializa el info bar
+	infoBar = new InfoBar(player, NEST_NR, getTexture(TextureName::FROG));
+	
 	// Inicializa el tiempo para la aparición de la primera avispa
 	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
@@ -158,6 +160,7 @@ Game::render() const
 		}
 	}
 	player->render();
+	infoBar->render();
 
 	SDL_RenderPresent(renderer);
 
@@ -167,6 +170,7 @@ void
 Game::update()
 {
 	player->update();
+	infoBar->update();
 	for (int i = 0; i < logs.size(); i++) {
 		logs[i]->update();
 	}
@@ -220,6 +224,7 @@ Game::run()
 			SDL_Delay(FRAME_RATE - frameTime);
 		}
 	}
+	cout << "Game ended";
 }
 
 void

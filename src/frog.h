@@ -26,7 +26,7 @@ class Frog
 
 public:
 	//Constructor
-	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), initialPos(p), position(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0, 0)), hp(Game::MAX_LIVES) {
+	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), initialPos(p), position(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0, 0)), hp(3) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};
@@ -37,10 +37,11 @@ public:
 		texture = game->getTexture(Game::TextureName::FROG);
 
 		// Lee las coordenadas de inicio desde un fichero
-		int x, y;
-		input >> x >> y;
+		int x, y, lives;
+		input >> x >> y >> lives;
 
 		initialPos = position = Point2D<int>(x, y);
+		hp = lives;
 
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
@@ -50,4 +51,8 @@ public:
 	void update();
 	Point2D<int> lastDir() const;
 	void handleEvent(const SDL_Event&);
+
+	int getHP() {
+		return hp;
+	}
 };
