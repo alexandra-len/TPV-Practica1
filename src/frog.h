@@ -26,7 +26,7 @@ class Frog
 
 public:
 	//Constructor
-	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), initialPos(p), position(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0, 0)), hp(3) {
+	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), initialPos(p), position(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0, 0)), hp(Game::MAX_LIVES) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};
@@ -45,10 +45,6 @@ public:
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	}
-
-	//Constantes
-	static constexpr int TILE_SIZE = 32;
-	static constexpr int FROG_COLLISION_MARGIN = 8;
 
 	void render();
 	void update();

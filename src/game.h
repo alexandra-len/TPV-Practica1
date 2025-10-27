@@ -50,6 +50,11 @@ public:
 	// Tiempos de aparición de avispas
 	static constexpr int WASP_MIN_DELAY = 1000;
 	static constexpr int WASP_MAX_DELAY = 10000;
+	// Vidas iniciales de la rana
+	static constexpr int MAX_LIVES = 3;
+
+	static constexpr int TILE_SIZE = 32;
+	static constexpr int FROG_COLLISION_MARGIN = 8;
 
 	enum TextureName
 	{
@@ -92,6 +97,7 @@ private:
 	void update();
 	void handleEvents();
 	void loadMap();
+	bool checkVictory();
 
 	bool exit;
 

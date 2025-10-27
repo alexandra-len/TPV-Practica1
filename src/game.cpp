@@ -210,6 +210,7 @@ Game::run()
 	while (!exit) {
 		// Tiempo al inicio del frame
 		startTime = SDL_GetTicks();
+		exit = checkVictory();
 		handleEvents();
 		update();
 		render();
@@ -330,4 +331,13 @@ void Game::loadMap() {
 		}
 	}
 
+}
+
+bool Game::checkVictory() {
+	int i = 0;
+	bool nestsFull = true;
+	while (i < nests.size() && nestsFull) {
+		nestsFull = nests[i]->isHome();
+	}
+	return nestsFull;
 }

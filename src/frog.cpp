@@ -41,7 +41,7 @@ void Frog::render() {
 SDL_FRect Frog::getRect()
 {
 	//ajusta el rectángulo para no usar todo el sprite
-	const SDL_FRect destRect = { position.getX() + FROG_COLLISION_MARGIN,position.getY() + FROG_COLLISION_MARGIN, (float)width/2, (float)height/2};
+	const SDL_FRect destRect = { position.getX() + Game::FROG_COLLISION_MARGIN,position.getY() + Game::FROG_COLLISION_MARGIN, (float)width/2, (float)height/2};
 	return destRect;
 }
 
@@ -101,7 +101,7 @@ void Frog::handleEvent(const SDL_Event& event) {
 	}
 
 	// Calcula el desplazamiento
-	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * TILE_SIZE);
+	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * Game::TILE_SIZE);
 
 	// Actualiza posición
 	position = position + move;
