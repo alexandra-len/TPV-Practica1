@@ -44,6 +44,12 @@ public:
 	static constexpr int WINDOW_WIDTH_MARGIN = 150;
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 200;
+	// Posiciones de nidos y avispas
+	static constexpr int NEST_ROW_Y = 25;
+	static constexpr int NEST_FROG_Y = 23;
+	// Tiempos de aparición de avispas
+	static constexpr int WASP_MIN_DELAY = 1000;
+	static constexpr int WASP_MAX_DELAY = 10000;
 
 	enum TextureName
 	{

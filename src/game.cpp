@@ -92,14 +92,14 @@ Game::Game()
 	}
 
 	// Crea los nidos
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(16, 23)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(112, 23)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(208, 23)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(304, 23)));
-	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(400, 23)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(16, NEST_FROG_Y)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(112, NEST_FROG_Y)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(208, NEST_FROG_Y)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(304, NEST_FROG_Y)));
+	nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(400, NEST_FROG_Y)));
 
 	// Inicializa el tiempo para la aparición de la primera avispa
-	timeUntilWasp = getRandomRange(1000, SDL_GetTicks() + 1000);
+	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
 
 	// Render la primera vez.
@@ -186,10 +186,10 @@ Game::update()
 		} while (nests[nestNr]->isHome());
 
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
-		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), 25), Vector2D<float>(0, 0), getRandomRange(1000, 10000)));
+		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY)));
 		
 		// Programa la próxima avispa
-		timeUntilWasp = getRandomRange(1000, SDL_GetTicks() + 1000);
+		timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 		waspDestructionTime = currentTime + timeUntilWasp;
 	}
 

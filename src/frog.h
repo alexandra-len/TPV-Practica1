@@ -46,6 +46,10 @@ public:
 		height = texture->getFrameHeight();
 	}
 
+	//Constantes
+	static constexpr int TILE_SIZE = 32;
+	static constexpr int FROG_COLLISION_MARGIN = 8;
+
 	void render();
 	void update();
 	Point2D<int> lastDir() const;
