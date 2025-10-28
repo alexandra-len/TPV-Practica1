@@ -3,7 +3,6 @@
 #include "texture.h"
 #include "vector2D.h"
 #include <istream>
-using namespace std;
 
 class Vehicle
 {
@@ -31,7 +30,7 @@ public:
 	}
 
 	//Constructor que carga un vehiculo desde el archivo
-	Vehicle(Game* g, istream& input) {
+	Vehicle(Game* g, std::istream& input) {
 		game = g;
 		int textureNr, x, y, s;
 		input >> x >> y >> s >> textureNr;

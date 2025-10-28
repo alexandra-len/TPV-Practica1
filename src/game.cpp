@@ -130,6 +130,7 @@ Game::~Game()
 		delete wasps[i];
 	}
 	delete player;
+	delete infoBar;
 }
 
 void
@@ -251,39 +252,34 @@ Game::checkCollision(const SDL_FRect& rect) const
 	// Verifica colisiones con troncos
 	for (const auto& l : logs) {
 		col = l->checkCollision(rect);
-		if (col.type != Collision::NONE) {
-			break;
-		}
+		if (col.type != Collision::NONE)
+			return col;
 	}
-	if (col.type != Collision::NONE) {
+	if (col.type != Collision::NONE)
 		return col;
-	}
 	// Verifica colisiones con vehículos
 	for (const auto& v : vehicles) {
 		col = v->checkCollision(rect);
-		if (col.type != Collision::NONE) {
+		if (col.type != Collision::NONE)
 			break;
-		}
 	}
-	if (col.type != Collision::NONE) {
+	if (col.type != Collision::NONE) 
 		return col;
-	}
 	// Verifica colisiones con avispas
 	for (const auto& w : wasps) {
 		col = w->checkCollision(rect);
-		if (col.type != Collision::NONE) {
-			break;
-		}
+		if (col.type != Collision::NONE)
+			return col;
 	}
-	if (col.type != Collision::NONE) {
+	if (col.type != Collision::NONE) 
 		return col;
-	}
+	
 	// Verifica colisiones con nidos
 	for (const auto& n : nests) {
 		col = n->checkCollision(rect);
 		if (col.type != Collision::NONE) {
 			handleNestCollision(col, n);
-			break;
+			return col;
 		}
 	}
 	return col;
@@ -291,11 +287,9 @@ Game::checkCollision(const SDL_FRect& rect) const
 
 // Maneja la colisión con un nido
 void Game::handleNestCollision(Collision col, HomedFrog* f) const {
-	switch (col.type) {
-	case Collision::HOME:
-		// Marca el nido como ocupado
+	// Marca el nido como ocupado
+	if (col.type == Collision::HOME) {
 		f->setHome();
-		break;
 	}
 }
 

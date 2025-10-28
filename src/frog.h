@@ -4,7 +4,6 @@
 #include "texture.h"
 #include "vector2D.h"
 #include "homedfrog.h"
-using namespace std;
 
 /**
 * Clase que representa la rana controlada por el jugador
@@ -32,7 +31,7 @@ public:
 	};
 
 	//Constructor que carga posicion desde un archivo
-	Frog(Game* g, istream& input) : hp(3), velocity(Vector2D<float>(0,0)), lastDirection(Point2D<int>(0,0)) {
+	Frog(Game* g, std::istream& input) : velocity(Vector2D<float>(0,0)), lastDirection(Point2D<int>(0,0)) {
 		game = g;
 		texture = game->getTexture(Game::TextureName::FROG);
 
@@ -52,7 +51,7 @@ public:
 	Point2D<int> lastDir() const;
 	void handleEvent(const SDL_Event&);
 
-	int getHP() {
+	int getHP() const {
 		return hp;
 	}
 };

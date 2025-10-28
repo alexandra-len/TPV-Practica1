@@ -4,7 +4,6 @@
 #include "texture.h"
 #include "vector2D.h"
 #include <istream>
-using namespace std;
 
 /**
 * Clase log que representa un tronco flotante sobre el que la rana puede subirse
@@ -30,7 +29,7 @@ public:
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
 
-	Log(Game* g, istream& input) {
+	Log(Game* g, std::istream& input) {
 		game = g;
 		int textureNr, x, y;
 		float s;

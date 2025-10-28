@@ -76,6 +76,7 @@ public:
 
 private:
 	SDL_Window* window;
+	SDL_Renderer* renderer;
 	
 	std::array<Texture*, NUM_TEXTURES> textures;
 
@@ -106,7 +107,6 @@ private:
 	bool exit;
 
 public:
-	SDL_Renderer* renderer;
 	Game(); // Constructor
 	~Game(); // Destructor
 
