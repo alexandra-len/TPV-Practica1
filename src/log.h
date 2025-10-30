@@ -3,12 +3,14 @@
 #include "game.h"
 #include "texture.h"
 #include "vector2D.h"
+#include "crosser.h"
+#include "platform.h"
 #include <istream>
 
 /**
 * Clase log que representa un tronco flotante sobre el que la rana puede subirse
 */
-class Log
+class Log : public Crosser, public Platform
 {
 	//Atributos privados
 	Game* game;

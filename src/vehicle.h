@@ -2,9 +2,10 @@
 #include "game.h"
 #include "texture.h"
 #include "vector2D.h"
+#include "crosser.h"
 #include <istream>
 
-class Vehicle
+class Vehicle : public Crosser
 {
 	Game* game;
 	Texture* texture;
