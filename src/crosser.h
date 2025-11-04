@@ -4,8 +4,23 @@
 
 class Crosser : public SceneObject
 {
-public:
+public: 
+	Crosser() {};
 	Crosser(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : SceneObject(g, t, p), speed(s) {
+		// La velocidad ajustada al frame rate
+		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
+		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
+	}
+
+	Crosser(Game* g, std::istream& input, int textureNr) : SceneObject(g) {
+		int textureNr, x, y;
+		float s;
+		input >> x >> y >> s >> textureNr;
+
+		position = Point2D<int>(x, y);
+		speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
+		texture = game->getTexture((Game::TextureName)(textureNr));
+
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
 

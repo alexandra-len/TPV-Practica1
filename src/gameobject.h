@@ -4,8 +4,10 @@
 
 class GameObject
 {
-	Game* game;
 protected:
+	Game* game;
+
+	GameObject() {};
 	GameObject(Game* g) : game(g) {}
 public:
 	virtual ~GameObject() {}

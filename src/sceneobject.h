@@ -6,6 +6,8 @@ class SceneObject : public GameObject
 {
 
 public:
+	SceneObject() {};
+	SceneObject(Game* g) : GameObject(g) {};
 	SceneObject(Game* g, Texture* t, Point2D<int> p) : GameObject(g), texture(t), position(p) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();

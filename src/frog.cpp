@@ -47,10 +47,12 @@ SDL_FRect Frog::getRect()
 
 //Logica de la rana
 void Frog::update() {
+	// TODO: move frog here instead of in handle event
 
 	// Actualiza posición según la velocidad
 	position = Point2D<int>(round(position.getX() + velocity.getX()), position.getY());
 
+	// TODO: instead of killing it, just dont let it move
 	// Si la rana sale de los bordes, pierde una vida
 	if (position.getX() < 0 || position.getX() +width > Game::WINDOW_WIDTH || position.getY() < 0 || position.getY() + height/2 > Game::WINDOW_HEIGHT) {
 		hurt();

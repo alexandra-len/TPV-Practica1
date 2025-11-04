@@ -10,7 +10,7 @@
 /**
 * Clase log que representa un tronco flotante sobre el que la rana puede subirse
 */
-class Log : public Crosser, public Platform
+class Log : public Platform
 {
 	//Atributos privados
 	Game* game;
@@ -31,20 +31,7 @@ public:
 		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
 	}
 
-	Log(Game* g, std::istream& input) {
-		game = g;
-		int textureNr, x, y;
-		float s;
-		input >> x >> y >> s >> textureNr;
-
-		position = Point2D<int>(x, y);
-		speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
-		texture = game->getTexture((Game::TextureName)(textureNr + 7));
-
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
-		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
-	}
+	Log(Game* g, std::istream& input) : Platform(g, input, Game::LOG1) {};
 
 	void render() const;
 

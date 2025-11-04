@@ -123,14 +123,19 @@ Game::~Game()
 	for (int i = 0; i < nests.size(); i++) {
 		delete nests[i];
 	}
-	for (size_t i = 0; i < textures.size(); i++) {
-		delete textures[i];
-	}
 	for (int i = 0; i < wasps.size(); i++) {
 		delete wasps[i];
 	}
-	delete player;
 	delete infoBar;
+	delete player;
+	for (size_t i = 0; i < textures.size(); i++) {
+		delete textures[i];
+	}
+
+	delete renderer;
+	delete window;
+	SDL_Quit();
+
 }
 
 void
@@ -206,6 +211,8 @@ Game::update()
 			wasps.erase(wasps.begin() + i);
 		}
 	}
+
+	exit = checkVictory();
 }
 
 void
@@ -215,7 +222,6 @@ Game::run()
 	while (!exit) {
 		// Tiempo al inicio del frame
 		startTime = SDL_GetTicks();
-		exit = checkVictory();
 		handleEvents();
 		update();
 		render();
@@ -332,6 +338,7 @@ void Game::loadMap() {
 
 }
 
+// TODO: check victory through variable of nests occupied
 bool Game::checkVictory() {
 	int i = 0;
 	bool nestsFull = true;
