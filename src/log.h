@@ -12,33 +12,12 @@
 */
 class Log : public Platform
 {
-	//Atributos privados
-	Game* game;
-	Texture* texture;
-	Point2D<int> position;
-	Vector2D<float> speed;
-	int width;
-	int height;
-	int windowWidth;
-
 public:
 	//Constructor del tronco
-	Log(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : game(g), texture(t), position(p) {
-		// Normaliza la velocidad a la tasa de frames
-		speed = Vector2D<float>((float)(s.getX()) / Game::FRAME_RATE, (float) (s.getY()) / Game::FRAME_RATE);
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
-		windowWidth = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width;
-	}
+	Log(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s) {};
 
-	Log(Game* g, std::istream& input) : Platform(g, input, Game::LOG1) {};
+	Log(Game* g, std::istream& input) : Platform(g, input, Game::LOG1_TEXTURE_NR) {};
 
-	void render() const;
-
-	//Actualiza la posici�n del tronco en cada frame
-	void update();
-	
-	//Comprueba si el tronco colisiona con la rana
 	Collision checkCollision(const SDL_FRect& otherRect);
 };
 

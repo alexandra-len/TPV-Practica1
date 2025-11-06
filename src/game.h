@@ -59,8 +59,8 @@ public:
 	static constexpr int TILE_SIZE = 32;
 	static constexpr int FROG_COLLISION_MARGIN = 8;
 
-	static constexpr int LOG1 = 7;
-	static constexpr int VEHICLE1 = 1;
+	static constexpr int LOG1_TEXTURE_NR = 7;
+	static constexpr int VEHICLE1_TEXTURE_NR = 1;
 
 	enum TextureName
 	{

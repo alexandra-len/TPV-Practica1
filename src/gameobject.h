@@ -7,12 +7,11 @@ class GameObject
 protected:
 	Game* game;
 
-	GameObject() {};
+	GameObject() : game(nullptr) {};
 	GameObject(Game* g) : game(g) {}
 public:
 	virtual ~GameObject() {}
 
-	virtual void render();
-	virtual void update();
+	virtual void render() const = 0;
+	virtual void update() = 0;
 };
-
