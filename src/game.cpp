@@ -290,7 +290,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 }
 
 // Maneja la colisión con un nido
-void Game::handleNestCollision(Collision col, HomedFrog* f) const {
+void Game::handleNestCollision(Collision col, SceneObject* f) const {
 	// Marca el nido como ocupado
 	if (col.type == Collision::HOME) {
 		f->setHome();

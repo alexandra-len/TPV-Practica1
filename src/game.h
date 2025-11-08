@@ -7,6 +7,7 @@
 #include <vector>
 #include <random>
 #include "vector2D.h"
+#include "texture.h"
 
 // Estructura que representa una colisión
 struct Collision
