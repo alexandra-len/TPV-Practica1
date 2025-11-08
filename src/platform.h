@@ -7,7 +7,7 @@ class Platform : public Crosser
 public:
 	using Crosser::Crosser;
 
-	Collision checkCollision(SDL_FRect& other) override {
+	Collision checkCollision(const SDL_FRect& other) override {
 		Collision collision(Collision::NONE, { 0, 0 });
 
 		SDL_FRect logRect(position.getX(), position.getY(), width, height);

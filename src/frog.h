@@ -4,34 +4,26 @@
 #include "texture.h"
 #include "vector2D.h"
 #include "homedfrog.h"
+#include "sceneobject.h"
 
 /**
 * Clase que representa la rana controlada por el jugador
 */
-class Frog
+class Frog : public SceneObject
 {
-	Game* game;
-	Texture* texture;
 	Point2D<int> initialPos;
-	Point2D<int> position;
 	Point2D<int> lastDirection;
-	Vector2D<float> velocity;
 	int hp;
-	int width;
-	int height;
 
 	SDL_FRect getRect();
 	void hurt();
 
 public:
 	//Constructor
-	Frog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), initialPos(p), position(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0, 0)), hp(3) {
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
-	};
+	Frog(Game* g, Texture* t, Point2D<int> p) : initialPos(p), lastDirection(Point2D<int>(0, 0)), hp(3), SceneObject(g, t, p) {}
 
 	//Constructor que carga posicion desde un archivo
-	Frog(Game* g, std::istream& input) : velocity(Vector2D<float>(0,0)), lastDirection(Point2D<int>(0,0)) {
+	Frog(Game* g, std::istream& input) : lastDirection(Point2D<int>(0,0)), SceneObject(g, input) {
 		game = g;
 		texture = game->getTexture(Game::TextureName::FROG);
 

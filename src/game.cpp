@@ -131,11 +131,6 @@ Game::~Game()
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
-
-	delete renderer;
-	delete window;
-	SDL_Quit();
-
 }
 
 void
@@ -211,8 +206,6 @@ Game::update()
 			wasps.erase(wasps.begin() + i);
 		}
 	}
-
-	exit = checkVictory();
 }
 
 void
@@ -222,6 +215,8 @@ Game::run()
 	while (!exit) {
 		// Tiempo al inicio del frame
 		startTime = SDL_GetTicks();
+		cout << "TICK" << endl;
+		exit = checkVictory();
 		handleEvents();
 		update();
 		render();
@@ -241,8 +236,9 @@ Game::handleEvents()
 
 	// Only quit is handled directly, everything else is delegated
 	while (SDL_PollEvent(&event)) {
-		if (event.type == SDL_EVENT_QUIT)
+		if (event.type == SDL_EVENT_QUIT) {
 			exit = true;
+		}
 		else if (event.type == SDL_EVENT_KEY_DOWN) {
 			// Pasa el evento a la rana
 			player->handleEvent(event);
@@ -328,7 +324,7 @@ void Game::loadMap() {
 				vehicles.push_back(new Vehicle(this, map));
 			}
 			else if (c == "L") {
-				logs.push_back(new Log(this, map));
+				//logs.push_back(new Log(this, map));
 			}
 			else if (c == "F") {
 				player = new Frog(this, map);

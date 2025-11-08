@@ -23,13 +23,14 @@ struct Collision
 };
 
 // Declaraciones anticipadas
-class Texture;
-class Log;
-class Vehicle;
-class Wasp;
-class Frog;
-class HomedFrog;
+//class Texture;
+//class Log;
+//class Vehicle;
+//class Wasp;
+//class Frog;
+//class HomedFrog;
 class InfoBar;
+class SceneObject;
 
 /**
  * Clase principal del juego.
@@ -62,6 +63,8 @@ public:
 	static constexpr int LOG1_TEXTURE_NR = 7;
 	static constexpr int VEHICLE1_TEXTURE_NR = 1;
 
+	static constexpr int VEHICLE_BACKJUMP = 0;
+
 	enum TextureName
 	{
 		FROG = 0,
@@ -85,10 +88,10 @@ private:
 
 	Frog* player;
 
-	std::vector<Log*> logs;
+	/*std::vector<Log*> logs;
 	std::vector<Vehicle*> vehicles;
 	std::vector<Wasp*> wasps; 
-	std::vector<HomedFrog*> nests;
+	std::vector<HomedFrog*> nests;*/
 	InfoBar* infoBar;
 
 	// Posiciones predefinidas para las avispas
