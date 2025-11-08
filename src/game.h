@@ -23,7 +23,7 @@ struct Collision
 };
 
 // Declaraciones anticipadas
-//class Texture;
+class Texture;
 //class Log;
 //class Vehicle;
 //class Wasp;
@@ -86,12 +86,11 @@ private:
 	
 	std::array<Texture*, NUM_TEXTURES> textures;
 
-	Frog* player;
-
 	/*std::vector<Log*> logs;
 	std::vector<Vehicle*> vehicles;
 	std::vector<Wasp*> wasps; 
 	std::vector<HomedFrog*> nests;*/
+	std::vector<SceneObject*> objects;
 	InfoBar* infoBar;
 
 	// Posiciones predefinidas para las avispas
@@ -131,7 +130,7 @@ public:
 	void exitGame();
 
 	// Maneja la colision con un nido
-	void handleNestCollision(Collision col, HomedFrog* f) const;
+	void handleNestCollision(Collision col, SceneObject* f) const;
 };
 
 // Implementacion inline de getTexture

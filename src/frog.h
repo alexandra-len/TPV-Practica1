@@ -13,6 +13,7 @@ class Frog : public SceneObject
 {
 	Point2D<int> initialPos;
 	Point2D<int> lastDirection;
+	Point2D<int> velocity;
 	int hp;
 
 	SDL_FRect getRect();
@@ -20,10 +21,10 @@ class Frog : public SceneObject
 
 public:
 	//Constructor
-	Frog(Game* g, Texture* t, Point2D<int> p) : initialPos(p), lastDirection(Point2D<int>(0, 0)), hp(3), SceneObject(g, t, p) {}
+	Frog(Game* g, Texture* t, Point2D<int> p) : initialPos(p), lastDirection(Point2D<int>(0, 0)), velocity(Point2D<int>(0,0)), hp(3), SceneObject(g, t, p) {}
 
 	//Constructor que carga posicion desde un archivo
-	Frog(Game* g, std::istream& input) : lastDirection(Point2D<int>(0,0)), SceneObject(g, input) {
+	Frog(Game* g, std::istream& input) : lastDirection(Point2D<int>(0,0)), SceneObject(g) {
 		game = g;
 		texture = game->getTexture(Game::TextureName::FROG);
 
@@ -33,9 +34,6 @@ public:
 
 		initialPos = position = Point2D<int>(x, y);
 		hp = lives;
-
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
 	}
 
 	void render();

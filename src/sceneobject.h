@@ -12,7 +12,6 @@ public:
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	}
-	SceneObject(Game* g, std::istream& input)
 
 	void render() const override {
 		texture->render(SDL_FRect(position.getX(), position.getY(), width, height));
@@ -20,7 +19,9 @@ public:
 
 	void update() override {};
 
-	virtual Collision checkCollision(const SDL_FRect& other) = 0;
+	virtual Collision checkCollision(const SDL_FRect& other) {
+		return Collision(Collision::NONE, { 0, 0 });
+	}
 
 protected:
 	Point2D<int> position = Point2D<int>(0,0);

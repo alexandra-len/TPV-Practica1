@@ -114,20 +114,12 @@ Game::Game()
 Game::~Game()
 {
 	// Libera la memoria de todos los objetos creados
-	for (int i = 0; i < logs.size(); i++) {
-		delete logs[i];
-	}
-	for (int i = 0; i < vehicles.size(); i++) {
-		delete vehicles[i];
-	}
-	for (int i = 0; i < nests.size(); i++) {
-		delete nests[i];
-	}
-	for (int i = 0; i < wasps.size(); i++) {
-		delete wasps[i];
-	}
 	delete infoBar;
-	delete player;
+
+	for (auto& obj : objects) {
+		delete obj;
+	}
+
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
@@ -142,25 +134,30 @@ Game::render() const
 	// Renderiza el fondo
 	getTexture(TextureName::BACKGROUND)->render();
 
-	// Renderiza los troncos
-	for (int i = 0; i < logs.size(); i++) {
-		logs[i]->render();
+	for (auto& obj : objects) {
+		obj->render();
 	}
-	// Renderiza los vehículos
-	for (int i = 0; i < vehicles.size(); i++) {
-		vehicles[i]->render();
-	}
-	// Renderiza las avispas
-	for (const auto& w : wasps) {
-		w->render();
-	}
-	// Renderiza los nidos si están ocupados
-	for (const auto& hFrog : nests) {
-		if (hFrog->isHome()) {
-			hFrog->render();
-		}
-	}
-	player->render();
+
+	//// Renderiza los troncos
+	//for (int i = 0; i < logs.size(); i++) {
+	//	logs[i]->render();
+	//}
+	//// Renderiza los vehículos
+	//for (int i = 0; i < vehicles.size(); i++) {
+	//	vehicles[i]->render();
+	//}
+	//// Renderiza las avispas
+	//for (const auto& w : wasps) {
+	//	w->render();
+	//}
+	//// Renderiza los nidos si están ocupados
+	//for (const auto& hFrog : nests) {
+	//	if (hFrog->isHome()) {
+	//		hFrog->render();
+	//	}
+	//}
+	//player->render();
+
 	infoBar->render();
 
 	SDL_RenderPresent(renderer);
@@ -170,14 +167,11 @@ Game::render() const
 void
 Game::update()
 {
-	player->update();
+	for (auto& obj : objects) {
+		obj->update();
+	}
+
 	infoBar->update();
-	for (int i = 0; i < logs.size(); i++) {
-		logs[i]->update();
-	}
-	for (int i = 0; i < vehicles.size(); i++) {
-		vehicles[i]->update();
-	}
 
 	// Obtiene el tiempo actual
 	currentTime = SDL_GetTicks();
@@ -251,6 +245,13 @@ Game::checkCollision(const SDL_FRect& rect) const
 {
 	Collision col{ Collision::NONE, {0,0} };
 
+	for (const auto& obj : objects) {
+		col = obj->checkCollision(rect);
+		if (col.type != Collision::NONE)
+			return col;
+	}
+
+	/*
 	// Verifica colisiones con troncos
 	for (const auto& l : logs) {
 		col = l->checkCollision(rect);
@@ -284,6 +285,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 			return col;
 		}
 	}
+	*/
 	return col;
 }
 
@@ -321,13 +323,13 @@ void Game::loadMap() {
 		else {
 			// Carga vehículos, troncos y la rana según las etiquetas
 			if (c == "V") {
-				vehicles.push_back(new Vehicle(this, map));
+				objects.push_back(new Vehicle(this, map));
 			}
 			else if (c == "L") {
 				//logs.push_back(new Log(this, map));
 			}
 			else if (c == "F") {
-				player = new Frog(this, map);
+				objects.push_back(new Frog(this, map));
 			}
 		}
 	}
