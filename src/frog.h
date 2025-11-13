@@ -15,6 +15,7 @@ class Frog : public SceneObject
 	Point2D<int> lastDirection;
 	Vector2D<float> velocity;
 	int hp;
+	Game::Anchor anchor;
 
 	SDL_FRect getRect();
 	void hurt();
@@ -34,14 +35,20 @@ public:
 
 		initialPos = position = Point2D<int>(x, y);
 		hp = lives;
+
+		// Transmite al juego el numero de vidas totales que tiene.
+		game->setHP(hp);
 	}
 
 	void render();
 	void update();
-	Point2D<int> lastDir() const;
 	void handleEvent(const SDL_Event&);
 
 	int getHP() const {
 		return hp;
+	}
+
+	void setAnchor(Game::Anchor a) {
+		anchor = a;
 	}
 };

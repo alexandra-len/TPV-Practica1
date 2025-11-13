@@ -94,6 +94,8 @@ private:
 
 	std::list<SceneObject*> objects;
 	std::vector<Anchor> objToDelete;
+	std::vector<SceneObject*> nests;
+	SceneObject* player;
 	InfoBar* infoBar;
 
 	// Posiciones predefinidas para las avispas
@@ -105,6 +107,11 @@ private:
 	int waspDestructionTime;
 	int currentTime;
 
+	int nestsOccupied;
+
+	int frogHP;
+	
+
 
 	void render() const;
 	void update();
@@ -113,7 +120,7 @@ private:
 	void loadMap();
 	bool checkVictory();
 
-	bool exit;
+	bool deadFrog = false, nestsFull = false, exit = false;
 
 public:
 	Game(); // Constructor
@@ -129,16 +136,28 @@ public:
 	Collision checkCollision(const SDL_FRect& rect) const;
 
 	int getRandomRange(int, int);
-	
-	// Pone exit a true, cierra el juego
-	void exitGame();
-
-	// Maneja la colision con un nido
-	void handleNestCollision(Collision col, SceneObject* f) const;
 
 	void deleteAfter(Anchor iterator) {
 		objToDelete.push_back(iterator);
 	};
+
+	// Suma 1 al sumador de nidos ocupados
+	void occupyNest() {
+		nestsOccupied++;
+	}
+
+	// Configura la variable de vidas totales de la rana
+	void setHP(int lives) {
+		frogHP = lives;
+	}
+
+	int getHP() {
+		return frogHP;
+	}
+
+	void frogDeath() {
+		deadFrog = true;
+	}
 };
 
 // Implementacion inline de getTexture

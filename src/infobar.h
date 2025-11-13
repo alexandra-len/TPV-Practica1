@@ -2,27 +2,23 @@
 #include "game.h"
 #include "frog.h"
 
-class InfoBar
+class InfoBar : public GameObject
 {
-	int remainingHP;
+	int frogHP;
 
-	int totalNests;
-	int occupiedNests;
-
-	Frog* frog;
 	Texture* frogImg;
 
 	int width;
 	int height;
 
 public:
-	InfoBar(Frog* f, int nests, Texture* t) : frog(f), frogImg(t), totalNests(nests), occupiedNests(0) {
-		remainingHP = frog->getHP();
+	InfoBar(Game* g, Texture* t) : GameObject(g), frogImg(t) {
+		frogHP = g->getHP();
 		width = frogImg->getFrameWidth();
 		height = frogImg->getFrameHeight();
 	}
 
-	void render();
-	void update();
+	void render() const override;
+	void update() override;
 };
 

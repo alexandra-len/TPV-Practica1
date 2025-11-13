@@ -1,7 +1,7 @@
 #include "infobar.h"
 
-void InfoBar::render() {
-	for (int i = 1; i <= remainingHP; i++) {
+void InfoBar::render() const {
+	for (int i = 1; i <= frogHP; i++) {
 		// Define el rectángulo donde se dibuja la rana
 		SDL_FRect destRect = {
 			(width * i)/2,
@@ -14,6 +14,6 @@ void InfoBar::render() {
 }
 
 void InfoBar::update() {
-	remainingHP = frog->getHP();
+	frogHP = game->getHP();
 }
 

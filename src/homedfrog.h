@@ -16,5 +16,5 @@ public:
 	void setHome();
 	int getX() const;
 	SDL_FRect getRect();
-	Collision checkCollision(const SDL_FRect&); // TODO: handle nest collision
+	Collision checkCollision(const SDL_FRect&);
 };

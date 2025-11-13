@@ -33,6 +33,7 @@ Collision HomedFrog::checkCollision(const SDL_FRect& otherRect) {
 		if (!visible) {
 			collision.type = Collision::HOME;
 			visible = true;
+			game->occupyNest();
 		}
 		else {
 			collision.type = Collision::ENEMY;

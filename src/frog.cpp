@@ -40,23 +40,24 @@ void Frog::render() {
 // Devuelve el rectángulo de colision de la rana
 SDL_FRect Frog::getRect()
 {
-	//ajusta el rectángulo para no usar todo el sprite
+	// Ajusta el rectángulo para no usar todo el sprite
 	const SDL_FRect destRect = { position.getX() + Game::FROG_COLLISION_MARGIN,position.getY() + Game::FROG_COLLISION_MARGIN, (float)width/2, (float)height/2};
 	return destRect;
 }
 
 //Logica de la rana
 void Frog::update() {
-	// TODO: move frog here instead of in handle event
+	// Calcula el desplazamiento
+	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * Game::TILE_SIZE);
 
-	// Actualiza posición según la velocidad
-	position = Point2D<int>(round(position.getX() + velocity.getX()), position.getY());
+	// Actualiza posición
+	Point2D<int> newPos = position + move + Point2D<int>(round(velocity.getX()), velocity.getY());
 
-	// TODO: instead of killing it, just dont let it move
-	// Si la rana sale de los bordes, pierde una vida
-	if (position.getX() < 0 || position.getX() +width > Game::WINDOW_WIDTH || position.getY() < 0 || position.getY() + height/2 > Game::WINDOW_HEIGHT) {
-		hurt();
+	// Si saldrá de los bordes con el siguiente movimiento, no se mueve
+	if (!(position.getX() < 0 || position.getX() +width > Game::WINDOW_WIDTH || position.getY() < 0 || position.getY() + height/2 > Game::WINDOW_HEIGHT)) {
+		position = newPos;
 	}
+	// else do nothing
 
 	Collision collision;
 	collision = game->checkCollision(getRect());
@@ -101,27 +102,17 @@ void Frog::handleEvent(const SDL_Event& event) {
 		lastDirection = Point2D<int>(1, 0);
 		break;
 	}
-
-	// Calcula el desplazamiento
-	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * Game::TILE_SIZE);
-
-	// Actualiza posición
-	position = position + move;
-}
-
-// Devuelve la última dirección de movimiento
-Point2D<int> Frog::lastDir() const {
-	return lastDirection;
 }
 
 // Resta una vida a la rana y la reinicia en su posicion inicial
 void Frog::hurt() {
 	hp--;
+	game->setHP(hp);
 	position = initialPos;
 	lastDirection = Point2D<int>(0, 0);
 
 	// Si no quedan vidas, se termina el juego
 	if (hp <= 0) {
-		game->exitGame();
+		game->frogDeath();
 	}
 }

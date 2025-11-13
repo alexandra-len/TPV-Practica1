@@ -94,11 +94,12 @@ Game::Game()
 
 	// Crea los nidos
 	for (int i = 0; i < NEST_NR; i++) {
-		objects.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y)));
+		nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y)));
 	}
+	nestsOccupied = 0;
 
 	// Inicializa el info bar
-	infoBar = new InfoBar(player, NEST_NR, getTexture(TextureName::FROG));
+	infoBar = new InfoBar(this, getTexture(TextureName::FROG));
 	
 	// Inicializa el tiempo para la aparición de la primera avispa
 	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
@@ -161,8 +162,8 @@ Game::update()
 		int nestNr;
 		// Elige un nido aleatorio que no esté ocupado
 		do {
-			nestNr = getRandomRange(0, waspPositions.size() - 1);
-		} while (nests[nestNr]->isHome());
+			nestNr = getRandomRange(0, NEST_NR - 1);
+		} while (dynamic_cast<HomedFrog*>(nests[nestNr])->isHome());
 
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
 		Wasp* newWasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
@@ -172,15 +173,6 @@ Game::update()
 		// Programa la próxima avispa
 		timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 		waspDestructionTime = currentTime + timeUntilWasp;
-	}
-
-	// Actualiza las avispas y elimina las muertas
-	for (int i = 0; i < wasps.size(); i++) {
-		wasps[i]->update();
-		if (!wasps[i]->isAlive()) {
-			delete wasps[i];
-			wasps.erase(wasps.begin() + i);
-		}
 	}
 }
 
@@ -202,7 +194,17 @@ Game::run()
 			SDL_Delay(FRAME_RATE - frameTime);
 		}
 	}
-	cout << "Game ended";
+	cout << "Game ended" << endl;
+	if (nestsFull) {
+		cout << "You won!";
+	}
+	else if (deadFrog) {
+		cout << "You lost!";
+	}
+	else {
+		cout << "You closed the game.";
+	}
+	cout << endl;
 }
 
 void Game::deleteObjects() {
@@ -226,7 +228,7 @@ Game::handleEvents()
 		}
 		else if (event.type == SDL_EVENT_KEY_DOWN) {
 			// Pasa el evento a la rana
-			player->handleEvent(event);
+			dynamic_cast<Frog*>(player)->handleEvent(event);
 		}
 	}
 }
@@ -243,10 +245,6 @@ Game::checkCollision(const SDL_FRect& rect) const
 	}
 
 	return col;
-}
-
-void Game::exitGame() {
-	exit = true;
 }
 
 // Genera un número aleatorio
@@ -274,22 +272,20 @@ void Game::loadMap() {
 				objects.push_back(new Vehicle(this, map));
 			}
 			else if (c == "L") {
-				//logs.push_back(new Log(this, map));
+				objects.push_back(new Log(this, map));
 			}
 			else if (c == "F") {
-				objects.push_back(new Frog(this, map));
+				player = new Frog(this, map);
+				objects.push_back(player);
 			}
 		}
 	}
 
 }
 
-// TODO: check victory through variable of nests occupied
 bool Game::checkVictory() {
-	int i = 0;
-	bool nestsFull = true;
-	while (i < nests.size() && nestsFull) {
-		nestsFull = nests[i]->isHome();
+	if (nestsOccupied == NEST_NR) {
+		nestsFull = true;
 	}
-	return nestsFull;
+	return deadFrog || nestsFull;
 }
