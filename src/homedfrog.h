@@ -2,26 +2,19 @@
 #include "game.h"
 #include "texture.h"
 #include "vector2D.h"
+#include "sceneobject.h"
 
-class HomedFrog
+class HomedFrog : public SceneObject
 {
-	Game* game;
-	Texture* texture;
-	Point2D<int> position;
-	int width;
-	int height;
 	bool visible;
 
 public:
-	HomedFrog(Game* g, Texture* t, Point2D<int> p) : game(g), texture(t), position(p), visible(false) {
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
-	};
+	HomedFrog(Game* g, Texture* t, Point2D<int> p) : SceneObject(g, t, p), visible(false) {};
 
 	void render();
 	bool isHome() const;
 	void setHome();
 	int getX() const;
 	SDL_FRect getRect();
-	Collision checkCollision(const SDL_FRect&);
+	Collision checkCollision(const SDL_FRect&); // TODO: handle nest collision
 };

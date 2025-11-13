@@ -6,6 +6,7 @@
 #include <istream>
 #include <vector>
 #include <random>
+#include <list>
 #include "vector2D.h"
 #include "texture.h"
 
@@ -38,7 +39,11 @@ class SceneObject;
  */
 class Game
 {
+	
+
 public:
+	using Anchor = std::list<SceneObject*>::iterator;
+
 	// Se actualiza el juego cada tantos milisegundos
 	static constexpr int FRAME_RATE = 30;
 	// Tamaño real de la ventana
@@ -87,11 +92,8 @@ private:
 	
 	std::array<Texture*, NUM_TEXTURES> textures;
 
-	/*std::vector<Log*> logs;
-	std::vector<Vehicle*> vehicles;
-	std::vector<Wasp*> wasps; 
-	std::vector<HomedFrog*> nests;*/
-	std::vector<SceneObject*> objects;
+	std::list<SceneObject*> objects;
+	std::vector<Anchor> objToDelete;
 	InfoBar* infoBar;
 
 	// Posiciones predefinidas para las avispas
@@ -106,6 +108,7 @@ private:
 
 	void render() const;
 	void update();
+	void deleteObjects();
 	void handleEvents();
 	void loadMap();
 	bool checkVictory();
@@ -132,6 +135,10 @@ public:
 
 	// Maneja la colision con un nido
 	void handleNestCollision(Collision col, SceneObject* f) const;
+
+	void deleteAfter(Anchor iterator) {
+		objToDelete.push_back(iterator);
+	};
 };
 
 // Implementacion inline de getTexture

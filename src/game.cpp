@@ -94,7 +94,7 @@ Game::Game()
 
 	// Crea los nidos
 	for (int i = 0; i < NEST_NR; i++) {
-		nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y)));
+		objects.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y)));
 	}
 
 	// Inicializa el info bar
@@ -138,26 +138,6 @@ Game::render() const
 		obj->render();
 	}
 
-	//// Renderiza los troncos
-	//for (int i = 0; i < logs.size(); i++) {
-	//	logs[i]->render();
-	//}
-	//// Renderiza los vehículos
-	//for (int i = 0; i < vehicles.size(); i++) {
-	//	vehicles[i]->render();
-	//}
-	//// Renderiza las avispas
-	//for (const auto& w : wasps) {
-	//	w->render();
-	//}
-	//// Renderiza los nidos si están ocupados
-	//for (const auto& hFrog : nests) {
-	//	if (hFrog->isHome()) {
-	//		hFrog->render();
-	//	}
-	//}
-	//player->render();
-
 	infoBar->render();
 
 	SDL_RenderPresent(renderer);
@@ -185,7 +165,9 @@ Game::update()
 		} while (nests[nestNr]->isHome());
 
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
-		wasps.push_back(new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY)));
+		Wasp* newWasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
+		objects.push_back(newWasp);
+		newWasp->setAnchor(--objects.end());
 		
 		// Programa la próxima avispa
 		timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
@@ -223,6 +205,15 @@ Game::run()
 	cout << "Game ended";
 }
 
+void Game::deleteObjects() {
+	for (Anchor& obj : objToDelete) {
+		delete* obj;
+		objects.erase(obj);
+	}
+
+	objToDelete = std::vector<Anchor>();
+}
+
 void
 Game::handleEvents()
 {
@@ -251,50 +242,7 @@ Game::checkCollision(const SDL_FRect& rect) const
 			return col;
 	}
 
-	/*
-	// Verifica colisiones con troncos
-	for (const auto& l : logs) {
-		col = l->checkCollision(rect);
-		if (col.type != Collision::NONE)
-			return col;
-	}
-	if (col.type != Collision::NONE)
-		return col;
-	// Verifica colisiones con vehículos
-	for (const auto& v : vehicles) {
-		col = v->checkCollision(rect);
-		if (col.type != Collision::NONE)
-			break;
-	}
-	if (col.type != Collision::NONE) 
-		return col;
-	// Verifica colisiones con avispas
-	for (const auto& w : wasps) {
-		col = w->checkCollision(rect);
-		if (col.type != Collision::NONE)
-			return col;
-	}
-	if (col.type != Collision::NONE) 
-		return col;
-	
-	// Verifica colisiones con nidos
-	for (const auto& n : nests) {
-		col = n->checkCollision(rect);
-		if (col.type != Collision::NONE) {
-			handleNestCollision(col, n);
-			return col;
-		}
-	}
-	*/
 	return col;
-}
-
-// Maneja la colisión con un nido
-void Game::handleNestCollision(Collision col, SceneObject* f) const {
-	// Marca el nido como ocupado
-	if (col.type == Collision::HOME) {
-		f->setHome();
-	}
 }
 
 void Game::exitGame() {

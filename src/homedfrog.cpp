@@ -27,10 +27,16 @@ SDL_FRect HomedFrog::getRect()
 Collision HomedFrog::checkCollision(const SDL_FRect& otherRect) {
 	Collision collision(Collision::NONE, { 0, 0 });
 
-	SDL_FRect vehicleRect(position.getX(), position.getY(), width, height);
+	SDL_FRect nestRect(position.getX(), position.getY(), width, height);
 
-	if (SDL_HasRectIntersectionFloat(&vehicleRect, &otherRect)) {
-		collision.type = Collision::HOME;
+	if (SDL_HasRectIntersectionFloat(&nestRect, &otherRect)) {
+		if (!visible) {
+			collision.type = Collision::HOME;
+			visible = true;
+		}
+		else {
+			collision.type = Collision::ENEMY;
+		}
 	}
 	return collision;
 }
