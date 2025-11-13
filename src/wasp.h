@@ -27,16 +27,11 @@ class Wasp : public SceneObject
 public:
 	//Constructor de la clase
 	Wasp(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
-		: game(g), texture(t), position(p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true)
-	{
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
-	}
+		: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true)
+	{	}
 
 	//Actualiza el estado de la avispa
-	void update();
-	//Renderiza la avispa
-	void render() const;
+	void update() override;
 	//Comprueba si la avispa sigue viva
 	bool isAlive() const;
 	void setAnchor(Game::Anchor a) {

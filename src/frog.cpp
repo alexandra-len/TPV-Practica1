@@ -4,7 +4,7 @@
 using namespace std;
 
 // Render de la rana
-void Frog::render() {
+void Frog::render() const {
 	if (texture != nullptr)
 	{
 		// Define el rectángulo donde se dibuja la rana
@@ -19,7 +19,6 @@ void Frog::render() {
 		if (lastDirection == Point2D<int>(0, 1))
 		{
 			texture->renderFrame(destRect, 0, 0, SDL_FLIP_VERTICAL);
-			
 		}
 		else if (lastDirection == Point2D<int>(0, -1))
 		{
@@ -34,11 +33,15 @@ void Frog::render() {
 			texture->renderFrame(destRect, 0, 0, 90, nullptr, SDL_FLIP_NONE);
 		}
 		else texture->renderFrame(destRect, 0, 0);
+
+		SDL_FRect collisionBox = getBoundingBox();
+		SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255); // Rojo
+		SDL_RenderRect(game->getRenderer(), &collisionBox);
 	}
 }
 
 // Devuelve el rectángulo de colision de la rana
-SDL_FRect Frog::getRect()
+SDL_FRect Frog::getBoundingBox() const
 {
 	// Ajusta el rectángulo para no usar todo el sprite
 	const SDL_FRect destRect = { position.getX() + Game::FROG_COLLISION_MARGIN,position.getY() + Game::FROG_COLLISION_MARGIN, (float)width/2, (float)height/2};
@@ -60,7 +63,7 @@ void Frog::update() {
 	// else do nothing
 
 	Collision collision;
-	collision = game->checkCollision(getRect());
+	collision = game->checkCollision(getBoundingBox());
 
 	switch (collision.type) {
 		// Si choca con un enemigo, pierde vida
@@ -115,4 +118,8 @@ void Frog::hurt() {
 	if (hp <= 0) {
 		game->frogDeath();
 	}
+}
+
+Collision Frog::checkCollision(const SDL_FRect& other) {
+	return Collision{ Collision::NONE, {0,0} };
 }

@@ -158,6 +158,10 @@ public:
 	void frogDeath() {
 		deadFrog = true;
 	}
+
+	SDL_Renderer* getRenderer() {
+		return renderer;
+	}
 };
 
 // Implementacion inline de getTexture

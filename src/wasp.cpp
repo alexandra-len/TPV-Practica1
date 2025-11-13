@@ -1,10 +1,5 @@
 #include "wasp.h"
 
-//Dibuja la avispa en pantalla
-void Wasp::render() const {
-	texture->render(SDL_FRect(position.getX(), position.getY(), width, height), 0, nullptr, SDL_FLIP_VERTICAL);
-}
-
 //Actualiza el estado de la avispa
 void Wasp::update() {
 	currentTime = SDL_GetTicks();

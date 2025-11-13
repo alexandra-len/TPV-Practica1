@@ -19,6 +19,8 @@ public:
 		position = Point2D<int>(x, y);
 		speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
 		texture = game->getTexture((Game::TextureName)(textureNrOffset + textureNr));
+		width = texture->getFrameWidth();
+		height = texture->getFrameHeight();
 
 		if (bj == -1) {
 			backjump = texture->getFrameWidth();
@@ -29,20 +31,17 @@ public:
 	}
 
 	void update() override {
-		std::cout << "Position: " << position << std::endl;
 
 		int rightLimit = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - (width - backjump);
 		int leftLimit = -(Game::WINDOW_WIDTH_MARGIN + backjump);
 
 		if (speed.getX() > 0 && position.getX() > rightLimit)
 		{
-			std::cout << "RIGHT LIMIT" << std::endl;
 			position = Point2D<int>(backjump == 0 ? -width : -Game::WINDOW_WIDTH_MARGIN, position.getY());
 		}
 
 		else if (speed.getX() < 0 && position.getX() < leftLimit)
 		{
-			std::cout << "LEFT LIMIT" << std::endl;
 			position = Point2D<int>(backjump == 0 ? Game::WINDOW_WIDTH : Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width, position.getY());
 		}
 

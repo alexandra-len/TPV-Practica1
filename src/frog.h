@@ -16,19 +16,16 @@ class Frog : public SceneObject
 	Vector2D<float> velocity;
 	int hp;
 	Game::Anchor anchor;
-
-	SDL_FRect getRect();
 	void hurt();
+
+	SDL_FRect getBoundingBox() const override;
 
 public:
 	//Constructor
 	Frog(Game* g, Texture* t, Point2D<int> p) : initialPos(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0,0)), hp(3), SceneObject(g, t, p) {}
 
 	//Constructor que carga posicion desde un archivo
-	Frog(Game* g, std::istream& input) : lastDirection(Point2D<int>(0,0)), SceneObject(g) {
-		game = g;
-		texture = game->getTexture(Game::TextureName::FROG);
-
+	Frog(Game* g, std::istream& input) : SceneObject(g, g->getTexture(Game::TextureName::FROG)), lastDirection(Point2D<int>(0, 0)) {
 		// Lee las coordenadas de inicio desde un fichero
 		int x, y, lives;
 		input >> x >> y >> lives;
@@ -40,8 +37,8 @@ public:
 		game->setHP(hp);
 	}
 
-	void render();
-	void update();
+	void render() const override;
+	void update() override;
 	void handleEvent(const SDL_Event&);
 
 	int getHP() const {
@@ -51,4 +48,6 @@ public:
 	void setAnchor(Game::Anchor a) {
 		anchor = a;
 	}
+
+	Collision checkCollision(const SDL_FRect& other) override;
 };

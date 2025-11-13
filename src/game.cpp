@@ -121,6 +121,10 @@ Game::~Game()
 		delete obj;
 	}
 
+	for (auto& n : nests) {
+		delete n;
+	}
+
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
@@ -135,7 +139,7 @@ Game::render() const
 	// Renderiza el fondo
 	getTexture(TextureName::BACKGROUND)->render();
 
-	for (auto& obj : objects) {
+	for (auto* obj : objects) {
 		obj->render();
 	}
 
@@ -183,7 +187,6 @@ Game::run()
 	while (!exit) {
 		// Tiempo al inicio del frame
 		startTime = SDL_GetTicks();
-		cout << "TICK" << endl;
 		exit = checkVictory();
 		handleEvents();
 		update();
