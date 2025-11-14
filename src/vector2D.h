@@ -28,7 +28,12 @@ public:
 		return { x - otro.x, y - otro.y };
 	}
 
-	Vector2D operator*(double d) const;
+	Vector2D operator*(double d) const {
+		Vector2D r;
+		r.x = x * d;
+		r.y = y * d;
+		return r;
+	}
 	T operator*(const Vector2D& d) const;
 
 	bool operator==(const Vector2D& otro) const {

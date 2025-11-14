@@ -26,11 +26,6 @@ struct Collision
 
 // Declaraciones anticipadas
 class Texture;
-//class Log;
-//class Vehicle;
-//class Wasp;
-//class Frog;
-//class HomedFrog;
 class InfoBar;
 class SceneObject;
 
@@ -71,7 +66,7 @@ public:
 
 	static constexpr int VEHICLE_BACKJUMP = 0;
 
-	static constexpr int TIME_LIMIT = 10;
+	static constexpr int TIME_LIMIT = 60;
 
 	enum TextureName
 	{

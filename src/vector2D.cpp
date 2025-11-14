@@ -1,4 +1,4 @@
-﻿#include "vector2D.h"
+#include "vector2D.h"
 
 #include <cmath>
 
@@ -9,14 +9,6 @@ void Vector2D<T>::normalize() {
 		x = x / mag;
 		y = y / mag;
 	}
-}
-
-template<typename T>
-Vector2D<T> Vector2D<T>::operator*(double d) const {
-	Vector2D r;
-	r.x = x * d;
-	r.y = y * d;
-	return r;
 }
 
 template<typename T>

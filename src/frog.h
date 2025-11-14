@@ -12,7 +12,7 @@
 class Frog : public SceneObject
 {
 	Point2D<int> initialPos;
-	Point2D<int> lastDirection;
+	Point2D<int> lastDirection, moveDirection;
 	Vector2D<float> velocity;
 	int hp;
 	Game::Anchor anchor;
@@ -28,7 +28,9 @@ public:
 	Frog(Game* g, std::istream& input) : SceneObject(g, g->getTexture(Game::TextureName::FROG)), lastDirection(Point2D<int>(0, 0)) {
 		// Lee las coordenadas de inicio desde un fichero
 		int x, y, lives;
-		input >> x >> y >> lives;
+		if (!(input >> x >> y >> lives)) {
+			throw "Error reading data";
+		}
 
 		initialPos = position = Point2D<int>(x, y);
 		hp = lives;
@@ -41,8 +43,7 @@ public:
 	void update() override;
 	void handleEvent(const SDL_Event&);
 
-	void onTimeout() override;
-	void loseLife();
+	void onTimeout();
 
 	int getHP() const {
 		return hp;

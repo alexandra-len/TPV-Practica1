@@ -1,9 +1,22 @@
 #include "homedfrog.h"
 #include <SDL3_image/SDL_image.h>
+#include <iostream>
+using namespace std;
 
-void HomedFrog::render() {
-	SDL_FRect destRect = getRect();
-	texture->renderFrame(getRect(), 0, 0);
+void HomedFrog::render() const {
+	if (visible) {
+		SDL_FRect destRect = {
+			position.getX(),
+			position.getY(),
+			(float)width,
+			(float)height
+		};
+		texture->renderFrame(destRect, 0, 0);
+	}
+
+	SDL_FRect collisionBox = getBoundingBox();
+	SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255); // Rojo
+	SDL_RenderRect(game->getRenderer(), &collisionBox);
 }
 
 bool HomedFrog::isHome() const {
@@ -18,7 +31,7 @@ int HomedFrog::getX() const {
 	return position.getX();
 }
 
-SDL_FRect HomedFrog::getRect()
+SDL_FRect HomedFrog::getBoundingBox() const
 {
 	const SDL_FRect destRect = { position.getX(),position.getY(),width, height };
 	return destRect;
@@ -34,6 +47,7 @@ Collision HomedFrog::checkCollision(const SDL_FRect& otherRect) {
 			collision.type = Collision::HOME;
 			visible = true;
 			game->occupyNest();
+			cout << "collided with invisible frog" << endl;
 		}
 		else {
 			collision.type = Collision::ENEMY;

@@ -51,16 +51,17 @@ SDL_FRect Frog::getBoundingBox() const
 //Logica de la rana
 void Frog::update() {
 	// Calcula el desplazamiento
-	Point2D<int> move = Point2D<int>(lastDirection.getX() * width, lastDirection.getY() * Game::TILE_SIZE);
+	Point2D<int> move = moveDirection * Game::TILE_SIZE;
 
 	// Actualiza posición
 	Point2D<int> newPos = position + move + Point2D<int>(round(velocity.getX()), velocity.getY());
 
 	// Si saldrá de los bordes con el siguiente movimiento, no se mueve
-	if (!(position.getX() < 0 || position.getX() +width > Game::WINDOW_WIDTH || position.getY() < 0 || position.getY() + height/2 > Game::WINDOW_HEIGHT)) {
+	if (!(newPos.getX() < 0 || newPos.getX() + width > Game::WINDOW_WIDTH || newPos.getY() < 0 || newPos.getY() + height > Game::WINDOW_HEIGHT)) {
+		//previousPos = position;
 		position = newPos;
 	}
-	// else do nothing
+	moveDirection = Point2D<int>(0, 0);
 
 	Collision collision;
 	collision = game->checkCollision(getBoundingBox());
@@ -93,19 +94,22 @@ void Frog::handleEvent(const SDL_Event& event) {
 
 	// Cambia la dirección en función de la tecla pulsada
 	switch (event.key.key) {
-	case SDLK_UP:
-		lastDirection = Point2D<int>(0, -1);
-		game->playJumpSound();
-		break;
-	case SDLK_DOWN:
-		lastDirection = Point2D<int>(0, 1);
-		break;
-	case SDLK_LEFT:
-		lastDirection = Point2D<int>(-1, 0);
-		break;
-	case SDLK_RIGHT:
-		lastDirection = Point2D<int>(1, 0);
-		break;
+		case SDLK_UP:
+			lastDirection = moveDirection = Point2D<int>(0, -1);
+			game->playJumpSound();
+			break;
+		case SDLK_DOWN:
+			lastDirection = moveDirection = Point2D<int>(0, 1);
+			game->playJumpSound();
+			break;
+		case SDLK_LEFT:
+			lastDirection = moveDirection = Point2D<int>(-1, 0);
+			game->playJumpSound();
+			break;
+		case SDLK_RIGHT:
+			lastDirection = moveDirection = Point2D<int>(1, 0);
+			game->playJumpSound();
+			break;
 	}
 }
 
@@ -120,17 +124,13 @@ void Frog::hurt() {
 	if (hp <= 0) {
 		game->frogDeath();
 	}
+	game->resetTimer();
 }
 
 Collision Frog::checkCollision(const SDL_FRect& other) {
 	return Collision{ Collision::NONE, {0,0} };
 }
 
-void Frog::loseLife() {
-	hurt();
-	game->resetTimer();
-}
-
 void Frog::onTimeout() {
-	loseLife();
+	hurt();
 }

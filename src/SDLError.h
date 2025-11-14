@@ -5,8 +5,6 @@
 class SDLError : public GameError
 {
 public:
-	SDLError() : GameError(SDL_GetError())
-	{
-	}
+	SDLError() : GameError(SDL_GetError()) {}
 };
 

@@ -8,6 +8,7 @@
 #include "game.h"
 #include <string>
 #include <iostream>
+#include "GameError.h"
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -16,8 +17,8 @@ int main(int argc, char* argv[])
 		Game game = Game();
 		game.run();
 	}
-	catch (string& e) {
-		cout << "Error running game: " + e << endl;
+	catch (GameError& e) {
+		cout << "Error running game: " << e.what() << endl;
 	}
 	return 0;
 }

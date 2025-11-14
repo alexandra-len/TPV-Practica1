@@ -12,13 +12,8 @@
 class Wasp : public SceneObject
 {
 	//Atributos privados
-	Game* game;
-	Texture* texture;
-	Point2D<int> position;
 	Vector2D<float> speed;
 	bool lives;
-	int width;
-	int height;
 	int lifetime;
 	int deathTime;
 	int currentTime;
@@ -28,7 +23,7 @@ public:
 	//Constructor de la clase
 	Wasp(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
 		: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true)
-	{	}
+	{}
 
 	//Actualiza el estado de la avispa
 	void update() override;

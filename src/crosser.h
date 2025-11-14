@@ -1,6 +1,7 @@
 #pragma once
 
 #include "sceneobject.h"
+#include <iostream>
 
 class Crosser : public SceneObject
 {
@@ -14,10 +15,19 @@ public:
 	Crosser(Game* g, std::istream& input, int textureNrOffset, int bj = -1) : SceneObject(g) {
 		int textureNr, x, y;
 		float s;
-		input >> x >> y >> s >> textureNr;
+		if (!(input >> x >> y >> s >> textureNr)) {
+			throw "ERROR";
+		}
 
 		position = Point2D<int>(x, y);
 		speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
+
+		int finalTextureIndex = textureNrOffset + textureNr;
+
+		if (finalTextureIndex < 0 || finalTextureIndex >= Game::NUM_TEXTURES) {
+			throw "Invalid texture number";
+		}
+
 		texture = game->getTexture((Game::TextureName)(textureNrOffset + textureNr));
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();

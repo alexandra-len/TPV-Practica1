@@ -169,6 +169,10 @@ Game::render() const
 		obj->render();
 	}
 
+	for (auto* n : nests) {
+		n->render();
+	}
+
 	infoBar->render();
 
 	SDL_RenderPresent(renderer);
@@ -231,6 +235,7 @@ Game::run()
 		handleEvents();
 		update();
 		render();
+		deleteObjects();
 		// Tiempo que tomo el frame
 		frameTime = SDL_GetTicks() - startTime;
 		if (frameTime < FRAME_RATE) {
@@ -286,6 +291,14 @@ Game::checkCollision(const SDL_FRect& rect) const
 		if (col.type != Collision::NONE)
 			return col;
 	}
+	if (col.type != Collision::NONE)
+		return col;
+
+	for (auto& n : nests) {
+		col = n->checkCollision(rect);
+		if (col.type != Collision::NONE)
+			return col;
+	}
 
 	return col;
 }
@@ -301,27 +314,44 @@ void Game::loadMap() {
 	map.open(MAP_FILE);
 
 	if (!map) {
-		throw string("Map file not found");
+		throw FileNotFoundError(MAP_FILE);
 	}
 
-	string c;
-	while (map >> c) {
-		if (c == "#") {
-			map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+	int lineCounter = 1;
+
+	try {
+		string c;
+		while (map >> c) {
+			if (!map) {
+				throw FileFormatError(MAP_FILE, lineCounter);
+			}
+			if (c == "#") {
+				map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
+			else {
+				// Carga vehículos, troncos y la rana según las etiquetas
+				if (c == "V") {
+					objects.push_back(new Vehicle(this, map));
+				}
+				else if (c == "L") {
+					objects.push_back(new Log(this, map));
+				}
+				else if (c == "F") {
+					player = new Frog(this, map);
+					objects.push_back(player);
+				}
+			}
+			lineCounter++;
 		}
-		else {
-			// Carga vehículos, troncos y la rana según las etiquetas
-			if (c == "V") {
-				objects.push_back(new Vehicle(this, map));
-			}
-			else if (c == "L") {
-				objects.push_back(new Log(this, map));
-			}
-			else if (c == "F") {
-				player = new Frog(this, map);
-				objects.push_back(player);
-			}
+	}
+	catch (...) {
+		for (auto* obj : objects) {
+			delete obj;
 		}
+		for (size_t i = 0; i < textures.size(); i++) {
+			delete textures[i];
+		}
+		throw FileFormatError(MAP_FILE, lineCounter);
 	}
 
 }
