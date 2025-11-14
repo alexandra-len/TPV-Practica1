@@ -76,6 +76,7 @@ void Frog::update() {
 			break;
 		case Collision::HOME:
 			position = initialPos;
+			game->resetTimer();
 			break;
 		case Collision::NONE:
 			velocity = Vector2D<float>(0, 0);
@@ -122,4 +123,13 @@ void Frog::hurt() {
 
 Collision Frog::checkCollision(const SDL_FRect& other) {
 	return Collision{ Collision::NONE, {0,0} };
+}
+
+void Frog::loseLife() {
+	hurt();
+	game->resetTimer();
+}
+
+void Frog::onTimeout() {
+	loseLife();
 }

@@ -14,4 +14,6 @@ public:
 
 	virtual void render() const = 0;
 	virtual void update() = 0;
+
+	virtual void onTimeout() {}
 };

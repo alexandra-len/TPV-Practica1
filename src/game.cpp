@@ -15,6 +15,10 @@
 #include "homedfrog.h"
 #include "infobar.h"
 
+#include "SDLError.h"
+#include "FileNotFoundError.h"
+#include "FileFormatError.h"
+
 using namespace std;
 
 // Constantes
@@ -61,12 +65,12 @@ Game::Game()
 	                          0);
 
 	if (window == nullptr)
-		throw "window: "s + SDL_GetError();
+		throw SDLError();
 
 	renderer = SDL_CreateRenderer(window, nullptr);
 
 	if (renderer == nullptr)
-		throw "renderer: "s + SDL_GetError();
+		throw SDLError();
 
 	// Carga las texturas al inicio
 	for (size_t i = 0; i < textures.size(); i++) {
@@ -100,6 +104,9 @@ Game::Game()
 
 	// Inicializa el info bar
 	infoBar = new InfoBar(this, getTexture(TextureName::FROG));
+
+	remainingSeconds = timeLimitSeconds;
+	lastSecondTick = SDL_GetTicks();
 	
 	// Inicializa el tiempo para la aparición de la primera avispa
 	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
@@ -158,6 +165,20 @@ Game::update()
 
 	infoBar->update();
 
+	Uint32 now = SDL_GetTicks();
+	if (now - lastSecondTick >= 1000) {
+
+		int secsPassed = (now - lastSecondTick) / 1000;
+		remainingSeconds -= secsPassed;
+		lastSecondTick += secsPassed * 1000;
+
+		if (remainingSeconds <= 0) {
+			player->onTimeout();
+			resetTimer();
+		}
+
+		std::cout << "Tiempo restante: " << remainingSeconds << std::endl;
+	}
 	// Obtiene el tiempo actual
 	currentTime = SDL_GetTicks();
 
@@ -291,4 +312,12 @@ bool Game::checkVictory() {
 		nestsFull = true;
 	}
 	return deadFrog || nestsFull;
+}
+
+void Game::resetTimer() {
+	remainingSeconds = timeLimitSeconds;
+	lastSecondTick = SDL_GetTicks();
+	std::cout << "[Timer] reset to " << remainingSeconds << std::endl;
+
+	// if (infoBar) infoBar->setTimeRemaining(remainingSeconds);
 }

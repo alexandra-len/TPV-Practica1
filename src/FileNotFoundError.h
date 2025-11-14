@@ -5,6 +5,6 @@
 class FileNotFoundError: public GameError
 {
 public:
-    FileNotFoundError(const std::string& filename) : GameError("Archivo no encontrado: " + filename) {}
+    FileNotFoundError(const std::string& filename) : GameError(std::string("Archivo no encontrado: ") + filename) {}
 };
 

@@ -71,6 +71,8 @@ public:
 
 	static constexpr int VEHICLE_BACKJUMP = 0;
 
+	static constexpr int TIME_LIMIT = 10;
+
 	enum TextureName
 	{
 		FROG = 0,
@@ -112,6 +114,9 @@ private:
 	int frogHP;
 	
 
+	int timeLimitSeconds = TIME_LIMIT;
+	int remainingSeconds = TIME_LIMIT;
+	Uint32 lastSecondTick = 0;
 
 	void render() const;
 	void update();
@@ -121,6 +126,7 @@ private:
 	bool checkVictory();
 
 	bool deadFrog = false, nestsFull = false, exit = false;
+
 
 public:
 	Game(); // Constructor
@@ -161,6 +167,13 @@ public:
 
 	SDL_Renderer* getRenderer() {
 		return renderer;
+	}
+
+	void resetTimer();
+
+	int getRemainingSeconds() const 
+	{ 
+		return remainingSeconds;
 	}
 };
 

@@ -41,6 +41,9 @@ public:
 	void update() override;
 	void handleEvent(const SDL_Event&);
 
+	void onTimeout() override;
+	void loseLife();
+
 	int getHP() const {
 		return hp;
 	}

@@ -95,8 +95,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="crosser.cpp" />
+    <ClCompile Include="FileFormatError.cpp" />
+    <ClCompile Include="FileNotFoundError.cpp" />
     <ClCompile Include="frog.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="GameError.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="homedfrog.cpp" />
     <ClCompile Include="infobar.cpp" />
@@ -104,6 +107,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="platform.cpp" />
     <ClCompile Include="sceneobject.cpp" />
+    <ClCompile Include="SDLError.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="turtlegroup.cpp" />
     <ClCompile Include="vector2D.cpp" />
@@ -112,14 +116,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="crosser.h" />
+    <ClInclude Include="FileFormatError.h" />
+    <ClInclude Include="FileNotFoundError.h" />
     <ClInclude Include="frog.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="GameError.h" />
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="homedfrog.h" />
     <ClInclude Include="infobar.h" />
     <ClInclude Include="log.h" />
     <ClInclude Include="platform.h" />
     <ClInclude Include="sceneobject.h" />
+    <ClInclude Include="SDLError.h" />
     <ClInclude Include="texture.h" />
     <ClInclude Include="turtlegroup.h" />
     <ClInclude Include="vector2D.h" />
