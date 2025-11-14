@@ -57,7 +57,7 @@ Game::Game()
   : exit(false)
 {
 	// Carga SDL y sus bibliotecas auxiliares
-	SDL_Init(SDL_INIT_VIDEO);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
 	window = SDL_CreateWindow(WINDOW_TITLE,
 	                          WINDOW_WIDTH,
@@ -72,6 +72,17 @@ Game::Game()
 	if (renderer == nullptr)
 		throw SDLError();
 
+	const char* jumpPath = "../assets/sounds/jump.wav";
+
+	if (!SDL_LoadWAV(jumpPath, &jumpSpec, &jumpData, &jumpDataLen)) {
+		throw SDLError();
+	}
+
+	jumpStream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &jumpSpec, nullptr, nullptr);
+	if (!jumpStream) {
+		SDL_free(jumpData);
+		throw SDLError();
+	}
 	// Carga las texturas al inicio
 	for (size_t i = 0; i < textures.size(); i++) {
 		auto [name, nrows, ncols] = textureList[i];
@@ -134,6 +145,14 @@ Game::~Game()
 
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
+	}
+	if (jumpStream) {
+		SDL_DestroyAudioStream(jumpStream);
+		jumpStream = nullptr;
+	}
+	if (jumpData) {
+		SDL_free(jumpData);
+		jumpData = nullptr;
 	}
 }
 
@@ -320,4 +339,15 @@ void Game::resetTimer() {
 	std::cout << "[Timer] reset to " << remainingSeconds << std::endl;
 
 	// if (infoBar) infoBar->setTimeRemaining(remainingSeconds);
+}
+
+void Game::playJumpSound() {
+	if (!jumpStream || !jumpData) return;
+
+	if (!SDL_PutAudioStreamData(jumpStream, jumpData, static_cast<int>(jumpDataLen))) {
+		SDL_Log("SDL_PutAudioStreamData failed:", SDL_GetError());
+		return;
+	}
+
+	SDL_ResumeAudioStreamDevice(jumpStream);
 }

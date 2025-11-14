@@ -175,6 +175,13 @@ public:
 	{ 
 		return remainingSeconds;
 	}
+
+	SDL_AudioStream* jumpStream = nullptr;
+	Uint8* jumpData = nullptr;
+	Uint32 jumpDataLen = 0;
+	SDL_AudioSpec jumpSpec{};
+
+	void playJumpSound();
 };
 
 // Implementacion inline de getTexture

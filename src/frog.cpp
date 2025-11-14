@@ -95,6 +95,7 @@ void Frog::handleEvent(const SDL_Event& event) {
 	switch (event.key.key) {
 	case SDLK_UP:
 		lastDirection = Point2D<int>(0, -1);
+		game->playJumpSound();
 		break;
 	case SDLK_DOWN:
 		lastDirection = Point2D<int>(0, 1);
