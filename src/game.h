@@ -119,6 +119,7 @@ private:
 	void handleEvents();
 	void loadMap();
 	bool checkVictory();
+	void restartGame();
 
 	bool deadFrog = false, nestsFull = false, exit = false;
 

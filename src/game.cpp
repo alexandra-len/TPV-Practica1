@@ -274,10 +274,20 @@ Game::handleEvents()
 		if (event.type == SDL_EVENT_QUIT) {
 			exit = true;
 		}
-		else if (event.type == SDL_EVENT_KEY_DOWN) {
-			// Pasa el evento a la rana
-			dynamic_cast<Frog*>(player)->handleEvent(event);
+		else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_0) {
+			const SDL_MessageBoxButtonData buttons[] = {
+				{SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancelar"},
+				{0, 1, "Reiniciar"},
+			};
+			SDL_MessageBoxData boxData = {SDL_MESSAGEBOX_INFORMATION,window,"Reinicar juego","Quieres reiniciar el juego?",2,buttons
+			};
+			int button;
+			SDL_ShowMessageBox(&boxData, &button);
+			if (button == 1) {
+				restartGame();
+			}
 		}
+		dynamic_cast<Frog*>(player)->handleEvent(event);
 	}
 }
 
@@ -381,3 +391,32 @@ void Game::playJumpSound() {
 
 	SDL_ResumeAudioStreamDevice(jumpStream);
 }
+
+void Game::restartGame()
+{
+	for (auto* obj : objects) {
+		delete obj;
+	}objects.clear();
+
+	for (auto* n : nests) {
+		delete n;
+	}
+	nests.clear();
+	nestsOccupied = 0;
+
+	delete infoBar;
+
+	for (int i = 0; i < NEST_NR; i++) {
+		nests.push_back(new HomedFrog(this,getTexture(TextureName::FROG),Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i,NEST_FROG_Y)));
+	}
+
+	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
+	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
+
+	infoBar = new InfoBar(this, getTexture(TextureName::FROG));
+
+	//render();
+	loadMap();
+	/*loadMap();*/
+}
+
