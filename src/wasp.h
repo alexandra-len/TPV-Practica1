@@ -33,5 +33,5 @@ public:
 		anchor = a;
 	}
 	//Comprueba si la avispa colisiona con la rana
-	Collision checkCollision(const SDL_FRect&);
+	Collision checkCollision(const SDL_FRect&) override;
 };

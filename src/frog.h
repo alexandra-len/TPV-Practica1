@@ -5,6 +5,7 @@
 #include "vector2D.h"
 #include "homedfrog.h"
 #include "sceneobject.h"
+#include "FileFormatError.h"
 
 /**
 * Clase que representa la rana controlada por el jugador
@@ -29,7 +30,7 @@ public:
 		// Lee las coordenadas de inicio desde un fichero
 		int x, y, lives;
 		if (!(input >> x >> y >> lives)) {
-			throw "Error reading data";
+			throw FileFormatError(MAP_FILE);
 		}
 
 		initialPos = position = Point2D<int>(x, y);
@@ -43,7 +44,7 @@ public:
 	void update() override;
 	void handleEvent(const SDL_Event&);
 
-	void onTimeout();
+	void onTimeEnd();
 
 	int getHP() const {
 		return hp;

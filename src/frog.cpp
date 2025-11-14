@@ -34,9 +34,9 @@ void Frog::render() const {
 		}
 		else texture->renderFrame(destRect, 0, 0);
 
-		SDL_FRect collisionBox = getBoundingBox();
-		SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255); // Rojo
-		SDL_RenderRect(game->getRenderer(), &collisionBox);
+		//SDL_FRect collisionBox = getBoundingBox();
+		//SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255); // Rojo
+		//SDL_RenderRect(game->getRenderer(), &collisionBox);
 	}
 }
 
@@ -131,6 +131,6 @@ Collision Frog::checkCollision(const SDL_FRect& other) {
 	return Collision{ Collision::NONE, {0,0} };
 }
 
-void Frog::onTimeout() {
+void Frog::onTimeEnd() {
 	hurt();
 }

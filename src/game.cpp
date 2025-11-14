@@ -4,6 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <filesystem>
+#include <format>
 
 #include <SDL3_image/SDL_image.h>
 
@@ -14,6 +15,7 @@
 #include "frog.h"
 #include "homedfrog.h"
 #include "infobar.h"
+#include "turtlegroup.h"
 
 #include "SDLError.h"
 #include "FileNotFoundError.h"
@@ -21,9 +23,7 @@
 
 using namespace std;
 
-// Constantes
-constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
-constexpr const char* const MAP_FILE = "../assets/maps/default.txt";
+
 
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
@@ -49,8 +49,8 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"car5.png"},
 	{"log1.png"},
 	{"log2.png"},
-	{"wasp.png"}
-
+	{"wasp.png"},
+	{"turtle.png", 1, 7}
 };
 
 Game::Game()
@@ -87,7 +87,7 @@ Game::Game()
 	for (size_t i = 0; i < textures.size(); i++) {
 		auto [name, nrows, ncols] = textureList[i];
 		if (!(filesystem::exists(string(imgBase) + name))) {
-			throw string("Image file invalid or does not exist.");
+			throw FileNotFoundError(MAP_FILE);
 		}
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
@@ -96,20 +96,15 @@ Game::Game()
 	randomGenerator = std::mt19937(std::time(nullptr));
 
 	// Cargar el mapa
-	try {
-		loadMap();
-	}
-	catch (string& e) {
-		for (auto t : textures) {
-			delete t;
-		}
-		throw e;
+	loadMap();
 
-	}
-
+	HomedFrog* nest;
 	// Crea los nidos
 	for (int i = 0; i < NEST_NR; i++) {
-		nests.push_back(new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y)));
+		nest = new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
+		nests.push_back(nest);
+		objects.push_back(nest);
+
 	}
 	nestsOccupied = 0;
 
@@ -139,10 +134,6 @@ Game::~Game()
 		delete obj;
 	}
 
-	for (auto& n : nests) {
-		delete n;
-	}
-
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
@@ -169,10 +160,6 @@ Game::render() const
 		obj->render();
 	}
 
-	for (auto* n : nests) {
-		n->render();
-	}
-
 	infoBar->render();
 
 	SDL_RenderPresent(renderer);
@@ -196,7 +183,7 @@ Game::update()
 		lastSecondTick += secsPassed * 1000;
 
 		if (remainingSeconds <= 0) {
-			player->onTimeout();
+			static_cast<Frog*>(player)->onTimeEnd();
 			resetTimer();
 		}
 
@@ -211,7 +198,7 @@ Game::update()
 		// Elige un nido aleatorio que no esté ocupado
 		do {
 			nestNr = getRandomRange(0, NEST_NR - 1);
-		} while (dynamic_cast<HomedFrog*>(nests[nestNr])->isHome());
+		} while (static_cast<HomedFrog*>(nests[nestNr])->isHome());
 
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
 		Wasp* newWasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
@@ -289,7 +276,7 @@ Game::handleEvents()
 				}
 			}
 			else {
-				dynamic_cast<Frog*>(player)->handleEvent(event);
+				static_cast<Frog*>(player)->handleEvent(event);
 			}
 		}
 	}
@@ -350,6 +337,9 @@ void Game::loadMap() {
 				else if (c == "L") {
 					objects.push_back(new Log(this, map));
 				}
+				else if (c == "T") {
+					objects.push_back(new TurtleGroup(this, map));
+				}
 				else if (c == "F") {
 					player = new Frog(this, map);
 					objects.push_back(player);
@@ -388,8 +378,9 @@ void Game::resetTimer() {
 void Game::playJumpSound() {
 	if (!jumpStream || !jumpData) return;
 
-	if (!SDL_PutAudioStreamData(jumpStream, jumpData, static_cast<int>(jumpDataLen))) {
-		SDL_Log("SDL_PutAudioStreamData failed:", SDL_GetError());
+	if (!SDL_PutAudioStreamData(jumpStream, jumpData, (int)jumpDataLen)) {
+		std::string log = "SDL_PutAudioStreamData failed: " +  (string)SDL_GetError();
+		SDL_Log(log.c_str());
 		return;
 	}
 

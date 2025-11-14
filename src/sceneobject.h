@@ -28,9 +28,9 @@ public:
 			texture->render(destRect);
 		}
 
-		SDL_FRect collisionBox = getBoundingBox();
-		SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255); // Rojo
-		SDL_RenderRect(game->getRenderer(), &collisionBox);
+		//SDL_FRect collisionBox = getBoundingBox();
+		//SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255); // Rojo
+		//SDL_RenderRect(game->getRenderer(), &collisionBox);
 	}
 
 	void update() override {};

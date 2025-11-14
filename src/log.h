@@ -17,7 +17,5 @@ public:
 	Log(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s, t->getFrameWidth()) {};
 
 	Log(Game* g, std::istream& input) : Platform(g, input, Game::LOG1_TEXTURE_NR) {};
-
-	Collision checkCollision(const SDL_FRect& otherRect);
 };
 

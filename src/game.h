@@ -10,6 +10,10 @@
 #include "vector2D.h"
 #include "texture.h"
 
+// Constantes
+constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
+constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
+
 // Estructura que representa una colisión
 struct Collision
 {
@@ -28,6 +32,8 @@ struct Collision
 class Texture;
 class InfoBar;
 class SceneObject;
+class Frog;
+class HomedFrog;
 
 /**
  * Clase principal del juego.
@@ -60,9 +66,14 @@ public:
 
 	static constexpr int TILE_SIZE = 32;
 	static constexpr int FROG_COLLISION_MARGIN = 8;
+	static constexpr int LOW_MARGIN = 36;
 
 	static constexpr int LOG1_TEXTURE_NR = 7;
 	static constexpr int VEHICLE1_TEXTURE_NR = 1;
+
+	static constexpr int TURTLE_SINK_RATE = 225;
+	static constexpr int TURTLE_SINK_FRAMES = 7;
+	static constexpr int TURTLE_STATIC_FRAMES = 2;
 
 	static constexpr int VEHICLE_BACKJUMP = 0;
 
@@ -80,6 +91,7 @@ public:
 		LOG1,
 		LOG2,
 		WASP,
+		TURTLES,
 		NUM_TEXTURES
 	};
 
@@ -91,8 +103,8 @@ private:
 
 	std::list<SceneObject*> objects;
 	std::vector<Anchor> objToDelete;
-	std::vector<SceneObject*> nests;
-	SceneObject* player;
+	std::vector<HomedFrog*> nests;
+	Frog* player;
 	InfoBar* infoBar;
 
 	// Posiciones predefinidas para las avispas
@@ -110,8 +122,13 @@ private:
 	
 
 	int timeLimitSeconds = TIME_LIMIT;
-	int remainingSeconds = TIME_LIMIT;
+	int remainingSeconds;
 	Uint32 lastSecondTick = 0;
+
+	SDL_AudioStream* jumpStream = nullptr;
+	Uint8* jumpData = nullptr;
+	Uint32 jumpDataLen = 0;
+	SDL_AudioSpec jumpSpec{};
 
 	void render() const;
 	void update();
@@ -153,7 +170,7 @@ public:
 		frogHP = lives;
 	}
 
-	int getHP() {
+	int getHP() const {
 		return frogHP;
 	}
 
@@ -167,17 +184,11 @@ public:
 
 	void resetTimer();
 
-	int getRemainingSeconds() const 
-	{ 
+	void playJumpSound();
+
+	int getRemainingSeconds() const {
 		return remainingSeconds;
 	}
-
-	SDL_AudioStream* jumpStream = nullptr;
-	Uint8* jumpData = nullptr;
-	Uint32 jumpDataLen = 0;
-	SDL_AudioSpec jumpSpec{};
-
-	void playJumpSound();
 };
 
 // Implementacion inline de getTexture

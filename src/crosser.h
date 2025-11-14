@@ -1,12 +1,14 @@
 #pragma once
 
 #include "sceneobject.h"
+#include "FileFormatError.h"
 #include <iostream>
 
 class Crosser : public SceneObject
 {
 public: 
 	Crosser() {};
+	Crosser(Game* g) : SceneObject(g) {};
 	Crosser(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s, int bj) : SceneObject(g, t, p), speed(s) {
 		// La velocidad ajustada al frame rate
 		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
@@ -16,7 +18,7 @@ public:
 		int textureNr, x, y;
 		float s;
 		if (!(input >> x >> y >> s >> textureNr)) {
-			throw "ERROR";
+			throw FileFormatError(MAP_FILE);
 		}
 
 		position = Point2D<int>(x, y);
@@ -25,10 +27,10 @@ public:
 		int finalTextureIndex = textureNrOffset + textureNr;
 
 		if (finalTextureIndex < 0 || finalTextureIndex >= Game::NUM_TEXTURES) {
-			throw "Invalid texture number";
+			throw FileFormatError(MAP_FILE);
 		}
 
-		texture = game->getTexture((Game::TextureName)(textureNrOffset + textureNr));
+		texture = game->getTexture((Game::TextureName)(finalTextureIndex));
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 

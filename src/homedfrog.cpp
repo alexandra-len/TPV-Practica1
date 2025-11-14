@@ -14,9 +14,9 @@ void HomedFrog::render() const {
 		texture->renderFrame(destRect, 0, 0);
 	}
 
-	SDL_FRect collisionBox = getBoundingBox();
-	SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255); // Rojo
-	SDL_RenderRect(game->getRenderer(), &collisionBox);
+	//SDL_FRect collisionBox = getBoundingBox();
+	//SDL_SetRenderDrawColor(game->getRenderer(), 255, 0, 0, 255); // Rojo
+	//SDL_RenderRect(game->getRenderer(), &collisionBox);
 }
 
 bool HomedFrog::isHome() const {

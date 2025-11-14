@@ -1,1 +1,57 @@
 #include "turtlegroup.h"
+
+void TurtleGroup::render() const {
+	if (texture != nullptr) {
+		for (int i = 0; i < numTurtles; i++) {
+			SDL_FRect rect = {
+				position.getX() + i * width,
+				position.getY(),
+				width,
+				height
+			};
+
+			if (sinks) {
+				texture->renderFrame(rect, 0, (SDL_GetTicks() / Game::TURTLE_SINK_RATE) % Game::TURTLE_SINK_FRAMES);
+			}
+			else {
+				texture->renderFrame(rect, 0, (SDL_GetTicks() / Game::TURTLE_SINK_RATE) % Game::TURTLE_STATIC_FRAMES);
+			}
+		}
+	}
+}
+
+void TurtleGroup::update() {
+	if (sinks) {
+		frame = (SDL_GetTicks() / Game::TURTLE_SINK_RATE) % Game::TURTLE_SINK_FRAMES;
+	}
+	
+	int rightLimit = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN;
+	int leftLimit = -Game::WINDOW_WIDTH_MARGIN - width * numTurtles;
+
+	if (speed.getX() > 0 && position.getX() > rightLimit)
+	{
+		position = Point2D<int>(-Game::WINDOW_WIDTH_MARGIN, position.getY());
+	}
+
+	else if (speed.getX() < 0 && position.getX() < leftLimit)
+	{
+		position = Point2D<int>(Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width * numTurtles, position.getY());
+	}
+
+	else {
+		position = Point2D<int>(round(position.getX() + speed.getX()), position.getY());
+	}
+}
+
+SDL_FRect TurtleGroup::getBoundingBox() const {
+	if (texture != nullptr && (frame <= 5 || !sinks)) {
+		SDL_FRect rect = {
+			position.getX(),
+			position.getY(),
+			width * numTurtles,
+			height
+		};
+		return rect;
+	}
+	else return SDL_FRect{ 0, 0, 0, 0 };
+}
