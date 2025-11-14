@@ -274,20 +274,24 @@ Game::handleEvents()
 		if (event.type == SDL_EVENT_QUIT) {
 			exit = true;
 		}
-		else if (event.type == SDL_EVENT_KEY_DOWN && event.key.key == SDLK_0) {
-			const SDL_MessageBoxButtonData buttons[] = {
-				{SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancelar"},
-				{0, 1, "Reiniciar"},
-			};
-			SDL_MessageBoxData boxData = {SDL_MESSAGEBOX_INFORMATION,window,"Reinicar juego","Quieres reiniciar el juego?",2,buttons
-			};
-			int button;
-			SDL_ShowMessageBox(&boxData, &button);
-			if (button == 1) {
-				restartGame();
+		else if (event.type == SDL_EVENT_KEY_DOWN) {
+			if (event.key.key == SDLK_0) {
+				const SDL_MessageBoxButtonData buttons[] = {
+					{SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancelar"},
+					{0, 1, "Reiniciar"},
+				};
+				SDL_MessageBoxData boxData = { SDL_MESSAGEBOX_INFORMATION,window,"Reinicar juego","Quieres reiniciar el juego?",2,buttons
+				};
+				int button;
+				SDL_ShowMessageBox(&boxData, &button);
+				if (button == 1) {
+					restartGame();
+				}
+			}
+			else {
+				dynamic_cast<Frog*>(player)->handleEvent(event);
 			}
 		}
-		dynamic_cast<Frog*>(player)->handleEvent(event);
 	}
 }
 
@@ -415,8 +419,6 @@ void Game::restartGame()
 
 	infoBar = new InfoBar(this, getTexture(TextureName::FROG));
 
-	//render();
 	loadMap();
-	/*loadMap();*/
 }
 
