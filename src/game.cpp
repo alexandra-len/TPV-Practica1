@@ -74,15 +74,18 @@ Game::Game()
 
 	const char* jumpPath = "../assets/sounds/jump.wav";
 
+	// Carga el archivo WAV
 	if (!SDL_LoadWAV(jumpPath, &jumpSpec, &jumpData, &jumpDataLen)) {
 		throw SDLError();
 	}
 
+	// Crea audio stream basado en el formato del WAV cargado
 	jumpStream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &jumpSpec, nullptr, nullptr);
 	if (!jumpStream) {
 		SDL_free(jumpData);
 		throw SDLError();
 	}
+
 	// Carga las texturas al inicio
 	for (size_t i = 0; i < textures.size(); i++) {
 		auto [name, nrows, ncols] = textureList[i];
@@ -368,31 +371,39 @@ bool Game::checkVictory() {
 }
 
 void Game::resetTimer() {
+	// Restablece segundos disponibles al valor inicial
 	remainingSeconds = timeLimitSeconds;
+	// Guarda el tick actual para el proximo segundo
 	lastSecondTick = SDL_GetTicks();
 	std::cout << "[Timer] reset to " << remainingSeconds << std::endl;
 
 	// if (infoBar) infoBar->setTimeRemaining(remainingSeconds);
 }
 
+//Reproducir sonido del salto
 void Game::playJumpSound() {
 	if (!jumpStream || !jumpData) return;
 
+	//Vacia el buffer del audio stream
+	SDL_ClearAudioStream(jumpStream);
+
+	// Inserta los datos del sonido del salto en el stream
 	if (!SDL_PutAudioStreamData(jumpStream, jumpData, (int)jumpDataLen)) {
 		std::string log = "SDL_PutAudioStreamData failed: " +  (string)SDL_GetError();
 		SDL_Log(log.c_str());
 		return;
 	}
-
+	// Indica al dispositivo de audio que reanude la reproduccion
 	SDL_ResumeAudioStreamDevice(jumpStream);
 }
 
 void Game::restartGame()
 {
+	// Borrar todos los objetos del juego
 	for (auto* obj : objects) {
 		delete obj;
 	}objects.clear();
-
+	// Borrar y recrear los nidos
 	for (auto* n : nests) {
 		delete n;
 	}
@@ -401,6 +412,7 @@ void Game::restartGame()
 
 	delete infoBar;
 
+	// Crear de nuevo los nidos
 	for (int i = 0; i < NEST_NR; i++) {
 		nests.push_back(new HomedFrog(this,getTexture(TextureName::FROG),Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i,NEST_FROG_Y)));
 	}
