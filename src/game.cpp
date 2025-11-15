@@ -72,10 +72,8 @@ Game::Game()
 	if (renderer == nullptr)
 		throw SDLError();
 
-	const char* jumpPath = "../assets/sounds/jump.wav";
-
 	// Carga el archivo WAV
-	if (!SDL_LoadWAV(jumpPath, &jumpSpec, &jumpData, &jumpDataLen)) {
+	if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {
 		throw SDLError();
 	}
 
@@ -186,7 +184,7 @@ Game::update()
 		lastSecondTick += secsPassed * 1000;
 
 		if (remainingSeconds <= 0) {
-			static_cast<Frog*>(player)->onTimeEnd();
+			player->onTimeEnd();
 			resetTimer();
 		}
 
@@ -201,7 +199,7 @@ Game::update()
 		// Elige un nido aleatorio que no esté ocupado
 		do {
 			nestNr = getRandomRange(0, NEST_NR - 1);
-		} while (static_cast<HomedFrog*>(nests[nestNr])->isHome());
+		} while (nests[nestNr]->isHome());
 
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
 		Wasp* newWasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
@@ -279,7 +277,7 @@ Game::handleEvents()
 				}
 			}
 			else {
-				static_cast<Frog*>(player)->handleEvent(event);
+				player->handleEvent(event);
 			}
 		}
 	}

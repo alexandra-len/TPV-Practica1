@@ -13,6 +13,7 @@
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
 constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
+constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
 
 // Estructura que representa una colisión
 struct Collision
