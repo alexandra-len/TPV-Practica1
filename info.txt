@@ -3,7 +3,7 @@ Alexandra Lenta
 Zhiyi Zhou
 
 Reiniciar Partida:
-- Que aparezca un cuadro de dialogo de confirmación usando SDL_ShowMessageBox
+- Aparece un cuadro de dialogo de confirmación usando SDL_ShowMessageBox
 
 Opcionales hechas:
 - InfoBar con las vidas de las ranas

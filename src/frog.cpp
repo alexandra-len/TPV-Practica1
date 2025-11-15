@@ -57,8 +57,7 @@ void Frog::update() {
 	Point2D<int> newPos = position + move + Point2D<int>(round(velocity.getX()), velocity.getY());
 
 	// Si saldrá de los bordes con el siguiente movimiento, no se mueve
-	if (!(newPos.getX() < 0 || newPos.getX() + width > Game::WINDOW_WIDTH || newPos.getY() < 0 || newPos.getY() + height > Game::WINDOW_HEIGHT)) {
-		//previousPos = position;
+	if (!(newPos.getX() < 0 || newPos.getX() > Game::WINDOW_WIDTH - Game::TILE_SIZE || newPos.getY() < 0 || newPos.getY() > Game::WINDOW_HEIGHT - Game::TILE_SIZE*2)) {
 		position = newPos;
 	}
 	moveDirection = Point2D<int>(0, 0);
