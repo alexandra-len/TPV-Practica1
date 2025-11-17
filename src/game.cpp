@@ -401,19 +401,21 @@ void Game::restartGame()
 	for (auto* obj : objects) {
 		delete obj;
 	}objects.clear();
-	// Borrar y recrear los nidos
-	for (auto* n : nests) {
-		delete n;
-	}
+
 	nests.clear();
 	nestsOccupied = 0;
 
 	delete infoBar;
 
-	// Crear de nuevo los nidos
+	HomedFrog* nest;
+	// Crea los nidos
 	for (int i = 0; i < NEST_NR; i++) {
-		nests.push_back(new HomedFrog(this,getTexture(TextureName::FROG),Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i,NEST_FROG_Y)));
+		nest = new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
+		nests.push_back(nest);
+		objects.push_back(nest);
+
 	}
+	nestsOccupied = 0;
 
 	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
@@ -421,5 +423,7 @@ void Game::restartGame()
 	infoBar = new InfoBar(this, getTexture(TextureName::FROG));
 
 	loadMap();
+
+	resetTimer();
 }
 
