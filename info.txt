@@ -6,7 +6,12 @@ Reiniciar Partida:
 - Aparece un cuadro de dialogo de confirmación usando SDL_ShowMessageBox
 
 Opcionales hechas:
+1ra Practica:
+- InfoBar con las vidas de las ranas
+
+2da Practica
 - temporizador de 60 segundos
-- InfoBar con las vidas de las ranas (hecha en la primera practica)
-- InfoBar con una barra de tiempo
+- InfoBar con una barra de tiempo 
 - añadir sonido al salto
+
+3ra Practica:
