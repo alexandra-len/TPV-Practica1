@@ -94,18 +94,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="button.cpp" />
     <ClCompile Include="crosser.cpp" />
+    <ClCompile Include="endState.cpp" />
+    <ClCompile Include="eventHandler.cpp" />
     <ClCompile Include="FileFormatError.cpp" />
     <ClCompile Include="FileNotFoundError.cpp" />
     <ClCompile Include="frog.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="GameError.cpp" />
     <ClCompile Include="gameobject.cpp" />
+    <ClCompile Include="gameState.cpp" />
+    <ClCompile Include="gameStateMachine.cpp" />
     <ClCompile Include="homedfrog.cpp" />
     <ClCompile Include="infobar.cpp" />
+    <ClCompile Include="label.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="mainMenuState.cpp" />
+    <ClCompile Include="pauseState.cpp" />
     <ClCompile Include="platform.cpp" />
+    <ClCompile Include="playState.cpp" />
     <ClCompile Include="sceneobject.cpp" />
     <ClCompile Include="SDLError.cpp" />
     <ClCompile Include="texture.cpp" />
@@ -115,17 +124,27 @@
     <ClCompile Include="wasp.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="button.h" />
     <ClInclude Include="crosser.h" />
+    <ClInclude Include="endState.h" />
+    <ClInclude Include="eventHandler.h" />
     <ClInclude Include="FileFormatError.h" />
     <ClInclude Include="FileNotFoundError.h" />
     <ClInclude Include="frog.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="GameError.h" />
     <ClInclude Include="gameobject.h" />
+    <ClInclude Include="gameState.h" />
+    <ClInclude Include="gameStateMachine.h" />
     <ClInclude Include="homedfrog.h" />
     <ClInclude Include="infobar.h" />
+    <ClInclude Include="label.h" />
     <ClInclude Include="log.h" />
+    <ClInclude Include="mainMenuState.h" />
+    <ClInclude Include="pauseState.h" />
     <ClInclude Include="platform.h" />
+    <ClInclude Include="playState.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="sceneobject.h" />
     <ClInclude Include="SDLError.h" />
     <ClInclude Include="texture.h" />
@@ -133,6 +152,9 @@
     <ClInclude Include="vector2D.h" />
     <ClInclude Include="vehicle.h" />
     <ClInclude Include="wasp.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
