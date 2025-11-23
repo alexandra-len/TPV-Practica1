@@ -138,3 +138,142 @@ PlayState::update()
 		waspDestructionTime = currentTime + timeUntilWasp;
 	}
 }
+
+void PlayState::handleEvent(const SDL_Event& event)
+{
+	if (event.type == SDL_EVENT_KEY_DOWN) {
+		if (event.key.key == SDLK_0) {
+			const SDL_MessageBoxButtonData buttons[] = {
+				{SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancelar"},
+				{0, 1, "Reiniciar"},
+			};
+			SDL_MessageBoxData boxData = { SDL_MESSAGEBOX_INFORMATION,window,"Reinicar juego","Quieres reiniciar el juego?",2,buttons
+			};
+			int button;
+			SDL_ShowMessageBox(&boxData, &button);
+			if (button == 1) {
+				restartGame();
+			}
+		}
+		else {
+			player->handleEvent(event);
+		}
+	}
+}
+
+void PlayState::deleteObjects() {
+	for (Anchor& obj : objToDelete) {
+		delete* obj;
+		objects.erase(obj);
+	}
+
+	objToDelete = std::vector<Anchor>();
+}
+
+int PlayState::getRandomRange(int min, int max) {
+	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
+}
+
+Collision PlayState::checkCollision(const SDL_FRect& rect)const
+{
+	Collision col{ Collision::NONE, {0,0} };
+
+	for (const auto& obj : objects) {
+		col = obj->checkCollision(rect);
+		if (col.type != Collision::NONE)
+			return col;
+	}
+	if (col.type != Collision::NONE)
+		return col;
+
+	for (auto& n : nests) {
+		col = n->checkCollision(rect);
+		if (col.type != Collision::NONE)
+			return col;
+	}
+
+	return col;
+}
+
+void PlayState::loadMap() {
+	ifstream map;
+	map.open(MAP_FILE);
+
+	if (!map) {
+		throw FileNotFoundError(MAP_FILE);
+	}
+
+	int lineCounter = 1;
+
+	try {
+		string c;
+		while (map >> c) {
+			if (!map) {
+				throw FileFormatError(MAP_FILE, lineCounter);
+			}
+			if (c == "#") {
+				map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			}
+			else {
+				// Carga vehículos, troncos y la rana según las etiquetas
+				if (c == "V") {
+					objects.push_back(new Vehicle(this, map));
+				}
+				else if (c == "L") {
+					objects.push_back(new Log(this, map));
+				}
+				else if (c == "T") {
+					objects.push_back(new TurtleGroup(this, map));
+				}
+				else if (c == "F") {
+					player = new Frog(this, map);
+					objects.push_back(player);
+				}
+			}
+			lineCounter++;
+		}
+	}
+	catch (...) {
+		for (auto* obj : objects) {
+			delete obj;
+		}
+		for (size_t i = 0; i < textures.size(); i++) {
+			delete textures[i];
+		}
+		throw FileFormatError(MAP_FILE, lineCounter);
+	}
+}
+
+
+void PlayState::resetTimer() {
+	// Restablece segundos disponibles al valor inicial
+	remainingSeconds = timeLimitSeconds;
+	// Guarda el tick actual para el proximo segundo
+	lastSecondTick = SDL_GetTicks();
+	std::cout << "[Timer] reset to " << remainingSeconds << std::endl;
+
+	// if (infoBar) infoBar->setTimeRemaining(remainingSeconds);
+}
+
+bool PlayState::checkVictory() {
+	if (nestsOccupied == NEST_NR) {
+		nestsFull = true;
+	}
+	return deadFrog || nestsFull;
+}
+
+void PlayState::playJumpSound() {
+	if (!jumpStream || !jumpData) return;
+
+	//Vacia el buffer del audio stream
+	SDL_ClearAudioStream(jumpStream);
+
+	// Inserta los datos del sonido del salto en el stream
+	if (!SDL_PutAudioStreamData(jumpStream, jumpData, (int)jumpDataLen)) {
+		std::string log = "SDL_PutAudioStreamData failed: " + (string)SDL_GetError();
+		SDL_Log(log.c_str());
+		return;
+	}
+	// Indica al dispositivo de audio que reanude la reproduccion
+	SDL_ResumeAudioStreamDevice(jumpStream);
+}

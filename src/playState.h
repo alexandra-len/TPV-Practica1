@@ -12,12 +12,6 @@ class PlayState : public GameState
 {
 	using Anchor = std::list<SceneObject*>::iterator;
 
-	// Se actualiza el juego cada tantos milisegundos
-	static constexpr int FRAME_RATE = 30;
-	// Tamaño real de la ventana
-	static constexpr int WINDOW_WIDTH = 448;
-	static constexpr int WINDOW_HEIGHT = 484;
-	static constexpr int WINDOW_WIDTH_MARGIN = 150;
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 200;
 	// Numero de nidos
@@ -55,7 +49,7 @@ private:
 	InfoBar* infoBar;
 
 	// Posiciones predefinidas para las avispas
-	//std::vector<Point2D<int>> waspPositions = { Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
+	std::vector<Point2D<int>> waspPositions = { Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
 
 	// Generador de numeros aleatorios
 	std::mt19937 randomGenerator;
@@ -77,20 +71,18 @@ private:
 	Uint32 jumpDataLen = 0;
 	SDL_AudioSpec jumpSpec{};
 
-	void render() const override;
-	void update()override;
-	void deleteObjects();
-	void handleEvents();
-	void loadMap();
-	bool checkVictory();
-	void restartGame();
-
 	bool deadFrog = false, nestsFull = false;
 
 public:
 	PlayState(Game*game);
 	~PlayState();
 
+	void render() const override;
+	void update()override;
+	void deleteObjects();
+	void loadMap();
+	bool checkVictory();
+	void restartGame();
 	// Comprueba si hay algún objeto colocado en ese rectángulo
 	Collision checkCollision(const SDL_FRect& rect) const;
 
@@ -118,10 +110,11 @@ public:
 		deadFrog = true;
 	}
 
-	SDL_Renderer* getRenderer() {
+	/*SDL_Renderer* getRenderer() {
 		return renderer;
-	}
+	}*/
 
+	void handleEvent(const SDL_Event& event) override;
 	void resetTimer();
 
 	void playJumpSound();

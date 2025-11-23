@@ -242,15 +242,15 @@ Game::run()
 	}
 	cout << endl;
 }
-
-void Game::deleteObjects() {
-	for (Anchor& obj : objToDelete) {
-		delete* obj;
-		objects.erase(obj);
-	}
-
-	objToDelete = std::vector<Anchor>();
-}
+//
+//void Game::deleteObjects() {
+//	for (Anchor& obj : objToDelete) {
+//		delete* obj;
+//		objects.erase(obj);
+//	}
+//
+//	objToDelete = std::vector<Anchor>();
+//}
 
 void
 Game::handleEvents()
@@ -262,7 +262,11 @@ Game::handleEvents()
 		if (event.type == SDL_EVENT_QUIT) {
 			exit = true;
 		}
-		else if (event.type == SDL_EVENT_KEY_DOWN) {
+		else
+		{
+			handleEvents();
+		}
+			/*if (event.type == SDL_EVENT_KEY_DOWN) {
 			if (event.key.key == SDLK_0) {
 				const SDL_MessageBoxButtonData buttons[] = {
 					{SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancelar"},
@@ -279,151 +283,151 @@ Game::handleEvents()
 			else {
 				player->handleEvent(event);
 			}
-		}
+		}*/
 	}
 }
 
-Collision
-Game::checkCollision(const SDL_FRect& rect) const
-{
-	Collision col{ Collision::NONE, {0,0} };
-
-	for (const auto& obj : objects) {
-		col = obj->checkCollision(rect);
-		if (col.type != Collision::NONE)
-			return col;
-	}
-	if (col.type != Collision::NONE)
-		return col;
-
-	for (auto& n : nests) {
-		col = n->checkCollision(rect);
-		if (col.type != Collision::NONE)
-			return col;
-	}
-
-	return col;
-}
+//Collision
+//Game::checkCollision(const SDL_FRect& rect) const
+//{
+//	Collision col{ Collision::NONE, {0,0} };
+//
+//	for (const auto& obj : objects) {
+//		col = obj->checkCollision(rect);
+//		if (col.type != Collision::NONE)
+//			return col;
+//	}
+//	if (col.type != Collision::NONE)
+//		return col;
+//
+//	for (auto& n : nests) {
+//		col = n->checkCollision(rect);
+//		if (col.type != Collision::NONE)
+//			return col;
+//	}
+//
+//	return col;
+//}
 
 // Genera un número aleatorio
-int Game::getRandomRange(int min, int max) {
-	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
-}
+//int Game::getRandomRange(int min, int max) {
+//	return std::uniform_int_distribution<int>(min, max)(randomGenerator);
+//}
 
 // Carga el mapa desde un archivo
-void Game::loadMap() {
-	ifstream map;
-	map.open(MAP_FILE);
+//void Game::loadMap() {
+//	ifstream map;
+//	map.open(MAP_FILE);
+//
+//	if (!map) {
+//		throw FileNotFoundError(MAP_FILE);
+//	}
+//
+//	int lineCounter = 1;
+//
+//	try {
+//		string c;
+//		while (map >> c) {
+//			if (!map) {
+//				throw FileFormatError(MAP_FILE, lineCounter);
+//			}
+//			if (c == "#") {
+//				map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+//			}
+//			else {
+//				// Carga vehículos, troncos y la rana según las etiquetas
+//				if (c == "V") {
+//					objects.push_back(new Vehicle(this, map));
+//				}
+//				else if (c == "L") {
+//					objects.push_back(new Log(this, map));
+//				}
+//				else if (c == "T") {
+//					objects.push_back(new TurtleGroup(this, map));
+//				}
+//				else if (c == "F") {
+//					player = new Frog(this, map);
+//					objects.push_back(player);
+//				}
+//			}
+//			lineCounter++;
+//		}
+//	}
+//	catch (...) {
+//		for (auto* obj : objects) {
+//			delete obj;
+//		}
+//		for (size_t i = 0; i < textures.size(); i++) {
+//			delete textures[i];
+//		}
+//		throw FileFormatError(MAP_FILE, lineCounter);
+//	}
+//
+//}
 
-	if (!map) {
-		throw FileNotFoundError(MAP_FILE);
-	}
-
-	int lineCounter = 1;
-
-	try {
-		string c;
-		while (map >> c) {
-			if (!map) {
-				throw FileFormatError(MAP_FILE, lineCounter);
-			}
-			if (c == "#") {
-				map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-			}
-			else {
-				// Carga vehículos, troncos y la rana según las etiquetas
-				if (c == "V") {
-					objects.push_back(new Vehicle(this, map));
-				}
-				else if (c == "L") {
-					objects.push_back(new Log(this, map));
-				}
-				else if (c == "T") {
-					objects.push_back(new TurtleGroup(this, map));
-				}
-				else if (c == "F") {
-					player = new Frog(this, map);
-					objects.push_back(player);
-				}
-			}
-			lineCounter++;
-		}
-	}
-	catch (...) {
-		for (auto* obj : objects) {
-			delete obj;
-		}
-		for (size_t i = 0; i < textures.size(); i++) {
-			delete textures[i];
-		}
-		throw FileFormatError(MAP_FILE, lineCounter);
-	}
-
-}
-
-bool Game::checkVictory() {
-	if (nestsOccupied == NEST_NR) {
-		nestsFull = true;
-	}
-	return deadFrog || nestsFull;
-}
-
-void Game::resetTimer() {
-	// Restablece segundos disponibles al valor inicial
-	remainingSeconds = timeLimitSeconds;
-	// Guarda el tick actual para el proximo segundo
-	lastSecondTick = SDL_GetTicks();
-	std::cout << "[Timer] reset to " << remainingSeconds << std::endl;
-
-	// if (infoBar) infoBar->setTimeRemaining(remainingSeconds);
-}
+//bool Game::checkVictory() {
+//	if (nestsOccupied == NEST_NR) {
+//		nestsFull = true;
+//	}
+//	return deadFrog || nestsFull;
+//}
+//
+//void Game::resetTimer() {
+//	// Restablece segundos disponibles al valor inicial
+//	remainingSeconds = timeLimitSeconds;
+//	// Guarda el tick actual para el proximo segundo
+//	lastSecondTick = SDL_GetTicks();
+//	std::cout << "[Timer] reset to " << remainingSeconds << std::endl;
+//
+//	// if (infoBar) infoBar->setTimeRemaining(remainingSeconds);
+//}
 
 //Reproducir sonido del salto
-void Game::playJumpSound() {
-	if (!jumpStream || !jumpData) return;
+//void Game::playJumpSound() {
+//	if (!jumpStream || !jumpData) return;
+//
+//	//Vacia el buffer del audio stream
+//	SDL_ClearAudioStream(jumpStream);
+//
+//	// Inserta los datos del sonido del salto en el stream
+//	if (!SDL_PutAudioStreamData(jumpStream, jumpData, (int)jumpDataLen)) {
+//		std::string log = "SDL_PutAudioStreamData failed: " +  (string)SDL_GetError();
+//		SDL_Log(log.c_str());
+//		return;
+//	}
+//	// Indica al dispositivo de audio que reanude la reproduccion
+//	SDL_ResumeAudioStreamDevice(jumpStream);
+//}
 
-	//Vacia el buffer del audio stream
-	SDL_ClearAudioStream(jumpStream);
-
-	// Inserta los datos del sonido del salto en el stream
-	if (!SDL_PutAudioStreamData(jumpStream, jumpData, (int)jumpDataLen)) {
-		std::string log = "SDL_PutAudioStreamData failed: " +  (string)SDL_GetError();
-		SDL_Log(log.c_str());
-		return;
-	}
-	// Indica al dispositivo de audio que reanude la reproduccion
-	SDL_ResumeAudioStreamDevice(jumpStream);
-}
-
-void Game::restartGame()
-{
-	// Borrar todos los objetos del juego
-	for (auto* obj : objects) {
-		delete obj;
-	}objects.clear();
-
-	nests.clear();
-	nestsOccupied = 0;
-
-	delete infoBar;
-
-	HomedFrog* nest;
-	// Crea los nidos
-	for (int i = 0; i < NEST_NR; i++) {
-		nest = new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
-		nests.push_back(nest);
-		objects.push_back(nest);
-
-	}
-	nestsOccupied = 0;
-
-	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
-	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
-
-	infoBar = new InfoBar(this, getTexture(TextureName::FROG));
-
-	loadMap();
-
-	resetTimer();
-}
+//void Game::restartGame()
+//{
+//	// Borrar todos los objetos del juego
+//	for (auto* obj : objects) {
+//		delete obj;
+//	}objects.clear();
+//
+//	nests.clear();
+//	nestsOccupied = 0;
+//
+//	delete infoBar;
+//
+//	HomedFrog* nest;
+//	// Crea los nidos
+//	for (int i = 0; i < NEST_NR; i++) {
+//		nest = new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
+//		nests.push_back(nest);
+//		objects.push_back(nest);
+//
+//	}
+//	nestsOccupied = 0;
+//
+//	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
+//	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
+//
+//	infoBar = new InfoBar(this, getTexture(TextureName::FROG));
+//
+//	loadMap();
+//
+//	resetTimer();
+//}
 
