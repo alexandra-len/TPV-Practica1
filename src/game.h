@@ -12,8 +12,8 @@
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
-constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
-constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
+//constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
+//constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
 
 // Estructura que representa una colisión
 struct Collision
@@ -109,7 +109,7 @@ private:
 	InfoBar* infoBar;*/
 
 	// Posiciones predefinidas para las avispas
-	std::vector<Point2D<int>> waspPositions = {Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
+	//std::vector<Point2D<int>> waspPositions = {Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
 
 	// Generador de numeros aleatorios
 	/*std::mt19937 randomGenerator;
