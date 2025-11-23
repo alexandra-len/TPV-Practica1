@@ -219,11 +219,11 @@ Game::run()
 	while (!exit) {
 		// Tiempo al inicio del frame
 		startTime = SDL_GetTicks();
-		exit = checkVictory();
+		//exit = checkVictory();
 		handleEvents();
-		update();
-		render();
-		deleteObjects();
+		//update();
+		//render();
+		//deleteObjects();
 		// Tiempo que tomo el frame
 		frameTime = SDL_GetTicks() - startTime;
 		if (frameTime < FRAME_RATE) {

@@ -20,7 +20,10 @@
 #include "FileNotFoundError.h"
 #include "FileFormatError.h"
 
-PlayState::PlayState(Game* game)
+constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
+constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
+
+PlayState::PlayState(Game* game) : GameState(game)
 {
 
 	if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {
@@ -277,3 +280,36 @@ void PlayState::playJumpSound() {
 	// Indica al dispositivo de audio que reanude la reproduccion
 	SDL_ResumeAudioStreamDevice(jumpStream);
 }
+
+void PlayState::restartGame()
+{
+	// Borrar todos los objetos del juego
+	for (auto* obj : objects) {
+		delete obj;
+	}objects.clear();
+
+	nests.clear();
+	nestsOccupied = 0;
+
+	delete infoBar;
+
+	HomedFrog* nest;
+	// Crea los nidos
+	for (int i = 0; i < NEST_NR; i++) {
+		nest = new HomedFrog(this,game-> getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
+		nests.push_back(nest);
+		objects.push_back(nest);
+
+	}
+	nestsOccupied = 0;
+
+	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
+	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
+
+	infoBar = new InfoBar(this, game-> getTexture(Game::FROG));
+
+	loadMap();
+
+	resetTimer();
+}
+

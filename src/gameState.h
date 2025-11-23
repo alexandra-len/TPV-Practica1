@@ -17,5 +17,8 @@ public:
 
     void addEventListener(EventHandler*);
     void addObject(GameObject*);
+
+protected:
+    Game* game;
 };
 
