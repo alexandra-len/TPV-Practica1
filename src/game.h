@@ -55,7 +55,7 @@ public:
 	// Extremo inferior del río
 	static constexpr int RIVER_LOW = 200;
 	// Numero de nidos
-	static constexpr int NEST_NR = 5;
+	/*static constexpr int NEST_NR = 5;
 	// Posiciones de nidos y avispas
 	static constexpr int NEST_ROW_Y = 25;
 	static constexpr int NEST_FROG_Y = 22;
@@ -78,7 +78,7 @@ public:
 
 	static constexpr int VEHICLE_BACKJUMP = 0;
 
-	static constexpr int TIME_LIMIT = 60;
+	static constexpr int TIME_LIMIT = 60;*/
 
 	enum TextureName
 	{
@@ -102,22 +102,22 @@ private:
 	
 	std::array<Texture*, NUM_TEXTURES> textures;
 
-	std::list<SceneObject*> objects;
+	/*std::list<SceneObject*> objects;
 	std::vector<Anchor> objToDelete;
 	std::vector<HomedFrog*> nests;
 	Frog* player;
-	InfoBar* infoBar;
+	InfoBar* infoBar;*/
 
 	// Posiciones predefinidas para las avispas
 	std::vector<Point2D<int>> waspPositions = {Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
 
 	// Generador de numeros aleatorios
-	std::mt19937 randomGenerator;
+	/*std::mt19937 randomGenerator;
 	int timeUntilWasp;
 	int waspDestructionTime;
 	int currentTime;
 
-	int nestsOccupied;
+	//int nestsOccupied;
 
 	int frogHP;
 	
@@ -129,17 +129,18 @@ private:
 	SDL_AudioStream* jumpStream = nullptr;
 	Uint8* jumpData = nullptr;
 	Uint32 jumpDataLen = 0;
-	SDL_AudioSpec jumpSpec{};
+	SDL_AudioSpec jumpSpec{};*/
 
-	void render() const;
-	void update();
-	void deleteObjects();
+	//void render() const;
+	//void update();
+	//void deleteObjects();
 	void handleEvents();
-	void loadMap();
-	bool checkVictory();
-	void restartGame();
+	//void loadMap();
+	//bool checkVictory();
+	//void restartGame();
 
-	bool deadFrog = false, nestsFull = false, exit = false;
+	//bool deadFrog = false, nestsFull = false;
+	bool exit = false;
 
 
 public:
@@ -148,12 +149,15 @@ public:
 
 	// Obtiene una textura por su nombre
 	Texture* getTexture(TextureName name) const;
+	SDL_Renderer* getRenderer() {
+		return renderer;
+	}
 
 	// Ejecuta el bucle principal del juego
 	void run();
 
 	// Comprueba si hay algún objeto colocado en ese rectángulo
-	Collision checkCollision(const SDL_FRect& rect) const;
+	/*Collision checkCollision(const SDL_FRect& rect) const;
 
 	int getRandomRange(int, int);
 
@@ -179,17 +183,13 @@ public:
 		deadFrog = true;
 	}
 
-	SDL_Renderer* getRenderer() {
-		return renderer;
-	}
-
 	void resetTimer();
 
 	void playJumpSound();
 
 	int getRemainingSeconds() const {
 		return remainingSeconds;
-	}
+	}*/
 };
 
 // Implementacion inline de getTexture

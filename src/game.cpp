@@ -73,16 +73,16 @@ Game::Game()
 		throw SDLError();
 
 	// Carga el archivo WAV
-	if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {
-		throw SDLError();
-	}
+	//if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {
+	//	throw SDLError();
+	//}
 
-	// Crea audio stream basado en el formato del WAV cargado
-	jumpStream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &jumpSpec, nullptr, nullptr);
-	if (!jumpStream) {
-		SDL_free(jumpData);
-		throw SDLError();
-	}
+	//// Crea audio stream basado en el formato del WAV cargado
+	//jumpStream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &jumpSpec, nullptr, nullptr);
+	//if (!jumpStream) {
+	//	SDL_free(jumpData);
+	//	throw SDLError();
+	//}
 
 	// Carga las texturas al inicio
 	for (size_t i = 0; i < textures.size(); i++) {
@@ -94,33 +94,33 @@ Game::Game()
 	}
 
 	// Inicializa el generador de números aleatorios con la hora actual
-	randomGenerator = std::mt19937(std::time(nullptr));
+	//randomGenerator = std::mt19937(std::time(nullptr));
 
 	// Cargar el mapa
-	loadMap();
+	//loadMap();
 
-	HomedFrog* nest;
-	// Crea los nidos
-	for (int i = 0; i < NEST_NR; i++) {
-		nest = new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
-		nests.push_back(nest);
-		objects.push_back(nest);
+	//HomedFrog* nest;
+	//// Crea los nidos
+	//for (int i = 0; i < NEST_NR; i++) {
+	//	nest = new HomedFrog(this, getTexture(TextureName::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
+	//	nests.push_back(nest);
+	//	objects.push_back(nest);
 
-	}
-	nestsOccupied = 0;
+	//}
+	//nestsOccupied = 0;
 
-	// Inicializa el info bar
-	infoBar = new InfoBar(this, getTexture(TextureName::FROG));
+	//// Inicializa el info bar
+	//infoBar = new InfoBar(this, getTexture(TextureName::FROG));
 
-	remainingSeconds = timeLimitSeconds;
-	lastSecondTick = SDL_GetTicks();
-	
-	// Inicializa el tiempo para la aparición de la primera avispa
-	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
-	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
+	//remainingSeconds = timeLimitSeconds;
+	//lastSecondTick = SDL_GetTicks();
+	//
+	//// Inicializa el tiempo para la aparición de la primera avispa
+	//timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
+	//waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
 
 	// Render la primera vez.
-	render();
+	//render();
 
 	// Configura que se pueden utilizar capas translúcidas
 	// SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -129,88 +129,88 @@ Game::Game()
 Game::~Game()
 {
 	// Libera la memoria de todos los objetos creados
-	delete infoBar;
+	/*delete infoBar;
 
 	for (auto& obj : objects) {
 		delete obj;
-	}
+	}*/
 
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
-	if (jumpStream) {
+	/*if (jumpStream) {
 		SDL_DestroyAudioStream(jumpStream);
 		jumpStream = nullptr;
 	}
 	if (jumpData) {
 		SDL_free(jumpData);
 		jumpData = nullptr;
-	}
+	}*/
 }
 
-void
-Game::render() const
-{
-	// Limpia la pantalla
-	SDL_RenderClear(renderer);
+//void
+//Game::render() const
+//{
+//	// Limpia la pantalla
+//	SDL_RenderClear(renderer);
+//
+//	// Renderiza el fondo
+//	getTexture(TextureName::BACKGROUND)->render();
+//
+//	for (auto* obj : objects) {
+//		obj->render();
+//	}
+//
+//	infoBar->render();
+//
+//	SDL_RenderPresent(renderer);
+//
+//}
 
-	// Renderiza el fondo
-	getTexture(TextureName::BACKGROUND)->render();
-
-	for (auto* obj : objects) {
-		obj->render();
-	}
-
-	infoBar->render();
-
-	SDL_RenderPresent(renderer);
-
-}
-
-void
-Game::update()
-{
-	for (auto& obj : objects) {
-		obj->update();
-	}
-
-	infoBar->update();
-
-	Uint32 now = SDL_GetTicks();
-	if (now - lastSecondTick >= 1000) {
-
-		int secsPassed = (now - lastSecondTick) / 1000;
-		remainingSeconds -= secsPassed;
-		lastSecondTick += secsPassed * 1000;
-
-		if (remainingSeconds <= 0) {
-			player->onTimeEnd();
-			resetTimer();
-		}
-
-		std::cout << "Tiempo restante: " << remainingSeconds << std::endl;
-	}
-	// Obtiene el tiempo actual
-	currentTime = SDL_GetTicks();
-
-	// Genera una avispa
-	if (currentTime >= waspDestructionTime) {
-		int nestNr;
-		// Elige un nido aleatorio que no esté ocupado
-		do {
-			nestNr = getRandomRange(0, NEST_NR - 1);
-		} while (nests[nestNr]->isHome());
-
-		// Crea una avispa en la posición del nido elegido, con vida aleatoria
-		Wasp* newWasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
-		objects.push_back(newWasp);
-		newWasp->setAnchor(--objects.end());
-		
-		// Programa la próxima avispa
-		timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
-		waspDestructionTime = currentTime + timeUntilWasp;
-	}
-}
+//void
+//Game::update()
+//{
+//	for (auto& obj : objects) {
+//		obj->update();
+//	}
+//
+//	infoBar->update();
+//
+//	Uint32 now = SDL_GetTicks();
+//	if (now - lastSecondTick >= 1000) {
+//
+//		int secsPassed = (now - lastSecondTick) / 1000;
+//		remainingSeconds -= secsPassed;
+//		lastSecondTick += secsPassed * 1000;
+//
+//		if (remainingSeconds <= 0) {
+//			player->onTimeEnd();
+//			resetTimer();
+//		}
+//
+//		std::cout << "Tiempo restante: " << remainingSeconds << std::endl;
+//	}
+//	// Obtiene el tiempo actual
+//	currentTime = SDL_GetTicks();
+//
+//	// Genera una avispa
+//	if (currentTime >= waspDestructionTime) {
+//		int nestNr;
+//		// Elige un nido aleatorio que no esté ocupado
+//		do {
+//			nestNr = getRandomRange(0, NEST_NR - 1);
+//		} while (nests[nestNr]->isHome());
+//
+//		// Crea una avispa en la posición del nido elegido, con vida aleatoria
+//		Wasp* newWasp = new Wasp(this, getTexture(TextureName::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
+//		objects.push_back(newWasp);
+//		newWasp->setAnchor(--objects.end());
+//		
+//		// Programa la próxima avispa
+//		timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
+//		waspDestructionTime = currentTime + timeUntilWasp;
+//	}
+//}
 
 void
 Game::run()
