@@ -1,14 +1,19 @@
 #pragma once
 
-#include "game.h"
+class GameState;
 
 class GameObject
 {
 protected:
-	GameState* game;
+	GameState* gameS;
 
-	GameObject() : game(nullptr) {};
-	GameObject(GameState* g) : game(g) {}
+	GameObject() {
+		gameS = nullptr;
+	};
+	GameObject(GameState* gS) {
+		gameS = gS;
+	};
+
 public:
 	virtual ~GameObject() {}
 

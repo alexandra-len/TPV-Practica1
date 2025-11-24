@@ -1,6 +1,5 @@
 #pragma once
 
-#include "game.h"
 #include "texture.h"
 #include "vector2D.h"
 #include "homedfrog.h"
@@ -17,7 +16,7 @@ class Frog : public SceneObject, public EventHandler
 	Point2D<int> lastDirection, moveDirection;
 	Vector2D<float> velocity;
 	int hp;
-	Game::Anchor anchor;
+	PlayState::Anchor anchor;
 	void hurt();
 
 	SDL_FRect getBoundingBox() const override;
@@ -27,7 +26,7 @@ public:
 	Frog(GameState* g, Texture* t, Point2D<int> p) : initialPos(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0,0)), hp(3), SceneObject(g, t, p) {}
 
 	//Constructor que carga posicion desde un archivo
-	Frog(GameState* g, std::istream& input) : SceneObject(g, g->getTexture(Game::TextureName::FROG)), lastDirection(Point2D<int>(0, 0)) {
+	Frog(GameState* g, std::istream& input) : SceneObject(g, g->getGame()->getTexture(Game::TextureName::FROG)), lastDirection(Point2D<int>(0, 0)) {
 		// Lee las coordenadas de inicio desde un fichero
 		int x, y, lives;
 		if (!(input >> x >> y >> lives)) {
@@ -38,12 +37,12 @@ public:
 		hp = lives;
 
 		// Transmite al juego el numero de vidas totales que tiene.
-		game->setHP(hp);
+		playState->setHP(hp);
 	}
 
 	void render() const override;
 	void update() override;
-	void handleEvent(const SDL_Event&);
+	void handleEvent(const SDL_Event&) override;
 
 	void onTimeEnd();
 
@@ -51,7 +50,7 @@ public:
 		return hp;
 	}
 
-	void setAnchor(Game::Anchor a) {
+	void setAnchor(PlayState::Anchor a) {
 		anchor = a;
 	}
 

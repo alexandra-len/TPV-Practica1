@@ -22,7 +22,7 @@ public:
 
 		sinks = sink == 1;
 
-		texture = game->getTexture(Game::TURTLES);
+		texture = gameS->getTexture(Game::TURTLES);
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 

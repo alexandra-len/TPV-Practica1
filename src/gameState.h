@@ -1,9 +1,12 @@
 #pragma once
-#include "GameObject.h"
 #include "SDL3/SDL.h"
+#include "gameobject.h"
 #include "EventHandler.h"
 #include <functional>
+#include <iterator>
 using DelayedCallback = std::function<void()>;
+
+class Game;
 
 class GameState
 {
@@ -12,7 +15,10 @@ class GameState
     std::list<DelayedCallback> delayedCallbacks;
 
 public:
-    GameState(Game* g) : game(g) {};
+
+    GameState(Game* g) {
+        game = g;
+    };
     virtual void render() const;
     virtual void update();
     virtual void handleEvent(const SDL_Event&);

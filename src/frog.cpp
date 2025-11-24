@@ -44,26 +44,26 @@ void Frog::render() const {
 SDL_FRect Frog::getBoundingBox() const
 {
 	// Ajusta el rectángulo para no usar todo el sprite
-	const SDL_FRect destRect = { position.getX() + Game::FROG_COLLISION_MARGIN,position.getY() + Game::FROG_COLLISION_MARGIN, (float)width/2, (float)height/2};
+	const SDL_FRect destRect = { position.getX() + PlayState::FROG_COLLISION_MARGIN,position.getY() + PlayState::FROG_COLLISION_MARGIN, (float)width/2, (float)height/2};
 	return destRect;
 }
 
 //Logica de la rana
 void Frog::update() {
 	// Calcula el desplazamiento
-	Point2D<int> move = moveDirection * Game::TILE_SIZE;
+	Point2D<int> move = moveDirection * PlayState::TILE_SIZE;
 
 	// Actualiza posición
 	Point2D<int> newPos = position + move + Point2D<int>(round(velocity.getX()), velocity.getY());
 
 	// Si saldrá de los bordes con el siguiente movimiento, no se mueve
-	if (!(newPos.getX() < 0 || newPos.getX() > Game::WINDOW_WIDTH - Game::TILE_SIZE || newPos.getY() < 0 || newPos.getY() > Game::WINDOW_HEIGHT - Game::TILE_SIZE*2)) {
+	if (!(newPos.getX() < 0 || newPos.getX() > Game::WINDOW_WIDTH - PlayState::TILE_SIZE || newPos.getY() < 0 || newPos.getY() > Game::WINDOW_HEIGHT - PlayState::TILE_SIZE*2)) {
 		position = newPos;
 	}
 	moveDirection = Point2D<int>(0, 0);
 
 	Collision collision;
-	collision = game->checkCollision(getBoundingBox());
+	collision = playState->checkCollision(getBoundingBox());
 
 	switch (collision.type) {
 		// Si choca con un enemigo, pierde vida
@@ -76,12 +76,12 @@ void Frog::update() {
 			break;
 		case Collision::HOME:
 			position = initialPos;
-			game->resetTimer();
+			playState->resetTimer();
 			break;
 		case Collision::NONE:
 			velocity = Vector2D<float>(0, 0);
 			// Si está en el área del río sin tronco debajo, muere
-			if (position.getY() <= Game::RIVER_LOW) {
+			if (position.getY() <= PlayState::RIVER_LOW) {
 				hurt();
 			}
 			break;
@@ -95,19 +95,19 @@ void Frog::handleEvent(const SDL_Event& event) {
 	switch (event.key.key) {
 		case SDLK_UP:
 			lastDirection = moveDirection = Point2D<int>(0, -1);
-			game->playJumpSound();
+			playState->playJumpSound();
 			break;
 		case SDLK_DOWN:
 			lastDirection = moveDirection = Point2D<int>(0, 1);
-			game->playJumpSound();
+			playState->playJumpSound();
 			break;
 		case SDLK_LEFT:
 			lastDirection = moveDirection = Point2D<int>(-1, 0);
-			game->playJumpSound();
+			playState->playJumpSound();
 			break;
 		case SDLK_RIGHT:
 			lastDirection = moveDirection = Point2D<int>(1, 0);
-			game->playJumpSound();
+			playState->playJumpSound();
 			break;
 	}
 }
@@ -115,15 +115,15 @@ void Frog::handleEvent(const SDL_Event& event) {
 // Resta una vida a la rana y la reinicia en su posicion inicial
 void Frog::hurt() {
 	hp--;
-	game->setHP(hp);
+	playState->setHP(hp);
 	position = initialPos;
 	lastDirection = Point2D<int>(0, 0);
 
 	// Si no quedan vidas, se termina el juego
 	if (hp <= 0) {
-		game->frogDeath();
+		playState->frogDeath();
 	}
-	game->resetTimer();
+	playState->resetTimer();
 }
 
 Collision Frog::checkCollision(const SDL_FRect& other) {

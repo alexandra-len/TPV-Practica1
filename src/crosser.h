@@ -14,7 +14,7 @@ public:
 		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
 	}
 
-	Crosser(Game* g, std::istream& input, int textureNrOffset, int bj = -1) : SceneObject(g) {
+	Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj = -1) : SceneObject(g) {
 		int textureNr, x, y;
 		float s;
 		if (!(input >> x >> y >> s >> textureNr)) {
@@ -30,7 +30,7 @@ public:
 			throw FileFormatError(MAP_FILE);
 		}
 
-		texture = game->getTexture((Game::TextureName)(finalTextureIndex));
+		texture = gameS->getGame()->getTexture((Game::TextureName)(finalTextureIndex));
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 

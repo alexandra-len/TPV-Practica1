@@ -16,6 +16,6 @@ public:
 	//Constructor del tronco
 	Log(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s, t->getFrameWidth()) {};
 
-	Log(Game* g, std::istream& input) : Platform(g, input, Game::LOG1_TEXTURE_NR) {};
+	Log(GameState* g, std::istream& input) : Platform(g, input, PlayState::LOG1_TEXTURE_NR) {};
 };
 

@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <stack>
-
+#include "SDL3/SDL.h"
 #include "gameState.h"
 
 /**

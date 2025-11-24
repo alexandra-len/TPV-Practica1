@@ -1,20 +1,25 @@
 #pragma once
 #include "gameobject.h"
 #include "texture.h"
-#include "playState.h"
+
+class PlayState;
 
 class SceneObject : public GameObject
 {
-	PlayState* playState;
-
 public:
 	SceneObject() {};
-	SceneObject(GameState* g) : GameObject(g) {};
+	SceneObject(GameState* g) : GameObject(g) {
+		playState = static_cast<PlayState*>(g);
+	};
 	SceneObject(GameState* g, Texture* t) : GameObject(g), texture(t) {
+		playState = static_cast<PlayState*>(g);
+
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};
 	SceneObject(GameState* g, Texture* t, Point2D<int> p) : GameObject(g), texture(t), position(p) {
+		playState = static_cast<PlayState*>(g);
+
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	}
@@ -42,6 +47,7 @@ public:
 	}
 
 protected:
+	PlayState* playState;
 	Point2D<int> position = Point2D<int>(0,0);
 	Texture* texture = nullptr;
 	int width = 0;

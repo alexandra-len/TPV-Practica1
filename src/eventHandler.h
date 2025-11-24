@@ -1,6 +1,7 @@
 #pragma once
 class EventHandler 
 {
-	virtual void handleEvent(SDL_Event& ev) = 0;
+public:
+	virtual void handleEvent(const SDL_Event& ev) = 0;
 };
 

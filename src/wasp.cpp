@@ -7,7 +7,7 @@ void Wasp::update() {
 	currentTime = SDL_GetTicks();
 	if (currentTime >= deathTime) {
 		lives = false;
-		game->deleteAfter(anchor);
+		playState->deleteAfter(anchor);
 	}
 }
 //Comprueba si la avispa sigue viva o no

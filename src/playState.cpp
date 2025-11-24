@@ -20,8 +20,7 @@
 #include "FileNotFoundError.h"
 #include "FileFormatError.h"
 
-constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
-constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
+using namespace std;
 
 // Estructura para especificar las texturas que hay que
 // cargar y el tamaño de su matriz de frames
@@ -51,7 +50,7 @@ constexpr std::array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"turtle.png", 1, 7}
 };
 
-PlayState::PlayState(Game* game) : GameState()
+PlayState::PlayState(Game* game) : GameState(game)
 {
 
 	if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {
@@ -108,12 +107,12 @@ PlayState::~PlayState()
 void
 PlayState::render() const
 {
-	SDL_Renderer* r = game-> getRenderer();
+	SDL_Renderer* r = gameS-> getRenderer();
 	// Limpia la pantalla
 	SDL_RenderClear(r);
 
 	// Renderiza el fondo
-	game-> getTexture(Game::BACKGROUND)->render();
+	gameS-> getTexture(Game::BACKGROUND)->render();
 
 	for (auto* obj : objects) {
 		obj->render();
@@ -160,7 +159,7 @@ PlayState::update()
 		} while (nests[nestNr]->isHome());
 
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
-		Wasp* newWasp = new Wasp(this, game->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
+		Wasp* newWasp = new Wasp(this, gameS->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
 		objects.push_back(newWasp);
 		newWasp->setAnchor(--objects.end());
 
@@ -268,9 +267,6 @@ void PlayState::loadMap() {
 		for (auto* obj : objects) {
 			delete obj;
 		}
-		for (size_t i = 0; i < textures.size(); i++) {
-			delete textures[i];
-		}
 		throw FileFormatError(MAP_FILE, lineCounter);
 	}
 }
@@ -324,7 +320,7 @@ void PlayState::restartGame()
 	HomedFrog* nest;
 	// Crea los nidos
 	for (int i = 0; i < NEST_NR; i++) {
-		nest = new HomedFrog(this,game-> getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
+		nest = new HomedFrog(this,gameS-> getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
 		nests.push_back(nest);
 		objects.push_back(nest);
 
@@ -334,7 +330,7 @@ void PlayState::restartGame()
 	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
 
-	infoBar = new InfoBar(this, game-> getTexture(Game::FROG));
+	infoBar = new InfoBar(this, gameS-> getTexture(Game::FROG));
 
 	loadMap();
 

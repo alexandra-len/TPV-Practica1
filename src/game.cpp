@@ -16,6 +16,7 @@
 #include "homedfrog.h"
 #include "infobar.h"
 #include "turtlegroup.h"
+#include "mainMenuState.h"
 
 #include "SDLError.h"
 #include "FileNotFoundError.h"
@@ -36,12 +37,10 @@ struct TextureSpec
 // Ruta base para las imagenes
 constexpr const char* const imgBase = "../assets/images/";
 
-constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
-constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
-
 // Lista de texturas a cargar
 constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	TextureSpec{"frog.png", 1, 2},
+	{"menuBackground.png"},
 	{"background.png"},
 	{"car1.png"},
 	{"car2.png"},
@@ -81,6 +80,9 @@ Game::Game()
 		}
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
+
+	pushState(new MainMenuState(this));
+
 }
 
 Game::~Game()

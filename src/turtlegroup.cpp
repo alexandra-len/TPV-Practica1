@@ -11,10 +11,10 @@ void TurtleGroup::render() const {
 			};
 
 			if (sinks) {
-				texture->renderFrame(rect, 0, (SDL_GetTicks() / Game::TURTLE_SINK_RATE) % Game::TURTLE_SINK_FRAMES);
+				texture->renderFrame(rect, 0, (SDL_GetTicks() / PlayState::TURTLE_SINK_RATE) % PlayState::TURTLE_SINK_FRAMES);
 			}
 			else {
-				texture->renderFrame(rect, 0, (SDL_GetTicks() / Game::TURTLE_SINK_RATE) % Game::TURTLE_STATIC_FRAMES);
+				texture->renderFrame(rect, 0, (SDL_GetTicks() / PlayState::TURTLE_SINK_RATE) % PlayState::TURTLE_STATIC_FRAMES);
 			}
 		}
 	}
@@ -22,7 +22,7 @@ void TurtleGroup::render() const {
 
 void TurtleGroup::update() {
 	if (sinks) {
-		frame = (SDL_GetTicks() / Game::TURTLE_SINK_RATE) % Game::TURTLE_SINK_FRAMES;
+		frame = (SDL_GetTicks() / PlayState::TURTLE_SINK_RATE) % PlayState::TURTLE_SINK_FRAMES;
 	}
 	
 	int rightLimit = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN;
