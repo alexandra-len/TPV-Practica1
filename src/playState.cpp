@@ -23,7 +23,35 @@
 constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
 constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
 
-PlayState::PlayState(Game* game) : GameState(game)
+// Estructura para especificar las texturas que hay que
+// cargar y el tamaño de su matriz de frames
+struct TextureSpec
+{
+	const char* name;
+	int nrows = 1;
+	int ncols = 1;
+
+};
+
+// Ruta base para las imagenes
+constexpr const char* const imgBase = "../assets/images/";
+
+// Lista de texturas a cargar
+constexpr std::array<TextureSpec, Game::NUM_TEXTURES> textureList{
+	TextureSpec{"frog.png", 1, 2},
+	{"background.png"},
+	{"car1.png"},
+	{"car2.png"},
+	{"car3.png"},
+	{"car4.png"},
+	{"car5.png"},
+	{"log1.png"},
+	{"log2.png"},
+	{"wasp.png"},
+	{"turtle.png", 1, 7}
+};
+
+PlayState::PlayState(Game* game) : GameState()
 {
 
 	if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {

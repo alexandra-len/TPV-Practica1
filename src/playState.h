@@ -1,6 +1,11 @@
 #pragma once
 #include "GameState.h"
 #include <SDL3/SDL.h>
+#include <array>
+#include <istream>
+#include <vector>
+#include <random>
+#include <list>
 
 class Texture;
 class InfoBar;

@@ -21,7 +21,7 @@ class Wasp : public SceneObject
 
 public:
 	//Constructor de la clase
-	Wasp(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
+	Wasp(PlayState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
 		: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true)
 	{}
 

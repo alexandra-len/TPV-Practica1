@@ -9,8 +9,8 @@ class TurtleGroup : public Platform
 
 	int frame;
 public:
-	TurtleGroup(Game* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s, t->getFrameWidth()) {};
-	TurtleGroup(Game* g, std::istream& input) : Platform(g) {
+	TurtleGroup(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s, t->getFrameWidth()) {};
+	TurtleGroup(GameState* g, std::istream& input) : Platform(g) {
 		int textureNr, x, y, sink;
 		float s;
 		if (!(input >> x >> y >> s >> numTurtles >> sink)) {

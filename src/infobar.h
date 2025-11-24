@@ -15,7 +15,7 @@ class InfoBar : public GameObject
 	SDL_FRect timerOutline;
 
 public:
-	InfoBar(Game* g, Texture* t) : GameObject(g), frogImg(t) {
+	InfoBar(GameState* g, Texture* t) : GameObject(g), frogImg(t) {
 		frogHP = g->getHP();
 		frogWidth = frogImg->getFrameWidth();
 		frogHeight = frogImg->getFrameHeight();

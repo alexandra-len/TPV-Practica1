@@ -1,18 +1,20 @@
 #pragma once
 #include "gameobject.h"
 #include "texture.h"
+#include "playState.h"
 
 class SceneObject : public GameObject
 {
+	PlayState* playState;
 
 public:
 	SceneObject() {};
-	SceneObject(Game* g) : GameObject(g) {};
-	SceneObject(Game* g, Texture* t) : GameObject(g), texture(t) {
+	SceneObject(GameState* g) : GameObject(g) {};
+	SceneObject(GameState* g, Texture* t) : GameObject(g), texture(t) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};
-	SceneObject(Game* g, Texture* t, Point2D<int> p) : GameObject(g), texture(t), position(p) {
+	SceneObject(GameState* g, Texture* t, Point2D<int> p) : GameObject(g), texture(t), position(p) {
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	}

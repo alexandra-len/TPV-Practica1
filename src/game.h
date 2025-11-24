@@ -9,6 +9,7 @@
 #include <list>
 #include "vector2D.h"
 #include "texture.h"
+#include "gameStateMachine.h"
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
@@ -39,7 +40,7 @@ class HomedFrog;
 /**
  * Clase principal del juego.
  */
-class Game
+class Game : private GameStateMachine
 {
 	
 
@@ -102,50 +103,16 @@ private:
 	
 	std::array<Texture*, NUM_TEXTURES> textures;
 
-	/*std::list<SceneObject*> objects;
-	std::vector<Anchor> objToDelete;
-	std::vector<HomedFrog*> nests;
-	Frog* player;
-	InfoBar* infoBar;*/
-
-	// Posiciones predefinidas para las avispas
-	//std::vector<Point2D<int>> waspPositions = {Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
-
-	// Generador de numeros aleatorios
-	/*std::mt19937 randomGenerator;
-	int timeUntilWasp;
-	int waspDestructionTime;
-	int currentTime;
-
-	//int nestsOccupied;
-
-	int frogHP;
-	
-
-	int timeLimitSeconds = TIME_LIMIT;
-	int remainingSeconds;
-	Uint32 lastSecondTick = 0;
-
-	SDL_AudioStream* jumpStream = nullptr;
-	Uint8* jumpData = nullptr;
-	Uint32 jumpDataLen = 0;
-	SDL_AudioSpec jumpSpec{};*/
-
-	//void render() const;
-	//void update();
-	//void deleteObjects();
-	void handleEvents();
-	//void loadMap();
-	//bool checkVictory();
-	//void restartGame();
-
-	//bool deadFrog = false, nestsFull = false;
 	bool exit = false;
 
 
 public:
 	Game(); // Constructor
 	~Game(); // Destructor
+
+	using GameStateMachine::pushState;
+	using GameStateMachine::replaceState;
+	using GameStateMachine::popState;
 
 	// Obtiene una textura por su nombre
 	Texture* getTexture(TextureName name) const;
@@ -155,41 +122,6 @@ public:
 
 	// Ejecuta el bucle principal del juego
 	void run();
-
-	// Comprueba si hay algún objeto colocado en ese rectángulo
-	/*Collision checkCollision(const SDL_FRect& rect) const;
-
-	int getRandomRange(int, int);
-
-	void deleteAfter(Anchor iterator) {
-		objToDelete.push_back(iterator);
-	};
-
-	// Suma 1 al sumador de nidos ocupados
-	void occupyNest() {
-		nestsOccupied++;
-	}
-
-	// Configura la variable de vidas totales de la rana
-	void setHP(int lives) {
-		frogHP = lives;
-	}
-
-	int getHP() const {
-		return frogHP;
-	}
-
-	void frogDeath() {
-		deadFrog = true;
-	}
-
-	void resetTimer();
-
-	void playJumpSound();
-
-	int getRemainingSeconds() const {
-		return remainingSeconds;
-	}*/
 };
 
 // Implementacion inline de getTexture

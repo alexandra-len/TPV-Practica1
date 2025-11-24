@@ -7,8 +7,6 @@ class Button;
 class MainMenuState :public GameState
 {
 public:
-    MainMenuState(Game*);
-    ~MainMenuState();
-     void handleEvent(const SDL_Event& event) override;
+    MainMenuState(Game* g) : GameState(g) {};
 };
 

@@ -9,7 +9,7 @@ class HomedFrog : public SceneObject
 	bool visible;
 
 public:
-	HomedFrog(Game* g, Texture* t, Point2D<int> p) : SceneObject(g, t, p), visible(false) {};
+	HomedFrog(GameState* g, Texture* t, Point2D<int> p) : SceneObject(g, t, p), visible(false) {};
 
 	void render() const override;
 	bool isHome() const;

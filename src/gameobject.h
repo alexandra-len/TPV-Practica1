@@ -5,10 +5,10 @@
 class GameObject
 {
 protected:
-	Game* game;
+	GameState* game;
 
 	GameObject() : game(nullptr) {};
-	GameObject(Game* g) : game(g) {}
+	GameObject(GameState* g) : game(g) {}
 public:
 	virtual ~GameObject() {}
 
