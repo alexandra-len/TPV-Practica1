@@ -1,13 +1,12 @@
 #include "playState.h"
+
 #include <string>
 #include <iostream>
 #include <fstream>
 #include <filesystem>
 #include <format>
-
 #include <SDL3_image/SDL_image.h>
 
-#include "texture.h"
 #include "vehicle.h"
 #include "log.h"
 #include "wasp.h"
@@ -15,40 +14,14 @@
 #include "homedfrog.h"
 #include "infobar.h"
 #include "turtlegroup.h"
+#include "label.h"
+#include "vector2D.h"
 
-#include "SDLError.h"
 #include "FileNotFoundError.h"
 #include "FileFormatError.h"
+#include "SDLError.h"
 
 using namespace std;
-
-// Estructura para especificar las texturas que hay que
-// cargar y el tamaño de su matriz de frames
-struct TextureSpec
-{
-	const char* name;
-	int nrows = 1;
-	int ncols = 1;
-
-};
-
-// Ruta base para las imagenes
-constexpr const char* const imgBase = "../assets/images/";
-
-// Lista de texturas a cargar
-constexpr std::array<TextureSpec, Game::NUM_TEXTURES> textureList{
-	TextureSpec{"frog.png", 1, 2},
-	{"background.png"},
-	{"car1.png"},
-	{"car2.png"},
-	{"car3.png"},
-	{"car4.png"},
-	{"car5.png"},
-	{"log1.png"},
-	{"log2.png"},
-	{"wasp.png"},
-	{"turtle.png", 1, 7}
-};
 
 PlayState::PlayState(Game* game) : GameState(game)
 {

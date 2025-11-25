@@ -1,8 +1,9 @@
 #pragma once
-#include "game.h"
 #include "texture.h"
 #include "vector2D.h"
 #include "sceneobject.h"
+
+struct Collision;
 
 class HomedFrog : public SceneObject
 {

@@ -125,6 +125,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="button.h" />
+    <ClInclude Include="collision.h" />
     <ClInclude Include="crosser.h" />
     <ClInclude Include="endState.h" />
     <ClInclude Include="eventHandler.h" />

@@ -10,5 +10,8 @@ class Label : public GameObject
 
 public:
 	Label(GameState* g, Texture* t, Point2D<int> p) : GameObject(g), texture(t), position(p) {};
+	virtual ~Label() = default;
+	void render() const override;
+	void update() override;
 };
 

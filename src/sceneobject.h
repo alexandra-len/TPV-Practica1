@@ -1,8 +1,11 @@
 #pragma once
 #include "gameobject.h"
 #include "texture.h"
+#include "vector2D.h"
+#include "SDL3/SDL.h"
 
 class PlayState;
+struct Collision;
 
 class SceneObject : public GameObject
 {
@@ -17,12 +20,7 @@ public:
 		width = texture->getFrameWidth();
 		height = texture->getFrameHeight();
 	};
-	SceneObject(GameState* g, Texture* t, Point2D<int> p) : GameObject(g), texture(t), position(p) {
-		playState = static_cast<PlayState*>(g);
-
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
-	}
+	SceneObject(GameState* g, Texture* t, Point2D<int> p);
 
 	void render() const override {
 		if (texture != nullptr) {
@@ -42,9 +40,7 @@ public:
 
 	void update() override {};
 
-	virtual Collision checkCollision(const SDL_FRect& other) {
-		return Collision(Collision::NONE, { 0, 0 });
-	}
+	virtual Collision checkCollision(const SDL_FRect& other) = 0;
 
 protected:
 	PlayState* playState;

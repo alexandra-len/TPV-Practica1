@@ -1,11 +1,17 @@
 #pragma once
 
-#include "game.h"
 #include "texture.h"
 #include "vector2D.h"
 #include <SDL3/SDL.h>
 #include "sceneobject.h"
+<<<<<<< Updated upstream
 #include "PlayState.h"
+=======
+#include "playState.h"
+
+class Game;
+struct Collision;
+>>>>>>> Stashed changes
 
 /**
 * Clase que representa una avispa enemiga que aparece temporalmente en la mapa

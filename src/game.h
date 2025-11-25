@@ -7,34 +7,14 @@
 #include <vector>
 #include <random>
 #include <list>
-#include "vector2D.h"
 #include "texture.h"
 #include "gameStateMachine.h"
 
 // Constantes
 constexpr const char* const WINDOW_TITLE = "Frogger 1.0";
 
-// Estructura que representa una colisión
-struct Collision
-{
-	enum Type {
-		NONE,
-		ENEMY,
-		PLATFORM,
-		HOME
-	};
+constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
 
-	Type type;
-	Vector2D<float> speed;
-};
-
-// Declaraciones anticipadas
-class Texture;
-class InfoBar;
-class SceneObject;
-class Frog;
-class HomedFrog;
-class GameState;
 
 /**
  * Clase principal del juego.

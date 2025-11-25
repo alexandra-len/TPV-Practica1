@@ -1,4 +1,6 @@
 #include "frog.h"
+#include "game.h"
+#include "playState.h"
 #include <iostream>
 #include <SDL3_image/SDL_image.h>
 using namespace std;
@@ -44,20 +46,20 @@ void Frog::render() const {
 SDL_FRect Frog::getBoundingBox() const
 {
 	// Ajusta el rectángulo para no usar todo el sprite
-	const SDL_FRect destRect = { position.getX() + PlayState::FROG_COLLISION_MARGIN,position.getY() + PlayState::FROG_COLLISION_MARGIN, (float)width/2, (float)height/2};
+	const SDL_FRect destRect = { position.getX() + FROG_COLLISION_MARGIN,position.getY() + FROG_COLLISION_MARGIN, (float)width/2, (float)height/2};
 	return destRect;
 }
 
 //Logica de la rana
 void Frog::update() {
 	// Calcula el desplazamiento
-	Point2D<int> move = moveDirection * PlayState::TILE_SIZE;
+	Point2D<int> move = moveDirection * TILE_SIZE;
 
 	// Actualiza posición
 	Point2D<int> newPos = position + move + Point2D<int>(round(velocity.getX()), velocity.getY());
 
 	// Si saldrá de los bordes con el siguiente movimiento, no se mueve
-	if (!(newPos.getX() < 0 || newPos.getX() > Game::WINDOW_WIDTH - PlayState::TILE_SIZE || newPos.getY() < 0 || newPos.getY() > Game::WINDOW_HEIGHT - PlayState::TILE_SIZE*2)) {
+	if (!(newPos.getX() < 0 || newPos.getX() > Game::WINDOW_WIDTH - TILE_SIZE || newPos.getY() < 0 || newPos.getY() > Game::WINDOW_HEIGHT - TILE_SIZE*2)) {
 		position = newPos;
 	}
 	moveDirection = Point2D<int>(0, 0);

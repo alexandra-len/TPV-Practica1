@@ -1,8 +1,13 @@
 #pragma once
 #include "platform.h"
+#include "texture.h"
+#include "vector2D.h"
 #include <iostream>
 #include "vector2D.h"
 #include "game.h"
+
+class Game;
+struct Collision;
 
 class TurtleGroup : public Platform
 {
@@ -12,24 +17,7 @@ class TurtleGroup : public Platform
 	int frame;
 public:
 	TurtleGroup(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s, t->getFrameWidth()) {};
-	TurtleGroup(GameState* g, std::istream& input) : Platform(g) {
-		int textureNr, x, y, sink;
-		float s;
-		if (!(input >> x >> y >> s >> numTurtles >> sink)) {
-			throw FileFormatError(MAP_FILE);
-		}
-
-		position = Point2D<int>(x, y);
-		speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
-
-		sinks = sink == 1;
-
-		texture = gameS->getTexture(Game::TURTLES);
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
-
-		backjump = texture->getFrameWidth();
-	};
+	TurtleGroup(GameState* g, std::istream& input) : Platform(g);
 
 	void render() const override;
 	void update() override;

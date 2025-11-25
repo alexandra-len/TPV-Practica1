@@ -1,4 +1,6 @@
 #include "vehicle.h"
+#include "collision.h"
+#include "playState.h"
 #include <cmath>
 #include <SDL3_image/SDL_image.h>
 

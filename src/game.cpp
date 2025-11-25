@@ -9,18 +9,10 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "texture.h"
-#include "vehicle.h"
-#include "log.h"
-#include "wasp.h"
-#include "frog.h"
-#include "homedfrog.h"
-#include "infobar.h"
-#include "turtlegroup.h"
 #include "mainMenuState.h"
 
 #include "SDLError.h"
 #include "FileNotFoundError.h"
-#include "FileFormatError.h"
 
 using namespace std;
 
@@ -88,23 +80,10 @@ Game::Game()
 Game::~Game()
 {
 	// Libera la memoria de todos los objetos creados
-	/*delete infoBar;
-
-	for (auto& obj : objects) {
-		delete obj;
-	}*/
-
 	for (size_t i = 0; i < textures.size(); i++) {
 		delete textures[i];
 	}
-	/*if (jumpStream) {
-		SDL_DestroyAudioStream(jumpStream);
-		jumpStream = nullptr;
-	}
-	if (jumpData) {
-		SDL_free(jumpData);
-		jumpData = nullptr;
-	}*/
+
 }
 
 void

@@ -6,17 +6,22 @@
 #include "sceneobject.h"
 #include "FileFormatError.h"
 #include "eventHandler.h"
+#include "collision.h"
+
+class Game;
 
 /**
 * Clase que representa la rana controlada por el jugador
 */
 class Frog : public SceneObject, public EventHandler
 {
+	static constexpr int TILE_SIZE = 32;
+	static constexpr int FROG_COLLISION_MARGIN = 8;
+
 	Point2D<int> initialPos;
 	Point2D<int> lastDirection, moveDirection;
 	Vector2D<float> velocity;
 	int hp;
-	PlayState::Anchor anchor;
 	void hurt();
 
 	SDL_FRect getBoundingBox() const override;
@@ -48,10 +53,6 @@ public:
 
 	int getHP() const {
 		return hp;
-	}
-
-	void setAnchor(PlayState::Anchor a) {
-		anchor = a;
 	}
 
 	Collision checkCollision(const SDL_FRect& other) override;

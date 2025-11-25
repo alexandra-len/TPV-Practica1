@@ -2,6 +2,7 @@
 
 #include "sceneobject.h"
 #include "FileFormatError.h"
+#include "vector2D.h"
 #include <iostream>
 #include "vector2D.h"
 
@@ -19,7 +20,7 @@ public:
 		int textureNr, x, y;
 		float s;
 		if (!(input >> x >> y >> s >> textureNr)) {
-			throw FileFormatError(MAP_FILE);
+			throw FileFormatError("");
 		}
 
 		position = Point2D<int>(x, y);
@@ -43,25 +44,7 @@ public:
 		}
 	}
 
-	void update() override {
-
-		int rightLimit = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - (width - backjump);
-		int leftLimit = -(Game::WINDOW_WIDTH_MARGIN + backjump);
-
-		if (speed.getX() > 0 && position.getX() > rightLimit)
-		{
-			position = Point2D<int>(backjump == 0 ? -width : -Game::WINDOW_WIDTH_MARGIN, position.getY());
-		}
-
-		else if (speed.getX() < 0 && position.getX() < leftLimit)
-		{
-			position = Point2D<int>(backjump == 0 ? Game::WINDOW_WIDTH : Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width, position.getY());
-		}
-
-		else {
-			position = Point2D<int>(round(position.getX() + speed.getX()), position.getY());
-		}
-	}
+	void update() override;
 
 protected:
 	Vector2D<float> speed;

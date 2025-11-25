@@ -10,9 +10,8 @@ protected:
 	GameObject() {
 		gameS = nullptr;
 	};
-	GameObject(GameState* gS) {
-		gameS = gS;
-	};
+
+	GameObject(GameState* gS);
 
 public:
 	virtual ~GameObject() {}

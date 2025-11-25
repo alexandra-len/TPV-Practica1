@@ -1,12 +1,17 @@
 #pragma once
-#include "game.h"
-#include "frog.h"
+#include "vector2D.h"
+#include "gameobject.h"
 
 class InfoBar : public GameObject
 {
+	static constexpr int DISTANCE_FROM_BELOW = 36;
+
 	int frogHP;
+	float remainingTime;
 
 	Texture* frogImg;
+
+	Point2D<int> position;
 
 	int frogWidth, frogHeight;
 	int timerPosX, timerPosY;
@@ -15,15 +20,15 @@ class InfoBar : public GameObject
 	SDL_FRect timerOutline;
 
 public:
-	InfoBar(PlayState* g, Texture* t) : GameObject(g), frogImg(t) {
-		frogHP = g->getHP();
+	InfoBar(GameState* g, Texture* t, Point2D<int> p) : GameObject(g), frogImg(t), position(p), frogHP(0) {
 		frogWidth = frogImg->getFrameWidth();
 		frogHeight = frogImg->getFrameHeight();
+		
 		timerHeight = frogHeight;
 		timerWidth = Game::WINDOW_WIDTH / 3;
 
 		timerPosX = 2 * Game::WINDOW_WIDTH / 3 - 10;
-		timerPosY = Game::WINDOW_HEIGHT - PlayState::LOW_MARGIN;
+		timerPosY = Game::WINDOW_HEIGHT - DISTANCE_FROM_BELOW;
 		
 		timerOutline = {
 			(float)timerPosX,
@@ -34,7 +39,13 @@ public:
 	}
 
 	void render() const override;
-	void update() override;
+	void update() override {}
+	void setHP(int hp) {
+		frogHP = hp;
+	}
+	void setTime(float time) {
+		remainingTime = time;
+	}
 
 private:
 	void renderTimer() const;

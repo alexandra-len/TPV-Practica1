@@ -1,12 +1,16 @@
 #pragma once
-#include "game.h"
 #include "texture.h"
 #include "vector2D.h"
 #include "crosser.h"
 #include <istream>
 
+class Game;
+struct Collision;
+
 class Vehicle : public Crosser
 {
+
+	static constexpr int VEHICLE1_TEXTURE_NR = 1;
 
 public:
 	// Constructor que inicializa el vehículo
@@ -14,7 +18,7 @@ public:
 	}
 
 	//Constructor que carga un vehiculo desde el archivo
-	Vehicle(GameState* g, std::istream& input) : Crosser(g, input, PlayState::VEHICLE1_TEXTURE_NR, PlayState::VEHICLE_BACKJUMP) {}
+	Vehicle(GameState* g, std::istream& input) : Crosser(g, input, VEHICLE1_TEXTURE_NR, PlayState::VEHICLE_BACKJUMP) {}
 
 	//Verifica colisiones
 	Collision checkCollision(const SDL_FRect& otherRect) override;

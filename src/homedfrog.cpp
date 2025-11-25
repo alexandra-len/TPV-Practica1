@@ -1,4 +1,6 @@
 #include "homedfrog.h"
+#include "collision.h"
+#include "playState.h"
 #include <SDL3_image/SDL_image.h>
 #include <iostream>
 using namespace std;

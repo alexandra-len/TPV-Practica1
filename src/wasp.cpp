@@ -1,4 +1,6 @@
 #include "wasp.h"
+#include "collision.h"
+#include "game.h"
 #include <iostream>
 using namespace std;
 
