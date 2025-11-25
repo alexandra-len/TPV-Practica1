@@ -18,6 +18,12 @@ struct Collision;
 class GameState;
 struct Collision;
 
+class GameState;
+struct Collision;
+
+class GameState;
+struct Collision;
+
 /**
 * Clase log que representa un tronco flotante sobre el que la rana puede subirse
 */
