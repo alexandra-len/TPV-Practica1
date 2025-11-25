@@ -5,6 +5,7 @@
 #include "vector2D.h"
 #include <SDL3/SDL.h>
 #include "sceneobject.h"
+#include "PlayState.h"
 
 /**
 * Clase que representa una avispa enemiga que aparece temporalmente en la mapa

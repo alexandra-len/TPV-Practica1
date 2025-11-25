@@ -1,5 +1,8 @@
 #pragma once
 #include "gameobject.h"
+#include "vector2D.h"
+#include "texture.h"
+
 class Label : public GameObject
 {
 	Texture* texture;
