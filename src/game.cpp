@@ -31,7 +31,7 @@ struct TextureSpec
 constexpr const char* const imgBase = "../assets/images/";
 
 // Lista de texturas a cargar
-constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
+constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList {
 	TextureSpec{"frog.png", 1, 2},
 	{"menuBackground.png"},
 	{"background.png"},
@@ -46,11 +46,20 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"wasp.png"},
 	{"turtle.png", 1, 7,},
 
-	{"Avispado.png"},
-	{"CONTINUAR.png"},
-	{"ELIGE UN MAPA.png"},
-	{"GAME OVER.png"},
-	{"HAS GANADO.png"}
+	{"./texts/Avispado.png"},
+	{"./texts/CONTINUAR.png"},
+	{"./texts/ELIGE UN MAPA.png"},
+	{"./texts/GAME OVER.png"},
+	{"./texts/HAS GANADO.png"},
+	{"./texts/left.png"},
+	{"./texts/right.png"},
+	{"./texts/Original.png"},
+	{"./texts/Práctica 1.png"},
+	{"./texts/REINICIAR.png"},
+	{"./texts/SALIR.png"},
+	{"./texts/Trivial.png"},
+	{"./texts/Veloz.png"},
+	{"./texts/VOLVER AL MENÚ.png"},
 };
 
 Game::Game()
