@@ -3,6 +3,7 @@
 #include "sceneobject.h"
 #include "FileFormatError.h"
 #include <iostream>
+#include "vector2D.h"
 
 class Crosser : public SceneObject
 {

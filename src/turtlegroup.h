@@ -1,6 +1,8 @@
 #pragma once
 #include "platform.h"
 #include <iostream>
+#include "vector2D.h"
+#include "game.h"
 
 class TurtleGroup : public Platform
 {

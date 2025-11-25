@@ -6,6 +6,7 @@
 #include "crosser.h"
 #include "platform.h"
 #include <istream>
+#include "playState.h"
 
 /**
 * Clase log que representa un tronco flotante sobre el que la rana puede subirse
