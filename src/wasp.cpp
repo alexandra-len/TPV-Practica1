@@ -10,6 +10,7 @@ void Wasp::update() {
 		playState->deleteAfter(anchor);
 	}
 }
+
 //Comprueba si la avispa sigue viva o no
 bool Wasp::isAlive() const {
 	return lives;
