@@ -12,6 +12,9 @@ struct Collision;
 class Game;
 struct Collision;
 
+class Game;
+struct Collision;
+
 class TurtleGroup : public Platform
 {
 	int numTurtles;

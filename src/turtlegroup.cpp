@@ -1,7 +1,5 @@
 #include "turtlegroup.h"
 #include "playState.h"
-<<<<<<< Updated upstream
-=======
 #include "collision.h"
 #include "game.h"
 

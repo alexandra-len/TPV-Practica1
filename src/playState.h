@@ -7,7 +7,6 @@
 #include <random>
 #include <list>
 
-class Texture;
 class InfoBar;
 class SceneObject;
 class Frog;
