@@ -1,6 +1,9 @@
 #pragma once
 #include "vector2D.h"
 #include "gameobject.h"
+#include "SDL3/SDL.h"
+
+class Texture;
 
 class InfoBar : public GameObject
 {
@@ -11,8 +14,6 @@ class InfoBar : public GameObject
 
 	Texture* frogImg;
 
-	Point2D<int> position;
-
 	int frogWidth, frogHeight;
 	int timerPosX, timerPosY;
 	int timerWidth, timerHeight;
@@ -20,23 +21,7 @@ class InfoBar : public GameObject
 	SDL_FRect timerOutline;
 
 public:
-	InfoBar(GameState* g, Texture* t, Point2D<int> p) : GameObject(g), frogImg(t), position(p), frogHP(0) {
-		frogWidth = frogImg->getFrameWidth();
-		frogHeight = frogImg->getFrameHeight();
-		
-		timerHeight = frogHeight;
-		timerWidth = Game::WINDOW_WIDTH / 3;
-
-		timerPosX = 2 * Game::WINDOW_WIDTH / 3 - 10;
-		timerPosY = Game::WINDOW_HEIGHT - DISTANCE_FROM_BELOW;
-		
-		timerOutline = {
-			(float)timerPosX,
-			(float)timerPosY,
-			(float)timerWidth,
-			(float)timerHeight/4
-		};
-	}
+	InfoBar(GameState* g, Texture* t);
 
 	void render() const override;
 	void update() override {}

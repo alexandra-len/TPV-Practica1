@@ -16,6 +16,7 @@
 #include "turtlegroup.h"
 #include "label.h"
 #include "vector2D.h"
+#include "collision.h"
 
 #include "FileNotFoundError.h"
 #include "FileFormatError.h"
@@ -50,7 +51,7 @@ PlayState::PlayState(Game* game) : GameState(game)
 	nestsOccupied = 0;
 
 	// Inicializa el info bar
-	infoBar = new InfoBar(this, game->getTexture(Game::FROG));
+	infoBar = new InfoBar(this, game->getTexture(Game::FROG), );
 
 	remainingSeconds = timeLimitSeconds;
 	lastSecondTick = SDL_GetTicks();
@@ -293,7 +294,7 @@ void PlayState::restartGame()
 	HomedFrog* nest;
 	// Crea los nidos
 	for (int i = 0; i < NEST_NR; i++) {
-		nest = new HomedFrog(this,gameS-> getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
+		nest = new HomedFrog(this, gameS->getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
 		nests.push_back(nest);
 		objects.push_back(nest);
 
@@ -303,7 +304,7 @@ void PlayState::restartGame()
 	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
 
-	infoBar = new InfoBar(this, gameS-> getTexture(Game::FROG));
+	infoBar = new InfoBar(this, gameS->getGame()->getTexture(Game::FROG));
 
 	loadMap();
 

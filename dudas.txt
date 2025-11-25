@@ -1,0 +1,2 @@
+1. obj to delete - Anchor type from Game state or playState
+2. forward declaration of playState in scene object

@@ -4,6 +4,13 @@
 #include <iostream>
 using namespace std;
 
+Wasp::Wasp(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
+	: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true) { }
+
+void Wasp::setAnchor(GameState::Anchor a) {
+	anchor = a;
+}
+
 //Actualiza el estado de la avispa
 void Wasp::update() {
 	currentTime = SDL_GetTicks();

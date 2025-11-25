@@ -6,9 +6,9 @@
 #include "sceneobject.h"
 #include "FileFormatError.h"
 #include "eventHandler.h"
-#include "collision.h"
 
 class Game;
+struct Collision;
 
 /**
 * Clase que representa la rana controlada por el jugador
@@ -31,19 +31,7 @@ public:
 	Frog(GameState* g, Texture* t, Point2D<int> p) : initialPos(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0,0)), hp(3), SceneObject(g, t, p) {}
 
 	//Constructor que carga posicion desde un archivo
-	Frog(GameState* g, std::istream& input) : SceneObject(g, g->getGame()->getTexture(Game::TextureName::FROG)), lastDirection(Point2D<int>(0, 0)) {
-		// Lee las coordenadas de inicio desde un fichero
-		int x, y, lives;
-		if (!(input >> x >> y >> lives)) {
-			throw FileFormatError(MAP_FILE);
-		}
-
-		initialPos = position = Point2D<int>(x, y);
-		hp = lives;
-
-		// Transmite al juego el numero de vidas totales que tiene.
-		playState->setHP(hp);
-	}
+	Frog(GameState* g, std::istream& input);
 
 	void render() const override;
 	void update() override;

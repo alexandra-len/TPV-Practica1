@@ -1,9 +1,24 @@
 #include "frog.h"
 #include "game.h"
 #include "playState.h"
+#include "collision.h"
 #include <iostream>
 #include <SDL3_image/SDL_image.h>
 using namespace std;
+
+Frog::Frog(GameState* g, std::istream& input) : SceneObject(g, g->getGame()->getTexture(Game::TextureName::FROG)), lastDirection(Point2D<int>(0, 0)) {
+	// Lee las coordenadas de inicio desde un fichero
+	int x, y, lives;
+	if (!(input >> x >> y >> lives)) {
+		throw FileFormatError(MAP_FILE);
+	}
+
+	initialPos = position = Point2D<int>(x, y);
+	hp = lives;
+
+	// Transmite al juego el numero de vidas totales que tiene.
+	playState->setHP(hp);
+}
 
 // Render de la rana
 void Frog::render() const {

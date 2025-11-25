@@ -1,5 +1,5 @@
 #pragma once
-#include "GameState.h"
+#include "gameState.h"
 #include <SDL3/SDL.h>
 #include <array>
 #include <istream>
@@ -7,25 +7,26 @@
 #include <random>
 #include <list>
 
+constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
+
 class InfoBar;
 class SceneObject;
 class Frog;
+class HomedFrog;
 struct Collision;
-
-constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
 
 class PlayState : public GameState
 {
 private:
 
 	std::list<SceneObject*> objects;
-	std::vector<PlayState::Anchor> objToDelete;
+	std::vector<Anchor> objToDelete;
 	std::vector<HomedFrog*> nests;
 	Frog* player;
 	InfoBar* infoBar;
 
 	// Posiciones predefinidas para las avispas
-	std::vector<Point2D<int>> waspPositions = { Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25), };
+	std::vector<Point2D<int>> waspPositions = { Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25)};
 
 	// Generador de numeros aleatorios
 	std::mt19937 randomGenerator;
@@ -68,19 +69,14 @@ public:
 	static constexpr int WASP_MIN_DELAY = 1000;
 	static constexpr int WASP_MAX_DELAY = 10000;
 
-	static constexpr int TURTLE_SINK_RATE = 225;
-	static constexpr int TURTLE_SINK_FRAMES = 7;
-	static constexpr int TURTLE_STATIC_FRAMES = 2;
-
-	static constexpr int VEHICLE_BACKJUMP = 0;
-
 	static constexpr int TIME_LIMIT = 60;
 
 
-	PlayState(Game*game);
+	PlayState(Game* game);
 	~PlayState();
 
 	void update() override;
+	void render() const override;
 	void handleEvent(const SDL_Event& event) override;
 	
 	void loadMap();
@@ -95,7 +91,7 @@ public:
 
 	int getRandomRange(int, int);
 
-	void deleteAfter(PlayState::Anchor iterator) {
+	void deleteAfter(GameState::Anchor iterator) {
 		objToDelete.push_back(iterator);
 	};
 

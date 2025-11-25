@@ -14,7 +14,7 @@ protected:
 	GameObject(GameState* gS);
 
 public:
-	virtual ~GameObject() {}
+	virtual ~GameObject() = default;
 
 	virtual void render() const = 0;
 	virtual void update() = 0;

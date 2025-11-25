@@ -5,6 +5,23 @@
 #include "texture.h"
 #include "game.h"
 
+InfoBar::InfoBar(GameState* g, Texture* t) : GameObject(g), frogImg(t), frogHP(0) {
+	frogWidth = frogImg->getFrameWidth();
+	frogHeight = frogImg->getFrameHeight();
+
+	timerHeight = frogHeight;
+	timerWidth = Game::WINDOW_WIDTH / 3;
+
+	timerPosX = 2 * Game::WINDOW_WIDTH / 3 - 10;
+	timerPosY = Game::WINDOW_HEIGHT - DISTANCE_FROM_BELOW;
+
+	timerOutline = {
+		(float)timerPosX,
+		(float)timerPosY,
+		(float)timerWidth,
+		(float)timerHeight / 4
+	};
+}
 void InfoBar::render() const {
 	for (int i = 1; i <= frogHP; i++) {
 		// Define el rectángulo donde se dibuja la rana

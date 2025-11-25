@@ -11,38 +11,9 @@ class Crosser : public SceneObject
 public: 
 	Crosser() {};
 	Crosser(GameState* g) : SceneObject(g) {};
-	Crosser(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int bj) : SceneObject(g, t, p), speed(s) {
-		// La velocidad ajustada al frame rate
-		speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
-	}
+	Crosser(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int bj);
 
-	Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj = -1) : SceneObject(g) {
-		int textureNr, x, y;
-		float s;
-		if (!(input >> x >> y >> s >> textureNr)) {
-			throw FileFormatError("");
-		}
-
-		position = Point2D<int>(x, y);
-		speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
-
-		int finalTextureIndex = textureNrOffset + textureNr;
-
-		if (finalTextureIndex < 0 || finalTextureIndex >= Game::NUM_TEXTURES) {
-			throw FileFormatError(MAP_FILE);
-		}
-
-		texture = gameS->getGame()->getTexture((Game::TextureName)(finalTextureIndex));
-		width = texture->getFrameWidth();
-		height = texture->getFrameHeight();
-
-		if (bj == -1) {
-			backjump = texture->getFrameWidth();
-		}
-		else {
-			backjump = bj;
-		}
-	}
+	Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj);
 
 	void update() override;
 

@@ -3,8 +3,9 @@
 #include "texture.h"
 #include "vector2D.h"
 #include "SDL3/SDL.h"
+#include "playState.h"
 
-class PlayState;
+//class PlayState;
 struct Collision;
 
 class SceneObject : public GameObject
