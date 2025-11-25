@@ -7,11 +7,7 @@
 #include <random>
 #include <list>
 
-<<<<<<< Updated upstream
-
 class Texture;
-=======
->>>>>>> Stashed changes
 class InfoBar;
 class SceneObject;
 class Frog;
