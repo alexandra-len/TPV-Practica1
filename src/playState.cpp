@@ -1,4 +1,5 @@
 #include "playState.h"
+#include "gameState.h"
 
 #include <string>
 #include <iostream>
@@ -51,7 +52,7 @@ PlayState::PlayState(Game* game) : GameState(game)
 	nestsOccupied = 0;
 
 	// Inicializa el info bar
-	infoBar = new InfoBar(this, game->getTexture(Game::FROG), );
+	infoBar = new InfoBar(this, game->getTexture(Game::FROG));
 
 	remainingSeconds = timeLimitSeconds;
 	lastSecondTick = SDL_GetTicks();
@@ -81,12 +82,12 @@ PlayState::~PlayState()
 void
 PlayState::render() const
 {
-	SDL_Renderer* r = gameS-> getRenderer();
+	SDL_Renderer* r = game-> getRenderer();
 	// Limpia la pantalla
 	SDL_RenderClear(r);
 
 	// Renderiza el fondo
-	gameS-> getTexture(Game::BACKGROUND)->render();
+	game-> getTexture(Game::BACKGROUND)->render();
 
 	for (auto* obj : objects) {
 		obj->render();
@@ -133,7 +134,7 @@ PlayState::update()
 		} while (nests[nestNr]->isHome());
 
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
-		Wasp* newWasp = new Wasp(this, gameS->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
+		Wasp* newWasp = new Wasp(this, game->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
 		objects.push_back(newWasp);
 		newWasp->setAnchor(--objects.end());
 
@@ -147,17 +148,17 @@ void PlayState::handleEvent(const SDL_Event& event)
 {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		if (event.key.key == SDLK_0) {
-			const SDL_MessageBoxButtonData buttons[] = {
+			/*const SDL_MessageBoxButtonData buttons[] = {
 				{SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancelar"},
 				{0, 1, "Reiniciar"},
 			};
-			SDL_MessageBoxData boxData = { SDL_MESSAGEBOX_INFORMATION,window,"Reinicar juego","Quieres reiniciar el juego?",2,buttons
+			SDL_MessageBoxData boxData = { SDL_MESSAGEBOX_INFORMATION,game->show,"Reinicar juego","Quieres reiniciar el juego?",2,buttons
 			};
 			int button;
 			SDL_ShowMessageBox(&boxData, &button);
 			if (button == 1) {
 				restartGame();
-			}
+			}*/
 		}
 		else {
 			player->handleEvent(event);
@@ -166,12 +167,12 @@ void PlayState::handleEvent(const SDL_Event& event)
 }
 
 void PlayState::deleteObjects() {
-	for (Anchor& obj : objToDelete) {
+	for (auto& obj : objToDelete) {
 		delete* obj;
 		objects.erase(obj);
 	}
 
-	objToDelete = std::vector<Anchor>();
+	objToDelete.clear();
 }
 
 int PlayState::getRandomRange(int min, int max) {
@@ -294,7 +295,7 @@ void PlayState::restartGame()
 	HomedFrog* nest;
 	// Crea los nidos
 	for (int i = 0; i < NEST_NR; i++) {
-		nest = new HomedFrog(this, gameS->getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
+		nest = new HomedFrog(this, game->getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
 		nests.push_back(nest);
 		objects.push_back(nest);
 
@@ -304,7 +305,7 @@ void PlayState::restartGame()
 	timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 	waspDestructionTime = SDL_GetTicks() + timeUntilWasp;
 
-	infoBar = new InfoBar(this, gameS->getGame()->getTexture(Game::FROG));
+	infoBar = new InfoBar(this, game->getTexture(Game::FROG));
 
 	loadMap();
 

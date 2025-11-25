@@ -1,12 +1,13 @@
 #pragma once
 #include "SDL3/SDL.h"
-#include "gameobject.h"
+//#include "gameobject.h"
 #include "EventHandler.h"
 
 #include <functional>
 #include <list>
 
 class Game;
+class GameObject;
 
 class GameState
 {
@@ -16,17 +17,14 @@ class GameState
     std::list<EventHandler*> eventHandlers;
     std::list<DelayedCallback> delayedCallbacks;
 
+protected:
+    Game* game;
+
 public:
     using Anchor = std::list<GameObject*>::iterator;
 
-    GameState(Game* g) {
-        game = g;
-    };
-    virtual ~GameState() {
-        for (GameObject* g : gameObjects) {
-            delete g;
-        }
-    }
+    GameState(Game* g);
+    virtual ~GameState();
     virtual void render() const;
     virtual void update();
     virtual void handleEvent(const SDL_Event&);
@@ -39,8 +37,5 @@ public:
     void addObject(GameObject*);
 
     void runLater(DelayedCallback d);
-
-protected:
-    Game* game;
 };
 

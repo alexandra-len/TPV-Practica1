@@ -19,7 +19,7 @@ constexpr const char* const MAP_FILE = "../assets/maps/turtles.txt";
 /**
  * Clase principal del juego.
  */
-class Game : private GameStateMachine
+class Game : public GameStateMachine
 {
 
 public:
@@ -45,6 +45,22 @@ public:
 		LOG2,
 		WASP,
 		TURTLES,
+
+		AVISPADO,
+		CONTINUAR,
+		ELEGIR,
+		GAME_OVER,
+		GANADO,
+		LEFT,
+		RIGHT,
+		ORGINIAL,
+		PRACTICA1,
+		REINICIAR,
+		SALIR,
+		TRIVIAL,
+		VELOZ,
+		VOLVER,
+
 		NUM_TEXTURES
 	};
 

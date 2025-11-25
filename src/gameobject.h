@@ -7,9 +7,7 @@ class GameObject
 protected:
 	GameState* gameS;
 
-	GameObject() {
-		gameS = nullptr;
-	};
+	GameObject();
 
 	GameObject(GameState* gS);
 

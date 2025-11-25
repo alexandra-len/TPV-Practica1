@@ -1,5 +1,16 @@
 #include "gameState.h"
 #include "game.h"
+#include "gameobject.h"
+
+GameState::GameState(Game* g) {
+	game = g;
+};
+
+GameState::~GameState() {
+	for (GameObject* g : gameObjects) {
+		delete g;
+	}
+}
 
 void GameState::render() const {
 	SDL_RenderClear(game->getRenderer());

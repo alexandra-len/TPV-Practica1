@@ -9,7 +9,8 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "texture.h"
-#include "mainMenuState.h"
+//#include "mainMenuState.h"
+#include "playState.h"
 
 #include "SDLError.h"
 #include "FileNotFoundError.h"
@@ -34,6 +35,7 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	TextureSpec{"frog.png", 1, 2},
 	{"menuBackground.png"},
 	{"background.png"},
+
 	{"car1.png"},
 	{"car2.png"},
 	{"car3.png"},
@@ -42,7 +44,13 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList{
 	{"log1.png"},
 	{"log2.png"},
 	{"wasp.png"},
-	{"turtle.png", 1, 7}
+	{"turtle.png", 1, 7,},
+
+	{"Avispado.png"},
+	{"CONTINUAR.png"},
+	{"ELIGE UN MAPA.png"},
+	{"GAME OVER.png"},
+	{"HAS GANADO.png"}
 };
 
 Game::Game()
@@ -73,7 +81,7 @@ Game::Game()
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
 
-	pushState(new MainMenuState(this));
+	pushState(new PlayState(this));
 
 }
 

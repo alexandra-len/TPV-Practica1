@@ -1,5 +1,6 @@
 #pragma once
 #include "gameState.h"
+#include "vector2D.h"
 #include <SDL3/SDL.h>
 #include <array>
 #include <istream>
@@ -17,39 +18,6 @@ struct Collision;
 
 class PlayState : public GameState
 {
-private:
-
-	std::list<SceneObject*> objects;
-	std::vector<Anchor> objToDelete;
-	std::vector<HomedFrog*> nests;
-	Frog* player;
-	InfoBar* infoBar;
-
-	// Posiciones predefinidas para las avispas
-	std::vector<Point2D<int>> waspPositions = { Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25)};
-
-	// Generador de numeros aleatorios
-	std::mt19937 randomGenerator;
-	int timeUntilWasp;
-	int waspDestructionTime;
-	int currentTime;
-
-	int nestsOccupied;
-
-	int frogHP;
-
-
-	int timeLimitSeconds = TIME_LIMIT;
-	int remainingSeconds;
-	Uint32 lastSecondTick = 0;
-
-	SDL_AudioStream* jumpStream = nullptr;
-	Uint8* jumpData = nullptr;
-	Uint32 jumpDataLen = 0;
-	SDL_AudioSpec jumpSpec{};
-
-	bool deadFrog = false, nestsFull = false;
-
 public:
 	using Anchor = std::list<SceneObject*>::iterator;
 
@@ -71,7 +39,38 @@ public:
 
 	static constexpr int TIME_LIMIT = 60;
 
+private:
+	std::list<SceneObject*> objects;
+	std::vector<Anchor> objToDelete;
+	std::vector<HomedFrog*> nests;
+	Frog* player;
+	InfoBar* infoBar;
 
+	// Posiciones predefinidas para las avispas
+	std::vector<Point2D<int>> waspPositions = { Point2D<int>(20,25), Point2D<int>(116,25), Point2D<int>(212,25), Point2D<int>(308,25), Point2D<int>(404,25)};
+
+	// Generador de numeros aleatorios
+	std::mt19937 randomGenerator;
+	int timeUntilWasp;
+	int waspDestructionTime;
+	int currentTime;
+
+	int nestsOccupied;
+
+	int frogHP;
+
+	int timeLimitSeconds = TIME_LIMIT;
+	int remainingSeconds;
+	Uint32 lastSecondTick = 0;
+
+	SDL_AudioStream* jumpStream = nullptr;
+	Uint8* jumpData = nullptr;
+	Uint32 jumpDataLen = 0;
+	SDL_AudioSpec jumpSpec{};
+
+	bool deadFrog = false, nestsFull = false;
+
+public:
 	PlayState(Game* game);
 	~PlayState();
 
@@ -91,7 +90,7 @@ public:
 
 	int getRandomRange(int, int);
 
-	void deleteAfter(GameState::Anchor iterator) {
+	void deleteAfter(PlayState::Anchor iterator) {
 		objToDelete.push_back(iterator);
 	};
 
@@ -112,10 +111,6 @@ public:
 	void frogDeath() {
 		deadFrog = true;
 	}
-
-	/*SDL_Renderer* getRenderer() {
-		return renderer;
-	}*/
 
 	void resetTimer();
 
