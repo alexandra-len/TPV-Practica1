@@ -8,7 +8,7 @@
 
 class Game;
 struct Collision;
-s
+
 /**
 * Clase que representa una avispa enemiga que aparece temporalmente en la mapa
 */
