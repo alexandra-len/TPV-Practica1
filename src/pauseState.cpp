@@ -3,8 +3,9 @@
 #include "label.h"
 #include "button.h"
 #include "game.h"
+#include "PlayState.h"
 
-PauseState::PauseState(Game* g) : GameState(g)
+PauseState::PauseState(Game* g, PlayState* p) : GameState(g), playState(p)
 {
 	//reiniciar
 	addObject(new Label(this, game->getTexture(Game::REINICIAR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::REINICIAR)->getFrameWidth() / 2, Game::WINDOW_HEIGHT / 2 - game->getTexture(Game::REINICIAR)->getFrameHeight())));
@@ -61,4 +62,15 @@ void PauseState::restartGame()
 
 	}
 
+}
+
+void PauseState::render()const
+{
+	playState-> render();
+
+	SDL_FRect overlay = 
+	{
+		0,0,Game::WINDOW_WIDTH,Game::WINDOW_HEIGHT 
+	};
+	SDL_RenderFillRect(game->getRenderer(), & overlay);
 }
