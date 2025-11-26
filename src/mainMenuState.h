@@ -14,11 +14,16 @@ private:
     std::vector<std::string> maps;
     std::vector<Button*> buttons;
     int selectedMap = 0;
+    Button* lArrow;
+    Button* rArrow;
 
 public:
     MainMenuState(Game* g);
     ~MainMenuState();
 
     void handleEvent(const SDL_Event&) override;
+    void leftArrow();
+    void rightArrow();
+    void displayArrows();
 };
 

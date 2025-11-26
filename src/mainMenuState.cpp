@@ -51,10 +51,21 @@ MainMenuState::MainMenuState(Game* g) : GameState(g)
         addObject(mapButton);
 
         buttons.push_back(mapButton);
-        
+
         i++;
     }
     buttons[selectedMap]->setActive(true);
+
+    lArrow = new Button(this, game->getTexture(Game::LEFT), { game->getTexture(Game::LEFT)->getFrameWidth(), Game::WINDOW_HEIGHT / 2 + game->getTexture(mapTextures["Avispado"])->getFrameHeight() });
+    rArrow = new Button(this, game->getTexture(Game::RIGHT), { Game::WINDOW_WIDTH - game->getTexture(Game::RIGHT)->getFrameWidth(), Game::WINDOW_HEIGHT / 2 + game->getTexture(mapTextures["Avispado"])->getFrameHeight() });
+
+    lArrow->connect([this]() {leftArrow(); });
+    rArrow->connect([this]() {rightArrow(); });
+
+    addObject(lArrow);
+    addObject(rArrow);
+
+    displayArrows();
 }
 
 
@@ -74,27 +85,43 @@ void MainMenuState::handleEvent(const SDL_Event& event)
         {
 
         case SDLK_LEFT:
-            if (selectedMap-1>= 0)
-            {
-                buttons[selectedMap]->setActive(false);
-
-                selectedMap--;
-
-                buttons[selectedMap]->setActive(true);
-            }
+            leftArrow();
             break;
 
         case SDLK_RIGHT:
-            if (selectedMap+1<buttons.size())
-            {
-                buttons[selectedMap]->setActive(false);
-                selectedMap++;
-                buttons[selectedMap]->setActive(true);
-            }
+            rightArrow();
             break;
 
         case SDLK_RETURN:
+            game->pushState(new PlayState(game, maps[selectedMap]));
             break;
         }
     }
+}
+
+void MainMenuState::leftArrow() {
+    if (selectedMap - 1 >= 0)
+    {
+        buttons[selectedMap]->setActive(false);
+
+        selectedMap--;
+
+        buttons[selectedMap]->setActive(true);
+    }
+    displayArrows();
+}
+
+void MainMenuState::rightArrow() {
+    if (selectedMap + 1 < buttons.size())
+    {
+        buttons[selectedMap]->setActive(false);
+        selectedMap++;
+        buttons[selectedMap]->setActive(true);
+    }
+    displayArrows();
+}
+
+void MainMenuState::displayArrows() {
+    lArrow->setActive(selectedMap - 1 >= 0);
+    rArrow->setActive(selectedMap + 1 < buttons.size());
 }

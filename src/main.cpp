@@ -13,13 +13,13 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-	try {
+	//try {
 		Game game = Game();
 		game.run();
-	}
+	//}
 
-	catch (const GameError& e) {
+	/*catch (const GameError& e) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,"Error del juego",e.what(),nullptr);
-	}
+	}*/
 	return 0;
 }

@@ -25,7 +25,7 @@
 
 using namespace std;
 
-PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(map)
+PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(MAP_FILE + map + ".txt")
 {
 	if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {
 		throw SDLError();
@@ -223,7 +223,7 @@ void PlayState::loadMap() {
 	map.open(mapFile);
 
 	if (!map) {
-		throw FileNotFoundError(MAP_FILE);
+		throw FileNotFoundError(mapFile);
 	}
 
 	int lineCounter = 1;
@@ -232,7 +232,7 @@ void PlayState::loadMap() {
 		string c;
 		while (map >> c) {
 			if (!map) {
-				throw FileFormatError(MAP_FILE, lineCounter);
+				throw FileFormatError(mapFile, lineCounter);
 			}
 			if (c == "#") {
 				map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -260,7 +260,7 @@ void PlayState::loadMap() {
 		for (auto* obj : objects) {
 			delete obj;
 		}
-		throw FileFormatError(MAP_FILE, lineCounter);
+		throw FileFormatError(mapFile, lineCounter);
 	}
 }
 
