@@ -4,7 +4,3 @@
 GameObject::GameObject(GameState* gS) {
 	gameS = gS;
 };
-
-GameObject::GameObject() {
-	gameS = nullptr;
-};

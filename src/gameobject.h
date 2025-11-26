@@ -7,8 +7,6 @@ class GameObject
 protected:
 	GameState* gameS;
 
-	GameObject();
-
 	GameObject(GameState* gS);
 
 public:

@@ -72,6 +72,7 @@ private:
 
 	void updateTime();
 	void updateWasps();
+	void updateInfoBar();
 
 public:
 	PlayState(Game* game);

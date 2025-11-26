@@ -17,9 +17,7 @@ int main(int argc, char* argv[])
 		Game game = Game();
 		game.run();
 	}
-	/*catch (GameError& e) {
-		cout << "Error running game: " << e.what() << endl;
-	}*/
+
 	catch (const GameError& e) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,"Error del juego",e.what(),nullptr);
 	}

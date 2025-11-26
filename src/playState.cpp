@@ -53,7 +53,7 @@ PlayState::PlayState(Game* game) : GameState(game)
 
 	// Inicializa el info bar
 	infoBar = new InfoBar(this, game->getTexture(Game::FROG));
-	infoBar->setTime(TIME_LIMIT);
+	updateInfoBar();
 
 	remainingSeconds = timeLimitSeconds;
 	lastSecondTick = SDL_GetTicks();
@@ -110,6 +110,7 @@ PlayState::update()
 	updateTime();
 
 	updateWasps();
+	updateInfoBar();
 }
 
 void PlayState::updateTime() {
@@ -124,8 +125,6 @@ void PlayState::updateTime() {
 			player->onTimeEnd();
 			resetTimer();
 		}
-
-		infoBar->setTime(remainingSeconds);
 
 		std::cout << "Tiempo restante: " << remainingSeconds << std::endl;
 	}
@@ -152,6 +151,11 @@ void PlayState::updateWasps() {
 		timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 		waspDestructionTime = currentTime + timeUntilWasp;
 	}
+}
+
+void PlayState::updateInfoBar() {
+	infoBar->setTime(remainingSeconds);
+	infoBar->setHP(frogHP);
 }
 
 void PlayState::handleEvent(const SDL_Event& event)

@@ -4,7 +4,6 @@
 #include "playState.h"
 #include "texture.h"
 #include "game.h"
-#include <iostream>
 
 InfoBar::InfoBar(GameState* g, Texture* t) : GameObject(g), frogImg(t), frogHP(0) {
 	frogWidth = frogImg->getFrameWidth();
@@ -46,9 +45,6 @@ void InfoBar::renderTimer() const {
 		(float)(timerWidth*(remainingTime / PlayState::TIME_LIMIT)),
 		timerHeight/4
 	};
-
-	std::cout <<
-		remainingTime << std::endl;
 
 	SDL_SetRenderDrawColor(gameS->getGame()->getRenderer(), 255, 255, 255, 255); // Blanco
 	SDL_RenderRect(gameS->getGame()->getRenderer(), &timerOutline);

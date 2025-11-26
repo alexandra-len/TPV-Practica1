@@ -10,14 +10,20 @@ using namespace std;
 
 static const char* CONFIG_FILE = "config.txt";
 
-MainMenuState::MainMenuState(Game* g) : GameState(game), selectedMap()
+MainMenuState::MainMenuState(Game* g) : GameState(g)
 {
 	ifstream map(CONFIG_FILE);
 	if (map.is_open())
 		map >> selectedMap;
 
+    // bg
 	addObject(new Label(this, game->getTexture(Game::MENU_BACKGROUND),Point2D<int>(0, 0)));
-	//addObject(new Label(this, game->getTexture(Game::ELEGIR),Point2D<int>()));
+    
+    // elegir text
+    addObject(new Label(this, game->getTexture(Game::ELEGIR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::ELEGIR)->getFrameWidth()/2, Game::WINDOW_HEIGHT / 2 - game->getTexture(Game::ELEGIR)->getFrameHeight())));
+
+    addObject(new Label(this, game->getTexture(Game::SALIR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::SALIR)->getFrameWidth() / 2, 2*Game::WINDOW_HEIGHT / 3 + game->getTexture(Game::SALIR)->getFrameHeight())));
+
 
 	Button* exitButton = new Button(this,game->getTexture(Game::SALIR),Point2D<int>());
 	exitButton->connect([this]() 
@@ -25,6 +31,9 @@ MainMenuState::MainMenuState(Game* g) : GameState(game), selectedMap()
 			game->popState();
 		});
 	addObject(exitButton);
+
+    //for (auto entry : std::filesystem::directory_iterator("maps"))
+    //    cout << entry.path().stem().string() << endl;
 }
 
 

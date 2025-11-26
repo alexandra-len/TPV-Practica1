@@ -9,7 +9,7 @@
 #include <SDL3_image/SDL_image.h>
 
 #include "texture.h"
-//#include "mainMenuState.h"
+#include "mainMenuState.h"
 #include "playState.h"
 
 #include "SDLError.h"
@@ -43,7 +43,7 @@ constexpr array<TextureSpec, Game::NUM_TEXTURES> textureList {
 	{"log1.png"},
 	{"log2.png"},
 	{"wasp.png"},
-	{"turtle.png", 1, 7,},
+	{"turtle.png", 1, 7},
 
 	{"menuBackground.png"},
 
@@ -74,6 +74,8 @@ Game::Game()
 	                          WINDOW_HEIGHT,
 	                          0);
 
+	textures.fill(nullptr);
+
 	if (window == nullptr)
 		throw SDLError();
 
@@ -90,9 +92,6 @@ Game::Game()
 		}
 		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 	}
-
-	pushState(new PlayState(this));
-
 }
 
 Game::~Game()
@@ -107,6 +106,8 @@ Game::~Game()
 void
 Game::run()
 {
+	pushState(new MainMenuState(this));
+
 	uint64_t startTime, frameTime;
 	while (!exit && !empty()) {
 		// Tiempo al inicio del frame
