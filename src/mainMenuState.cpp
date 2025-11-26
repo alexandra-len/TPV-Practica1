@@ -22,16 +22,15 @@ MainMenuState::MainMenuState(Game* g) : GameState(g)
     // elegir text
     addObject(new Label(this, game->getTexture(Game::ELEGIR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::ELEGIR)->getFrameWidth()/2, Game::WINDOW_HEIGHT / 2 - game->getTexture(Game::ELEGIR)->getFrameHeight())));
 
-    addObject(new Label(this, game->getTexture(Game::SALIR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::SALIR)->getFrameWidth() / 2, 2*Game::WINDOW_HEIGHT / 3 + game->getTexture(Game::SALIR)->getFrameHeight())));
+    Button* exitButton = new Button(this, game->getTexture(Game::SALIR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::SALIR)->getFrameWidth() / 2, 2 * Game::WINDOW_HEIGHT / 3 + game->getTexture(Game::SALIR)->getFrameHeight()));
+    exitButton->connect([this]()
+        {
+            game->popState();
+        });
 
+    addObject(exitButton);
 
-	Button* exitButton = new Button(this,game->getTexture(Game::SALIR),Point2D<int>());
-	exitButton->connect([this]() 
-		{
-			game->popState();
-		});
-	addObject(exitButton);
-
+	
     //for (auto entry : std::filesystem::directory_iterator("maps"))
     //    cout << entry.path().stem().string() << endl;
 }

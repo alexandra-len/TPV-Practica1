@@ -8,9 +8,11 @@ class Button : public Label, public EventHandler
 {
 	using Callback = std::function<void()>;
 
-	std::vector<Callback> callbacks;
+	Callback callback;
 	bool hovering;
 	bool active;
+
+	SDL_Color hoverColor, baseColor;
 
 public:
 	Button(GameState* g, Texture* t, Point2D<int> p);

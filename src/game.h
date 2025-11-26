@@ -19,7 +19,7 @@ constexpr const char* const MAP_FILE = "../assets/maps/Original.txt";
 /**
  * Clase principal del juego.
  */
-class Game : public GameStateMachine
+class Game : private GameStateMachine
 {
 
 public:

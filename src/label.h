@@ -14,6 +14,6 @@ public:
 protected:
 	Texture* texture;
 	Point2D<int> position;
-
+	int width, height;
 };
 
