@@ -64,7 +64,7 @@ void MainMenuState::handleEvent(const SDL_Event& event)
             break;
 
         case SDLK_RETURN:
-            game->pushState();
+            //game->pushState();
             break;
         }
     }

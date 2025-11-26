@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include <SDL3/SDL.h>
 #include <vector>
+#include <string>
 
 class Button;
 
@@ -13,8 +14,8 @@ private:
     int selectedMap = 0;
 
 public:
-    MainMenuState(Game* g) : GameState(g) {};
-    ~MainMenuState() = default;
+    MainMenuState(Game* g);
+    ~MainMenuState();
 
     void handleEvent(const SDL_Event&) override;
 };

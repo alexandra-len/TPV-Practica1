@@ -13,14 +13,12 @@ class Button : public Label, public EventHandler
 	bool active;
 
 public:
-	Button(GameState* g, Texture* t, Point2D<int> p) : Label(g, t, p) {};
-	~Button() = default;
+	Button(GameState* g, Texture* t, Point2D<int> p);
+	~Button();
 
 	void render() const override;
 
-	void connect(Callback c) {
-		callbacks.push_back(c);
-	}
+	void connect(Callback c);
 	void handleEvent(const SDL_Event&) override;
 	void setActive(bool active);
 };

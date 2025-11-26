@@ -9,10 +9,9 @@
 class Crosser : public SceneObject
 {
 public: 
-	Crosser() {};
-	Crosser(GameState* g) : SceneObject(g) {};
+	Crosser(GameState*);
 	Crosser(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int bj);
-
+									
 	Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj);
 
 	void update() override;

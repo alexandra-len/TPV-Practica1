@@ -2,6 +2,8 @@
 #include "game.h"
 #include "playState.h"
 
+Crosser::Crosser(GameState* g) : SceneObject(g) {};
+
 Crosser::Crosser(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int bj) : SceneObject(g, t, p), speed(s) {
 	// La velocidad ajustada al frame rate
 	speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);

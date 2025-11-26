@@ -34,7 +34,6 @@ public:
 	enum TextureName
 	{
 		FROG = 0,
-		MENU_BACKGROUND,
 		BACKGROUND,
 		VEHICLE1,
 		VEHICLE2,
@@ -45,6 +44,8 @@ public:
 		LOG2,
 		WASP,
 		TURTLES,
+
+		MENU_BACKGROUND,
 
 		AVISPADO,
 		CONTINUAR,
