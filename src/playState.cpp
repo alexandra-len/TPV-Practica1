@@ -162,7 +162,7 @@ void PlayState::updateInfoBar() {
 void PlayState::handleEvent(const SDL_Event& event)
 {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
-		if (event.key.key == SDLK_ESCAPE) game->pushState(new PauseState(game));
+		if (event.key.key == SDLK_ESCAPE) game->pushState(new PauseState(game,this));
 		
 		else {
 			player->handleEvent(event);
