@@ -5,7 +5,7 @@
 using namespace std;
 
 Button::Button(GameState* g, Texture* t, Point2D<int> p) : Label(g, t, p), active(true), hovering(false) {
-	hoverColor = { 128, 128, 128 };
+	hoverColor = { 255, 255, 0 };
 	baseColor = { 255, 255, 255 };
 
 	gameS->addEventListener(this);
