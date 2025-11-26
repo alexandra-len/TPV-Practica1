@@ -25,9 +25,8 @@
 
 using namespace std;
 
-PlayState::PlayState(Game* game) : GameState(game)
+PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(map)
 {
-
 	if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {
 		throw SDLError();
 	}
@@ -221,7 +220,7 @@ Collision PlayState::checkCollision(const SDL_FRect& rect)const
 
 void PlayState::loadMap() {
 	ifstream map;
-	map.open(MAP_FILE);
+	map.open(mapFile);
 
 	if (!map) {
 		throw FileNotFoundError(MAP_FILE);

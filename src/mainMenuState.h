@@ -1,8 +1,10 @@
 #pragma once
 #include "GameState.h"
+#include "game.h"
 #include <SDL3/SDL.h>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 class Button;
 

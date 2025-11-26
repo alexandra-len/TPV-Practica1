@@ -43,6 +43,6 @@ void Button::handleEvent(const SDL_Event& ev) {
 		}
 	}
 }
-void Button::setActive(bool active) {
-
+void Button::setActive(bool a) {
+	active = a;
 }

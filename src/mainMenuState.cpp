@@ -6,6 +6,7 @@
 #include "gameStateMachine.h"
 #include <filesystem>
 #include <fstream>
+#include <string>
 using namespace std;
 
 static const char* CONFIG_FILE = "config.txt";
@@ -30,9 +31,30 @@ MainMenuState::MainMenuState(Game* g) : GameState(g)
 
     addObject(exitButton);
 
-	
-    //for (auto entry : std::filesystem::directory_iterator("maps"))
-    //    cout << entry.path().stem().string() << endl;
+    unordered_map<string, Game::TextureName> mapTextures({
+        {"Avispado", Game::AVISPADO},
+        {"Original", Game::ORGINIAL},
+        {"Practica 1", Game::PRACTICA1},
+        {"Trivial", Game::TRIVIAL},
+        {"Veloz", Game::VELOZ}
+    });
+
+    int i = 0;
+    for (auto entry : std::filesystem::directory_iterator("../assets/maps")) {
+        string map = entry.path().stem().string();
+        maps.push_back(map);
+
+        Button* mapButton = new Button(this, game->getTexture(mapTextures[map]), { Game::WINDOW_WIDTH / 2 - game->getTexture(mapTextures[map])->getFrameWidth() / 2, Game::WINDOW_HEIGHT / 2 + game->getTexture(mapTextures[map])->getFrameHeight() });
+        mapButton->connect([this, i]() {game->pushState(new PlayState(game, maps[i])); });
+        mapButton->setActive(false);
+        
+        addObject(mapButton);
+
+        buttons.push_back(mapButton);
+        
+        i++;
+    }
+    buttons[selectedMap]->setActive(true);
 }
 
 

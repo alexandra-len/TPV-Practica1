@@ -7,6 +7,7 @@
 #include <vector>
 #include <random>
 #include <list>
+#include <string>
 
 constexpr const char* const JUMP_FILE = "../assets/sounds/jump.wav";
 
@@ -40,6 +41,8 @@ public:
 	static constexpr int TIME_LIMIT = 60;
 
 private:
+	std::string mapFile;
+
 	std::list<SceneObject*> objects;
 	std::vector<Anchor> objToDelete;
 	std::vector<HomedFrog*> nests;
@@ -75,7 +78,7 @@ private:
 	void updateInfoBar();
 
 public:
-	PlayState(Game* game);
+	PlayState(Game* game, std::string map);
 	~PlayState();
 
 	void update() override;
