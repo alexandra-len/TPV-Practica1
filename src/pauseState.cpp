@@ -56,7 +56,9 @@ void PauseState::restartGame()
 	SDL_ShowMessageBox(&boxData, &button);
 
 	if (button == 1) {
-		restartGame();
+		game->popState();
+		//game->replaceState();
+
 	}
 
 }

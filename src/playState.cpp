@@ -23,6 +23,8 @@
 #include "FileFormatError.h"
 #include "SDLError.h"
 
+#include "PauseState.h"
+
 using namespace std;
 
 PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(MAP_FILE + map + ".txt")
@@ -160,24 +162,8 @@ void PlayState::updateInfoBar() {
 void PlayState::handleEvent(const SDL_Event& event)
 {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
-		if (event.key.key == SDLK_0) {
-			
-			const SDL_MessageBoxButtonData buttons[] = {
-				{SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancelar"},
-				{0, 1, "Reiniciar"},
-			};
-
-			SDL_MessageBoxData boxData = { SDL_MESSAGEBOX_INFORMATION,game->getWindow(),"Reinicar juego","Quieres reiniciar el juego?",2,buttons };
-			
-			int button;
-			
-			SDL_ShowMessageBox(&boxData, &button);
-			
-			if (button == 1) {
-				restartGame();
-			}
+		if (event.key.key == SDLK_ESCAPE) game->pushState(new PauseState());
 		
-		}
 		else {
 			player->handleEvent(event);
 		}
