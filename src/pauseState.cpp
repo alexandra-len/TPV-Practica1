@@ -57,7 +57,7 @@ void PauseState::restartGame()
 
 	if (button == 1) {
 		game->popState();
-		//game->replaceState();
+		game->replaceState(new PauseState(game));
 
 	}
 
