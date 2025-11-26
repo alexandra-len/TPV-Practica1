@@ -53,6 +53,7 @@ PlayState::PlayState(Game* game) : GameState(game)
 
 	// Inicializa el info bar
 	infoBar = new InfoBar(this, game->getTexture(Game::FROG));
+	infoBar->setTime(TIME_LIMIT);
 
 	remainingSeconds = timeLimitSeconds;
 	lastSecondTick = SDL_GetTicks();
@@ -106,8 +107,12 @@ PlayState::update()
 		obj->update();
 	}
 
-	infoBar->update();
+	updateTime();
 
+	updateWasps();
+}
+
+void PlayState::updateTime() {
 	Uint32 now = SDL_GetTicks();
 	if (now - lastSecondTick >= 1000) {
 
@@ -120,8 +125,13 @@ PlayState::update()
 			resetTimer();
 		}
 
+		infoBar->setTime(remainingSeconds);
+
 		std::cout << "Tiempo restante: " << remainingSeconds << std::endl;
 	}
+}
+
+void PlayState::updateWasps() {
 	// Obtiene el tiempo actual
 	currentTime = SDL_GetTicks();
 
@@ -148,17 +158,22 @@ void PlayState::handleEvent(const SDL_Event& event)
 {
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		if (event.key.key == SDLK_0) {
-			/*const SDL_MessageBoxButtonData buttons[] = {
+			
+			const SDL_MessageBoxButtonData buttons[] = {
 				{SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT, 0, "Cancelar"},
 				{0, 1, "Reiniciar"},
 			};
-			SDL_MessageBoxData boxData = { SDL_MESSAGEBOX_INFORMATION,game->show,"Reinicar juego","Quieres reiniciar el juego?",2,buttons
-			};
+
+			SDL_MessageBoxData boxData = { SDL_MESSAGEBOX_INFORMATION,game->getWindow(),"Reinicar juego","Quieres reiniciar el juego?",2,buttons };
+			
 			int button;
+			
 			SDL_ShowMessageBox(&boxData, &button);
+			
 			if (button == 1) {
 				restartGame();
-			}*/
+			}
+		
 		}
 		else {
 			player->handleEvent(event);
@@ -253,8 +268,8 @@ void PlayState::resetTimer() {
 	// Guarda el tick actual para el proximo segundo
 	lastSecondTick = SDL_GetTicks();
 	std::cout << "[Timer] reset to " << remainingSeconds << std::endl;
-
-	// if (infoBar) infoBar->setTimeRemaining(remainingSeconds);
+	
+	infoBar->setTime(remainingSeconds);
 }
 
 bool PlayState::checkVictory() {

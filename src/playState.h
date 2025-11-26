@@ -70,6 +70,9 @@ private:
 
 	bool deadFrog = false, nestsFull = false;
 
+	void updateTime();
+	void updateWasps();
+
 public:
 	PlayState(Game* game);
 	~PlayState();

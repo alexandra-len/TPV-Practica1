@@ -112,6 +112,7 @@ Game::run()
 		// Tiempo al inicio del frame
 		startTime = SDL_GetTicks();
 
+		handleEvents();
 		update();
 		render();
 		
@@ -119,6 +120,20 @@ Game::run()
 		frameTime = SDL_GetTicks() - startTime;
 		if (frameTime < FRAME_RATE) {
 			SDL_Delay(FRAME_RATE - frameTime);
+		}
+	}
+}
+
+void
+Game::handleEvents() {
+	SDL_Event event;
+
+	while (SDL_PollEvent(&event)) {
+		if (event.type == SDL_EVENT_QUIT) {
+			exit = true;
+		}
+		else {
+			handleEvent(event);
 		}
 	}
 }

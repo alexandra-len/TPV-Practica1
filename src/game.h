@@ -73,6 +73,8 @@ private:
 
 	bool exit = false;
 
+	void handleEvents();
+
 
 public:
 	Game(); // Constructor
@@ -90,6 +92,10 @@ public:
 
 	// Ejecuta el bucle principal del juego
 	void run();
+
+	SDL_Window* getWindow() const {
+		return window;
+	}
 };
 
 // Implementacion inline de getTexture
