@@ -4,5 +4,6 @@
 class PauseState : public GameState
 {
 public:
-	PauseState(Game* g) : GameState(g) {};
+	PauseState(Game* g);
+	void restartGame();
 };
