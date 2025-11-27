@@ -127,6 +127,7 @@ void PlayState::updateWasps() {
 		} while (nests[nestNr]->isHome());
 
 		cout << "creating wasp nido " << nestNr << endl;
+		// TODO: create wasp properly && check wasp collision not working
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
 		Wasp* newWasp = new Wasp(this, game->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
 		newWasp->setPlayAnchor(PlayState::addObject(newWasp));
