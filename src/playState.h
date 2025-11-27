@@ -85,7 +85,7 @@ public:
 	void handleEvent(const SDL_Event& event) override;
 	
 	void loadMap();
-	bool checkVictory();
+	void checkVictory();
 	void restartGame();
 	
 	PlayState::Anchor addObject(SceneObject*);
@@ -132,5 +132,7 @@ public:
 	std::string getMapName() {
 		return mapFile;
 	}
+
+	void endGame(bool victory);
 };
 

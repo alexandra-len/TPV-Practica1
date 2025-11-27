@@ -34,7 +34,7 @@ PauseState::PauseState(Game* g, PlayState* p) : GameState(g), playState(p)
 		});
 	addObject(returnButton);
 
-	//salirt
+	//salir
 	Button* exitButton = new Button(this, game->getTexture(Game::SALIR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::SALIR)->getFrameWidth() / 2, 4 * Game::WINDOW_HEIGHT / 5 - game->getTexture(Game::SALIR)->getFrameHeight()));
 	exitButton->connect([this]()
 		{

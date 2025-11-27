@@ -23,7 +23,8 @@
 #include "FileFormatError.h"
 #include "SDLError.h"
 
-#include "PauseState.h"
+#include "pauseState.h"
+#include "endState.h"
 
 using namespace std;
 
@@ -258,11 +259,16 @@ void PlayState::resetTimer() {
 	infoBar->setTime(remainingSeconds);
 }
 
-bool PlayState::checkVictory() {
+void PlayState::checkVictory() {
 	if (nestsOccupied == NEST_NR) {
 		nestsFull = true;
 	}
-	return deadFrog || nestsFull;
+	if (deadFrog) endGame(false);
+	else if (nestsFull) endGame(true);
+}
+
+void PlayState::endGame(bool victory) {
+	game->replaceState(new EndState(game, victory));
 }
 
 void PlayState::playJumpSound() {
