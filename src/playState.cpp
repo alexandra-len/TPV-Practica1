@@ -27,7 +27,7 @@
 
 using namespace std;
 
-PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(MAP_FILE + map + ".txt")
+PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(map)
 {
 	if (!SDL_LoadWAV(JUMP_FILE, &jumpSpec, &jumpData, &jumpDataLen)) {
 		throw SDLError();
@@ -70,11 +70,6 @@ PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(MAP_FILE
 
 PlayState::~PlayState()
 {
-	delete infoBar;
-
-	for (auto& obj : sceneObjects) {
-		delete obj;
-	}
 	if (jumpStream) {
 		SDL_DestroyAudioStream(jumpStream);
 		jumpStream = nullptr;
@@ -194,10 +189,11 @@ Collision PlayState::checkCollision(const SDL_FRect& rect)const
 
 void PlayState::loadMap() {
 	ifstream map;
-	map.open(mapFile);
+	string mapPath = MAP_FILE + mapFile + ".txt";
+	map.open(mapPath);
 
 	if (!map) {
-		throw FileNotFoundError(mapFile);
+		throw FileNotFoundError(mapPath);
 	}
 
 	int lineCounter = 1;
@@ -206,7 +202,7 @@ void PlayState::loadMap() {
 		string c;
 		while (map >> c) {
 			if (!map) {
-				throw FileFormatError(mapFile, lineCounter);
+				throw FileFormatError(mapPath, lineCounter);
 			}
 			if (c == "#") {
 				map.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -249,7 +245,7 @@ void PlayState::loadMap() {
 		for (auto* obj : sceneObjects) {
 			delete obj;
 		}
-		throw FileFormatError(mapFile, lineCounter);
+		throw FileFormatError(mapPath, lineCounter);
 	}
 }
 
@@ -297,8 +293,6 @@ void PlayState::restartGame()
 
 	nests.clear();
 	nestsOccupied = 0;
-
-	delete infoBar;
 
 	HomedFrog* nest;
 	// Crea los nidos

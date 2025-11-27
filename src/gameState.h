@@ -13,12 +13,11 @@ class GameState
 {
     using DelayedCallback = std::function<void()>;
 
+protected:
+    Game* game;
     std::list<GameObject*> gameObjects;
     std::list<EventHandler*> eventHandlers;
     std::list<DelayedCallback> delayedCallbacks;
-
-protected:
-    Game* game;
 
 public:
     using Anchor = std::list<GameObject*>::iterator;

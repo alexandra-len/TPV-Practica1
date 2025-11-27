@@ -128,5 +128,9 @@ public:
 	int getRemainingSeconds() const {
 		return remainingSeconds;
 	}
+
+	std::string getMapName() {
+		return mapFile;
+	}
 };
 

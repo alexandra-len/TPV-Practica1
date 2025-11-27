@@ -4,40 +4,42 @@
 #include "button.h"
 #include "game.h"
 #include "PlayState.h"
+#include <string>
 
 PauseState::PauseState(Game* g, PlayState* p) : GameState(g), playState(p)
 {
-	//reiniciar
-	addObject(new Label(this, game->getTexture(Game::REINICIAR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::REINICIAR)->getFrameWidth() / 2, Game::WINDOW_HEIGHT / 2 - game->getTexture(Game::REINICIAR)->getFrameHeight())));
-	Button* restartButton = new Button(this, game->getTexture(Game::REINICIAR), Point2D<int>());
-	restartButton->connect([this]()
-		{
-			restartGame();
-		});
-	addObject(restartButton);
-
 	//continuar
-	addObject(new Label(this, game->getTexture(Game::CONTINUAR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::CONTINUAR)->getFrameWidth() / 2, Game::WINDOW_HEIGHT / 2 - game->getTexture(Game::CONTINUAR)->getFrameHeight())));
-	Button* continueButton = new Button(this, game->getTexture(Game::CONTINUAR), Point2D<int>());
+	Button* continueButton = new Button(this, game->getTexture(Game::CONTINUAR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::CONTINUAR)->getFrameWidth() / 2, Game::WINDOW_HEIGHT / 5 - game->getTexture(Game::CONTINUAR)->getFrameHeight()));
 	continueButton->connect([this]()
 		{
 			game->popState();
 		});
 	addObject(continueButton);
 
+	//reiniciar
+	Button* restartButton = new Button(this, game->getTexture(Game::REINICIAR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::REINICIAR)->getFrameWidth() / 2, 2*Game::WINDOW_HEIGHT / 5 - game->getTexture(Game::REINICIAR)->getFrameHeight()));
+	restartButton->connect([this]()
+		{
+			restartGame();
+		});
+	addObject(restartButton);
+
+
 	//volver al menu
-	addObject(new Label(this, game->getTexture(Game::VOLVER), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::VOLVER)->getFrameWidth() / 2, Game::WINDOW_HEIGHT / 2 - game->getTexture(Game::VOLVER)->getFrameHeight())));
-	Button* returnButton = new Button(this, game->getTexture(Game::VOLVER), Point2D<int>());
+	Button* returnButton = new Button(this, game->getTexture(Game::VOLVER), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::VOLVER)->getFrameWidth() / 2, 3*Game::WINDOW_HEIGHT / 5 - game->getTexture(Game::VOLVER)->getFrameHeight()));
 	returnButton->connect([this]()
 		{
+			game->popState();
 			game->popState();
 		});
 	addObject(returnButton);
 
 	//salirt
-	Button* exitButton = new Button(this, game->getTexture(Game::SALIR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::SALIR)->getFrameWidth() / 2, 2 * Game::WINDOW_HEIGHT / 3 + game->getTexture(Game::SALIR)->getFrameHeight()));
+	Button* exitButton = new Button(this, game->getTexture(Game::SALIR), Point2D<int>(Game::WINDOW_WIDTH / 2 - game->getTexture(Game::SALIR)->getFrameWidth() / 2, 4 * Game::WINDOW_HEIGHT / 5 - game->getTexture(Game::SALIR)->getFrameHeight()));
 	exitButton->connect([this]()
 		{
+			game->popState();
+			game->popState();
 			game->popState();
 		});
 
@@ -57,19 +59,21 @@ void PauseState::restartGame()
 	SDL_ShowMessageBox(&boxData, &button);
 
 	if (button == 1) {
+		std::string map = playState->getMapName();
 		game->popState();
-		game->replaceState(new PauseState(game, playState));
+		game->replaceState(new PlayState(game, map));
 	}
-
 }
 
 void PauseState::render()const
 {
-	playState-> render();
+	playState->render();
 
+	SDL_SetRenderDrawColor(game->getRenderer(), 0, 0, 0, 128);
 	SDL_FRect overlay = 
 	{
-		0,0,Game::WINDOW_WIDTH,Game::WINDOW_HEIGHT 
+		0, 0, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT 
 	};
 	SDL_RenderFillRect(game->getRenderer(), & overlay);
+	for (GameObject* g : gameObjects) g->render();
 }
