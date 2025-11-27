@@ -34,7 +34,8 @@ public:
     }
 
     void addEventListener(EventHandler*);
-    void addObject(GameObject*);
+    GameState::Anchor addObject(GameObject*);
+    void removeObject(GameState::Anchor a);
 
     void runLater(DelayedCallback d);
 };

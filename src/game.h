@@ -75,7 +75,7 @@ private:
 	bool exit = false;
 
 	void handleEvents();
-
+	void render();
 
 public:
 	Game(); // Constructor

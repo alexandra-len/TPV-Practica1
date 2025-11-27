@@ -43,7 +43,7 @@ public:
 private:
 	std::string mapFile;
 
-	std::list<SceneObject*> objects;
+	std::list<SceneObject*> sceneObjects;
 	std::vector<Anchor> objToDelete;
 	std::vector<HomedFrog*> nests;
 	Frog* player;
@@ -82,14 +82,16 @@ public:
 	~PlayState();
 
 	void update() override;
-	void render() const override;
 	void handleEvent(const SDL_Event& event) override;
 	
 	void loadMap();
 	bool checkVictory();
 	void restartGame();
-
+	
+	PlayState::Anchor addObject(SceneObject*);
 	void deleteObjects();
+
+	void removeObject(PlayState::Anchor);
 	
 	
 	// Comprueba si hay algún objeto colocado en ese rectángulo

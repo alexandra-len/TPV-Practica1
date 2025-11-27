@@ -7,8 +7,12 @@ using namespace std;
 Wasp::Wasp(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
 	: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true) { }
 
-void Wasp::setAnchor(PlayState::Anchor a) {
-	anchor = a;
+void Wasp::setPlayAnchor(PlayState::Anchor a) {
+	playAnchor = a;
+}
+
+void Wasp::setGameAnchor(GameState::Anchor a) {
+	gameAnchor = a;
 }
 
 //Actualiza el estado de la avispa
@@ -16,7 +20,12 @@ void Wasp::update() {
 	currentTime = SDL_GetTicks();
 	if (currentTime >= deathTime) {
 		lives = false;
-		playState->deleteAfter(anchor);
+		cout << "set destroy func" << endl;
+		gameS->runLater([this]() {
+			playState->removeObject(playAnchor);
+			gameS->removeObject(gameAnchor);
+			cout << "running destroy func" << endl;
+		});
 	}
 }
 

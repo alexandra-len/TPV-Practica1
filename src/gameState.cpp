@@ -1,6 +1,7 @@
 #include "gameState.h"
 #include "game.h"
 #include "gameobject.h"
+#include <iostream>
 
 GameState::GameState(Game* g) {
 	game = g;
@@ -13,13 +14,9 @@ GameState::~GameState() {
 }
 
 void GameState::render() const {
-	SDL_RenderClear(game->getRenderer());
-
-	for (GameObject* g : gameObjects) {
+	for (auto* g : gameObjects) {
 		g->render();
 	}
-
-	SDL_RenderPresent(game->getRenderer());
 }
 
 void GameState::update() {
@@ -42,10 +39,15 @@ void GameState::addEventListener(EventHandler* evH) {
 	eventHandlers.push_back(evH);
 }
 
-void GameState::addObject(GameObject* g) {
+GameState::Anchor GameState::addObject(GameObject* g) {
 	gameObjects.push_back(g);
+	return --gameObjects.end();
 }
 
 void GameState::runLater(DelayedCallback c) {
-	c();
+	delayedCallbacks.push_back(c);
+}
+
+void GameState::removeObject(GameState::Anchor a) {
+	gameObjects.erase(a);
 }

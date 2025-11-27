@@ -40,6 +40,8 @@ PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(MAP_FILE
 		throw SDLError();
 	}
 
+	GameState::addObject(new Label(this, game->getTexture(Game::BACKGROUND), { 0,0 }));
+
 	loadMap();
 
 	HomedFrog* nest;
@@ -47,14 +49,18 @@ PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(MAP_FILE
 	for (int i = 0; i < NEST_NR; i++) {
 		nest = new HomedFrog(this, game->getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
 		nests.push_back(nest);
-		objects.push_back(nest);
+		sceneObjects.push_back(nest);
+		GameState::addObject(nest);
 
 	}
 	nestsOccupied = 0;
 
 	// Inicializa el info bar
 	infoBar = new InfoBar(this, game->getTexture(Game::FROG));
+	GameState::addObject(infoBar);
 	updateInfoBar();
+
+	
 
 	remainingSeconds = timeLimitSeconds;
 	lastSecondTick = SDL_GetTicks();
@@ -68,7 +74,7 @@ PlayState::~PlayState()
 {
 	delete infoBar;
 
-	for (auto& obj : objects) {
+	for (auto& obj : sceneObjects) {
 		delete obj;
 	}
 	if (jumpStream) {
@@ -82,36 +88,13 @@ PlayState::~PlayState()
 }
 
 void
-PlayState::render() const
-{
-	SDL_Renderer* r = game-> getRenderer();
-	// Limpia la pantalla
-	SDL_RenderClear(r);
-
-	// Renderiza el fondo
-	game-> getTexture(Game::BACKGROUND)->render();
-
-	for (auto* obj : objects) {
-		obj->render();
-	}
-
-	infoBar->render();
-
-	SDL_RenderPresent(r);
-
-}
-
-void
 PlayState::update()
 {
-	for (auto& obj : objects) {
-		obj->update();
-	}
-
 	updateTime();
 
 	updateWasps();
 	updateInfoBar();
+	GameState::update();
 }
 
 void PlayState::updateTime() {
@@ -143,15 +126,20 @@ void PlayState::updateWasps() {
 			nestNr = getRandomRange(0, NEST_NR - 1);
 		} while (nests[nestNr]->isHome());
 
+		cout << "creating wasp nido " << nestNr << endl;
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
 		Wasp* newWasp = new Wasp(this, game->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
-		objects.push_back(newWasp);
-		newWasp->setAnchor(--objects.end());
+		newWasp->setPlayAnchor(PlayState::addObject(newWasp));
+		newWasp->setGameAnchor(GameState::addObject(newWasp));
 
 		// Programa la próxima avispa
 		timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 		waspDestructionTime = currentTime + timeUntilWasp;
 	}
+}
+
+void PlayState::removeObject(PlayState::Anchor toRemove) {
+	sceneObjects.erase(toRemove);
 }
 
 void PlayState::updateInfoBar() {
@@ -164,17 +152,18 @@ void PlayState::handleEvent(const SDL_Event& event)
 	GameState::handleEvent(event);
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		if (event.key.key == SDLK_ESCAPE) game->pushState(new PauseState(game,this));
-		
-		/*else {
-			player->handleEvent(event);
-		}*/
 	}
+}
+
+PlayState::Anchor PlayState::addObject(SceneObject* s) {
+	sceneObjects.push_back(s);
+	return --sceneObjects.end();
 }
 
 void PlayState::deleteObjects() {
 	for (auto& obj : objToDelete) {
 		delete* obj;
-		objects.erase(obj);
+		sceneObjects.erase(obj);
 	}
 
 	objToDelete.clear();
@@ -188,7 +177,7 @@ Collision PlayState::checkCollision(const SDL_FRect& rect)const
 {
 	Collision col{ Collision::NONE, {0,0} };
 
-	for (const auto& obj : objects) {
+	for (const auto& obj : sceneObjects) {
 		col = obj->checkCollision(rect);
 		if (col.type != Collision::NONE)
 			return col;
@@ -227,17 +216,24 @@ void PlayState::loadMap() {
 			else {
 				// Carga vehículos, troncos y la rana según las etiquetas
 				if (c == "V") {
-					objects.push_back(new Vehicle(this, map));
+					Vehicle* vehicle = new Vehicle(this, map);
+					GameState::addObject(vehicle);
+					PlayState::addObject(vehicle);
 				}
 				else if (c == "L") {
-					objects.push_back(new Log(this, map));
+					Log* log = new Log(this, map);
+					GameState::addObject(log);
+					PlayState::addObject(log);
 				}
 				else if (c == "T") {
-					objects.push_back(new TurtleGroup(this, map));
+					TurtleGroup* turtles = new TurtleGroup(this, map);
+					GameState::addObject(turtles);
+					PlayState::addObject(turtles);
 				}
 				else if (c == "F") {
 					player = new Frog(this, map);
-					objects.push_back(player);
+					GameState::addObject(player);
+					PlayState::addObject(player);
 					addEventListener(player);
 				}
 			}
@@ -245,7 +241,7 @@ void PlayState::loadMap() {
 		}
 	}
 	catch (...) {
-		for (auto* obj : objects) {
+		for (auto* obj : sceneObjects) {
 			delete obj;
 		}
 		throw FileFormatError(mapFile, lineCounter);
@@ -289,9 +285,10 @@ void PlayState::playJumpSound() {
 void PlayState::restartGame()
 {
 	// Borrar todos los objetos del juego
-	for (auto* obj : objects) {
+	for (auto* obj : sceneObjects) {
 		delete obj;
-	}objects.clear();
+	}
+	sceneObjects.clear();
 
 	nests.clear();
 	nestsOccupied = 0;
@@ -303,7 +300,7 @@ void PlayState::restartGame()
 	for (int i = 0; i < NEST_NR; i++) {
 		nest = new HomedFrog(this, game->getTexture(Game::FROG), Point2D<int>(NEST_FROG_STARTING_X + NEST_FROG_DISTANCE_X * i, NEST_FROG_Y));
 		nests.push_back(nest);
-		objects.push_back(nest);
+		sceneObjects.push_back(nest);
 
 	}
 	nestsOccupied = 0;
@@ -317,4 +314,3 @@ void PlayState::restartGame()
 
 	resetTimer();
 }
-

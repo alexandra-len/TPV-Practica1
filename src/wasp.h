@@ -20,7 +20,8 @@ class Wasp : public SceneObject
 	int lifetime;
 	int deathTime;
 	int currentTime;
-	PlayState::Anchor anchor;
+	PlayState::Anchor playAnchor;
+	GameState::Anchor gameAnchor;
 
 public:
 	//Constructor de la clase
@@ -30,7 +31,8 @@ public:
 	void update() override;
 	//Comprueba si la avispa sigue viva
 	bool isAlive() const;
-	void setAnchor(PlayState::Anchor a);
+	void setPlayAnchor(PlayState::Anchor a);
+	void setGameAnchor(GameState::Anchor a);
 	//Comprueba si la avispa colisiona con la rana
 	Collision checkCollision(const SDL_FRect&) override;
 };

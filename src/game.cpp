@@ -135,3 +135,9 @@ Game::handleEvents() {
 		}
 	}
 }
+
+void Game::render() {
+	SDL_RenderClear(renderer);
+	GameStateMachine::render();
+	SDL_RenderPresent(renderer);
+}
