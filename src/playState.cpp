@@ -226,8 +226,6 @@ void PlayState::loadMap() {
 				}
 				else if (c == "W") {
 					Wasp* wasp = new Wasp(this, map);
-					GameState::addObject(wasp);
-					PlayState::addObject(wasp);
 					wasp->setPlayAnchor(PlayState::addObject(wasp));
 					wasp->setGameAnchor(GameState::addObject(wasp));
 				}
