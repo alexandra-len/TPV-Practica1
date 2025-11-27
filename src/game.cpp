@@ -108,19 +108,16 @@ Game::run()
 {
 	pushState(new MainMenuState(this));
 
-	uint64_t startTime, frameTime;
 	while (!exit && !empty()) {
-		// Tiempo al inicio del frame
-		startTime = SDL_GetTicks();
-
+		Uint64 frameStart = SDL_GetTicks();
 		handleEvents();
 		update();
 		render();
-		
-		// Tiempo que tomo el frame
-		frameTime = SDL_GetTicks() - startTime;
-		if (frameTime < FRAME_RATE) {
-			SDL_Delay(FRAME_RATE - frameTime);
+		Uint64 delta = SDL_GetTicks() - frameStart;
+
+		if (delta < DELTA)
+		{
+			SDL_Delay((int)(DELTA - delta));
 		}
 	}
 }

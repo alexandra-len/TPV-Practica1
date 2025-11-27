@@ -26,6 +26,7 @@ public:
 
 	// Se actualiza el juego cada tantos milisegundos
 	static constexpr int FRAME_RATE = 30;
+	static constexpr float DELTA = (float)1000 / FRAME_RATE;
 	// Tamaño real de la ventana
 	static constexpr int WINDOW_WIDTH = 448;
 	static constexpr int WINDOW_HEIGHT = 484;

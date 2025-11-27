@@ -161,12 +161,13 @@ void PlayState::updateInfoBar() {
 
 void PlayState::handleEvent(const SDL_Event& event)
 {
+	GameState::handleEvent(event);
 	if (event.type == SDL_EVENT_KEY_DOWN) {
 		if (event.key.key == SDLK_ESCAPE) game->pushState(new PauseState(game,this));
 		
-		else {
+		/*else {
 			player->handleEvent(event);
-		}
+		}*/
 	}
 }
 
@@ -237,6 +238,7 @@ void PlayState::loadMap() {
 				else if (c == "F") {
 					player = new Frog(this, map);
 					objects.push_back(player);
+					addEventListener(player);
 				}
 			}
 			lineCounter++;

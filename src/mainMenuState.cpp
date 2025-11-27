@@ -83,18 +83,17 @@ void MainMenuState::handleEvent(const SDL_Event& event)
     {
         switch (event.key.key)
         {
+            case SDLK_LEFT:
+                leftArrow();
+                break;
 
-        case SDLK_LEFT:
-            leftArrow();
-            break;
+            case SDLK_RIGHT:
+                rightArrow();
+                break;
 
-        case SDLK_RIGHT:
-            rightArrow();
-            break;
-
-        case SDLK_RETURN:
-            game->pushState(new PlayState(game, maps[selectedMap]));
-            break;
+            case SDLK_RETURN:
+                game->pushState(new PlayState(game, maps[selectedMap]));
+                break;
         }
     }
 }

@@ -107,9 +107,9 @@ void Frog::update() {
 
 // Gestión de eventos del teclado
 void Frog::handleEvent(const SDL_Event& event) {
-
-	// Cambia la dirección en función de la tecla pulsada
-	switch (event.key.key) {
+	if (event.type == SDL_EVENT_KEY_DOWN) {
+		// Cambia la dirección en función de la tecla pulsada
+		switch (event.key.key) {
 		case SDLK_UP:
 			lastDirection = moveDirection = Point2D<int>(0, -1);
 			playState->playJumpSound();
@@ -126,6 +126,7 @@ void Frog::handleEvent(const SDL_Event& event) {
 			lastDirection = moveDirection = Point2D<int>(1, 0);
 			playState->playJumpSound();
 			break;
+		}
 	}
 }
 
