@@ -18,8 +18,8 @@ class Log : public Platform
 
 public:
 	//Constructor del tronco
-	Log(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s, t->getFrameWidth()) {};
+	Log(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s);
 
-	Log(GameState* g, std::istream& input) : Platform(g, input, LOG1_TEXTURE_NR, -1) {};
+	Log(GameState* g, std::istream& input);
 };
 

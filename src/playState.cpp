@@ -60,8 +60,6 @@ PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(MAP_FILE
 	GameState::addObject(infoBar);
 	updateInfoBar();
 
-	
-
 	remainingSeconds = timeLimitSeconds;
 	lastSecondTick = SDL_GetTicks();
 
@@ -92,9 +90,11 @@ PlayState::update()
 {
 	updateTime();
 
+	GameState::update();
+
 	updateWasps();
 	updateInfoBar();
-	GameState::update();
+	
 }
 
 void PlayState::updateTime() {
@@ -125,9 +125,6 @@ void PlayState::updateWasps() {
 		do {
 			nestNr = getRandomRange(0, NEST_NR - 1);
 		} while (nests[nestNr]->isHome());
-
-		cout << "creating wasp nido " << nestNr << endl;
-		// TODO: create wasp properly && check wasp collision not working
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
 		Wasp* newWasp = new Wasp(this, game->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
 		newWasp->setPlayAnchor(PlayState::addObject(newWasp));
@@ -157,8 +154,8 @@ void PlayState::handleEvent(const SDL_Event& event)
 }
 
 PlayState::Anchor PlayState::addObject(SceneObject* s) {
-	sceneObjects.push_back(s);
-	return --sceneObjects.end();
+	sceneObjects.push_front(s);
+	return sceneObjects.begin();
 }
 
 void PlayState::deleteObjects() {
@@ -230,6 +227,13 @@ void PlayState::loadMap() {
 					TurtleGroup* turtles = new TurtleGroup(this, map);
 					GameState::addObject(turtles);
 					PlayState::addObject(turtles);
+				}
+				else if (c == "W") {
+					Wasp* wasp = new Wasp(this, map);
+					GameState::addObject(wasp);
+					PlayState::addObject(wasp);
+					wasp->setPlayAnchor(PlayState::addObject(wasp));
+					wasp->setGameAnchor(GameState::addObject(wasp));
 				}
 				else if (c == "F") {
 					player = new Frog(this, map);

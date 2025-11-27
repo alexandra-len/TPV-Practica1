@@ -2,10 +2,25 @@
 #include "collision.h"
 #include "game.h"
 #include <iostream>
+#include "FileFormatError.h"
+#include <numbers>
 using namespace std;
 
 Wasp::Wasp(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
 	: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true) { }
+
+Wasp::Wasp(GameState* g, std::istream& input)  : SceneObject(g, g->getGame()->getTexture(Game::WASP)), currentTime(0), lives(true) {
+	int x, y, t;
+	float vX, vY;
+	if (!(input >> x >> y >> vX >> vY >> t)) {
+		throw FileFormatError(MAP_FILE);
+	}
+
+	position = Point2D<int>{ x, y };
+	speed = Vector2D<float>{ vX, vY };
+	lifetime = t;
+	deathTime = SDL_GetTicks() + lifetime;
+}
 
 void Wasp::setPlayAnchor(PlayState::Anchor a) {
 	playAnchor = a;
@@ -17,16 +32,29 @@ void Wasp::setGameAnchor(GameState::Anchor a) {
 
 //Actualiza el estado de la avispa
 void Wasp::update() {
+	position = Point2D<int>(round(position.getX() + speed.getX()), round(position.getY() + speed.getY()));
+
 	currentTime = SDL_GetTicks();
 	if (currentTime >= deathTime) {
-		lives = false;
-		cout << "set destroy func" << endl;
-		gameS->runLater([this]() {
-			playState->removeObject(playAnchor);
-			gameS->removeObject(gameAnchor);
-			cout << "running destroy func" << endl;
-		});
+		destroyWasp();
 	}
+}
+
+void Wasp::render() const {
+	// El angulo se calcula: atan2(x, -y), porque atan2(y, x) da como resultado el angulo entre 
+	// el segmento que pasa por el origen y el punto (x, y) y el eje X.
+	// En este juego, la imagen original de la avispa mira hacia arriba por defecto (por lo tanto 0 grados
+	// es mirar hacia arriba). Por esto, se cambian x e y en atan2(x, y), para rotar los ejes 90 grados 
+	// (como si x es y e y es x). y se pone en negativo porque en SDL y positivo va hacia abajo.
+	texture->render(getBoundingBox(), 360*atan2(speed.getX(), -speed.getY()) / (2 * numbers::pi));
+}
+
+void Wasp::destroyWasp() {
+	lives = false;
+	gameS->runLater([this]() {
+		playState->removeObject(playAnchor);
+		gameS->removeObject(gameAnchor);
+	});
 }
 
 //Comprueba si la avispa sigue viva o no
