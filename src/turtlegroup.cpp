@@ -3,7 +3,7 @@
 #include "collision.h"
 #include "game.h"
 
-TurtleGroup::TurtleGroup(GameState* g, std::istream& input) : Platform(g) {
+TurtleGroup::TurtleGroup(GameState* g, std::istream& input) : Platform(g), frame(0) {
 	int textureNr, x, y, sink;
 	float s;
 	if (!(input >> x >> y >> s >> numTurtles >> sink)) {
@@ -16,7 +16,7 @@ TurtleGroup::TurtleGroup(GameState* g, std::istream& input) : Platform(g) {
 	sinks = sink == 1;
 
 	texture = gameS->getGame()->getTexture(Game::TURTLES);
-	width = texture->getFrameWidth();
+	width = texture->getFrameWidth() * numTurtles;
 	height = texture->getFrameHeight();
 
 	backjump = texture->getFrameWidth();
@@ -26,17 +26,17 @@ void TurtleGroup::render() const {
 	if (texture != nullptr) {
 		for (int i = 0; i < numTurtles; i++) {
 			SDL_FRect rect = {
-				position.getX() + i * width,
+				position.getX() + i * width/numTurtles,
 				position.getY(),
-				width,
+				width/numTurtles,
 				height
 			};
 
 			if (sinks) {
-				texture->renderFrame(rect, 0, (SDL_GetTicks() / TURTLE_SINK_RATE) % TURTLE_SINK_FRAMES);
+				texture->renderFrame(rect, 0, frame);
 			}
 			else {
-				texture->renderFrame(rect, 0, (SDL_GetTicks() / TURTLE_SINK_RATE) % TURTLE_STATIC_FRAMES);
+				texture->renderFrame(rect, 0, frame);
 			}
 		}
 	}
@@ -48,7 +48,7 @@ void TurtleGroup::update() {
 	}
 	
 	int rightLimit = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN;
-	int leftLimit = -Game::WINDOW_WIDTH_MARGIN - width * numTurtles;
+	int leftLimit = -Game::WINDOW_WIDTH_MARGIN - width;
 
 	if (speed.getX() > 0 && position.getX() > rightLimit)
 	{
@@ -57,7 +57,7 @@ void TurtleGroup::update() {
 
 	else if (speed.getX() < 0 && position.getX() < leftLimit)
 	{
-		position = Point2D<int>(Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width * numTurtles, position.getY());
+		position = Point2D<int>(Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - width, position.getY());
 	}
 
 	else {
@@ -70,7 +70,7 @@ SDL_FRect TurtleGroup::getBoundingBox() const {
 		SDL_FRect rect = {
 			position.getX(),
 			position.getY(),
-			width * numTurtles,
+			width,
 			height
 		};
 		return rect;
