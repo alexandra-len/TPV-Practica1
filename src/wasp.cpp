@@ -6,8 +6,8 @@
 #include <numbers>
 using namespace std;
 
-Wasp::Wasp(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l)
-	: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true) { }
+Wasp::Wasp(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l, int n)
+	: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true), nestNr(n) { }
 
 Wasp::Wasp(GameState* g, std::istream& input)  : SceneObject(g, g->getGame()->getTexture(Game::WASP)), currentTime(0), lives(true) {
 	int x, y, t;
@@ -52,6 +52,7 @@ void Wasp::render() const {
 void Wasp::destroyWasp() {
 	lives = false;
 	gameS->runLater([this]() {
+		playState->freeNest(nestNr);
 		playState->removeObject(playAnchor);
 		gameS->removeObject(gameAnchor);
 	});

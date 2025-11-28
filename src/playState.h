@@ -46,6 +46,7 @@ private:
 	std::list<SceneObject*> sceneObjects;
 	std::vector<Anchor> objToDelete;
 	std::vector<HomedFrog*> nests;
+	std::vector<bool> nestOccupiedByWasp;
 	Frog* player;
 	InfoBar* infoBar;
 
@@ -107,6 +108,7 @@ public:
 	void occupyNest() {
 		nestsOccupied++;
 	}
+	void freeNest(int);
 
 	// Configura la variable de vidas totales de la rana
 	void setHP(int lives) {

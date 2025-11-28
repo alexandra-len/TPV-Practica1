@@ -49,5 +49,7 @@ void GameState::runLater(DelayedCallback c) {
 }
 
 void GameState::removeObject(GameState::Anchor a) {
+	GameObject* objToDelete = *a;
 	gameObjects.erase(a);
+	delete objToDelete;
 }

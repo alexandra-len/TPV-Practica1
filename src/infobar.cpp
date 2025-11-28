@@ -12,8 +12,6 @@ InfoBar::InfoBar(GameState* g, Texture* t) : GameObject(g), frogImg(t), frogHP(0
 	timerHeight = frogHeight;
 	timerWidth = Game::WINDOW_WIDTH / 3;
 
-	std::cout << timerWidth << std::endl;
-
 	timerPosX = 2 * Game::WINDOW_WIDTH / 3 - 10;
 	timerPosY = Game::WINDOW_HEIGHT - DISTANCE_FROM_BELOW;
 

@@ -52,7 +52,7 @@ PlayState::PlayState(Game* game, string map) : GameState(game), mapFile(map)
 		nests.push_back(nest);
 		sceneObjects.push_back(nest);
 		GameState::addObject(nest);
-
+		nestOccupiedByWasp.push_back(false);
 	}
 	nestsOccupied = 0;
 
@@ -90,7 +90,7 @@ PlayState::update()
 
 	updateWasps();
 	updateInfoBar();
-	
+	checkVictory();
 }
 
 void PlayState::updateTime() {
@@ -122,14 +122,23 @@ void PlayState::updateWasps() {
 			nestNr = getRandomRange(0, NEST_NR - 1);
 		} while (nests[nestNr]->isHome());
 		// Crea una avispa en la posición del nido elegido, con vida aleatoria
-		Wasp* newWasp = new Wasp(this, game->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY));
-		newWasp->setPlayAnchor(PlayState::addObject(newWasp));
-		newWasp->setGameAnchor(GameState::addObject(newWasp));
+		Wasp* newWasp = new Wasp(this, game->getTexture(Game::WASP), Point2D<int>(waspPositions[nestNr].getX(), NEST_ROW_Y), Vector2D<float>(0, 0), getRandomRange(WASP_MIN_DELAY, WASP_MAX_DELAY), nestNr);
+		
+		if (nestOccupiedByWasp[nestNr]) delete newWasp;
+		else {
+			newWasp->setPlayAnchor(PlayState::addObject(newWasp));
+			newWasp->setGameAnchor(GameState::addObject(newWasp));
+			nestOccupiedByWasp[nestNr] = true;
+		}
 
 		// Programa la próxima avispa
 		timeUntilWasp = getRandomRange(WASP_MIN_DELAY, SDL_GetTicks() + WASP_MIN_DELAY);
 		waspDestructionTime = currentTime + timeUntilWasp;
 	}
+}
+
+void PlayState::freeNest(int nest) {
+	nestOccupiedByWasp[nest] = false;
 }
 
 void PlayState::removeObject(PlayState::Anchor toRemove) {

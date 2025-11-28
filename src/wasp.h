@@ -21,12 +21,13 @@ class Wasp : public SceneObject
 	int lifetime;
 	int deathTime;
 	int currentTime;
+	int nestNr;
 	PlayState::Anchor playAnchor;
 	GameState::Anchor gameAnchor;
 
 public:
 	//Constructor de la clase
-	Wasp(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l);
+	Wasp(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l, int n);
 	Wasp(GameState* g, std::istream& input);
 
 	void render() const override;
