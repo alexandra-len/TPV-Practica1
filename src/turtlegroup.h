@@ -18,9 +18,9 @@ class TurtleGroup : public Platform
 	int numTurtles;
 	bool sinks;
 
-	int frame;
+	int frame = 0;
 public:
-	TurtleGroup(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s, t->getFrameWidth()) {};
+	TurtleGroup(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s) : Platform(g, t, p, s, t->getFrameWidth()), frame(0) {};
 	TurtleGroup(GameState* g, std::istream& input);
 
 	void render() const override;

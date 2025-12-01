@@ -31,13 +31,7 @@ void TurtleGroup::render() const {
 				width/numTurtles,
 				height
 			};
-
-			if (sinks) {
-				texture->renderFrame(rect, 0, frame);
-			}
-			else {
-				texture->renderFrame(rect, 0, frame);
-			}
+			texture->renderFrame(rect, 0, frame);
 		}
 	}
 }
@@ -45,6 +39,9 @@ void TurtleGroup::render() const {
 void TurtleGroup::update() {
 	if (sinks) {
 		frame = (SDL_GetTicks() / TURTLE_SINK_RATE) % TURTLE_SINK_FRAMES;
+	}
+	else {
+		frame = (SDL_GetTicks() / TURTLE_SINK_RATE) % TURTLE_STATIC_FRAMES;
 	}
 	
 	int rightLimit = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN;
