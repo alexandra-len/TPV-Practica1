@@ -14,7 +14,7 @@ SceneObject::SceneObject(GameState* g, Texture* t) : GameObject(g), texture(t) {
 	height = texture->getFrameHeight();
 };
 
-SceneObject::SceneObject(GameState* g, Texture* t, Point2D<int> p) : GameObject(g), texture(t), position(p) {
+SceneObject::SceneObject(GameState* g, Texture* t, Point2D<int> p) : GameObject(g), position(p), texture(t) {
 	playState = static_cast<PlayState*>(g);
 
 	width = texture->getFrameWidth();

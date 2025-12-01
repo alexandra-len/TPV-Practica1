@@ -131,7 +131,7 @@ public:
 		return remainingSeconds;
 	}
 
-	std::string getMapName() {
+	const std::string getMapName() const {
 		return mapFile;
 	}
 

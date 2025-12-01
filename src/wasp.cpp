@@ -7,9 +7,9 @@
 using namespace std;
 
 Wasp::Wasp(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, int l, int n)
-	: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), currentTime(0), lives(true), nestNr(n) { }
+	: SceneObject(g, t, p), speed(s), lifetime(l), deathTime(SDL_GetTicks() + lifetime), lives(true), currentTime(0), nestNr(n) { }
 
-Wasp::Wasp(GameState* g, std::istream& input)  : SceneObject(g, g->getGame()->getTexture(Game::WASP)), currentTime(0), lives(true) {
+Wasp::Wasp(GameState* g, std::istream& input)  : SceneObject(g, g->getGame()->getTexture(Game::WASP)), lives(true), currentTime(0) {
 	int x, y, t;
 	float vX, vY;
 	if (!(input >> x >> y >> vX >> vY >> t)) {

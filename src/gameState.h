@@ -1,7 +1,7 @@
 #pragma once
 #include "SDL3/SDL.h"
 //#include "gameobject.h"
-#include "EventHandler.h"
+#include "eventHandler.h"
 
 #include <functional>
 #include <list>

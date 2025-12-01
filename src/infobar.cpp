@@ -5,7 +5,7 @@
 #include "texture.h"
 #include "game.h"
 
-InfoBar::InfoBar(GameState* g, Texture* t) : GameObject(g), frogImg(t), frogHP(0) {
+InfoBar::InfoBar(GameState* g, Texture* t) : GameObject(g), frogHP(0), frogImg(t) {
 	frogWidth = frogImg->getFrameWidth();
 	frogHeight = frogImg->getFrameHeight();
 

@@ -3,7 +3,7 @@
 #include "label.h"
 #include "button.h"
 #include "game.h"
-#include "PlayState.h"
+#include "playState.h"
 #include <string>
 
 PauseState::PauseState(Game* g, PlayState* p) : GameState(g), playState(p)

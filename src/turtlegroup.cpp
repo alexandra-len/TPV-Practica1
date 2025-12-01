@@ -4,7 +4,7 @@
 #include "game.h"
 
 TurtleGroup::TurtleGroup(GameState* g, std::istream& input) : Platform(g), frame(0) {
-	int textureNr, x, y, sink;
+	int x, y, sink;
 	float s;
 	if (!(input >> x >> y >> s >> numTurtles >> sink)) {
 		throw FileFormatError(MAP_FILE);

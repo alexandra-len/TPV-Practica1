@@ -14,7 +14,7 @@ GameState::~GameState() {
 }
 
 void GameState::render() const {
-	for (auto it = gameObjects.rbegin(); it != gameObjects.rend(); it++) {
+	for (auto it = gameObjects.begin(); it != gameObjects.end(); it++) {
 		(*it)->render();
 	}
 }
@@ -40,8 +40,8 @@ void GameState::addEventListener(EventHandler* evH) {
 }
 
 GameState::Anchor GameState::addObject(GameObject* g) {
-	gameObjects.push_front(g);
-	return gameObjects.begin();
+	gameObjects.push_back(g);
+	return --gameObjects.end();
 }
 
 void GameState::runLater(DelayedCallback c) {

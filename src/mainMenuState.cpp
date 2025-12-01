@@ -9,7 +9,7 @@
 #include <string>
 using namespace std;
 
-static const char* CONFIG_FILE = "config.txt";
+constexpr const char* CONFIG_FILE = "config.txt";
 
 MainMenuState::MainMenuState(Game* g) : GameState(g)
 {

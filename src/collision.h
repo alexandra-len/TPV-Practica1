@@ -8,8 +8,7 @@ struct Collision
 		NONE,
 		ENEMY,
 		PLATFORM,
-		HOME,
-		WASP
+		HOME
 	};
 
 	Type type;

@@ -4,7 +4,7 @@
 #include <iostream>
 using namespace std;
 
-Button::Button(GameState* g, Texture* t, Point2D<int> p) : Label(g, t, p), active(true), hovering(false) {
+Button::Button(GameState* g, Texture* t, Point2D<int> p) : Label(g, t, p), hovering(false), active(true) {
 	hoverColor = { 255, 255, 0 };
 	baseColor = { 255, 255, 255 };
 

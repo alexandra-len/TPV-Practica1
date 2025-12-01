@@ -6,6 +6,8 @@
 #include <SDL3_image/SDL_image.h>
 using namespace std;
 
+Frog::Frog(GameState* g, Texture* t, Point2D<int> p) : SceneObject(g, t, p), initialPos(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0, 0)), hp(3) {}
+
 Frog::Frog(GameState* g, std::istream& input) : SceneObject(g, g->getGame()->getTexture(Game::TextureName::FROG)), lastDirection(Point2D<int>(0, 0)) {
 	// Lee las coordenadas de inicio desde un fichero
 	int x, y, lives;

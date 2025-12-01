@@ -28,7 +28,7 @@ class Frog : public SceneObject, public EventHandler
 
 public:
 	//Constructor
-	Frog(GameState* g, Texture* t, Point2D<int> p) : initialPos(p), lastDirection(Point2D<int>(0, 0)), velocity(Vector2D<float>(0,0)), hp(3), SceneObject(g, t, p) {}
+	Frog(GameState* g, Texture* t, Point2D<int> p);
 
 	//Constructor que carga posicion desde un archivo
 	Frog(GameState* g, std::istream& input);
