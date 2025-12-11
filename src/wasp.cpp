@@ -20,6 +20,7 @@ Wasp::Wasp(GameState* g, std::istream& input)  : SceneObject(g, g->getGame()->ge
 	speed = Vector2D<float>{ vX, vY };
 	lifetime = t;
 	deathTime = SDL_GetTicks() + lifetime;
+	nestNr = -1;
 }
 
 void Wasp::setPlayAnchor(PlayState::Anchor a) {
@@ -52,9 +53,11 @@ void Wasp::render() const {
 void Wasp::destroyWasp() {
 	lives = false;
 	gameS->runLater([this]() {
-		playState->freeNest(nestNr);
+		if (nestNr >= 0)
+			playState->freeNest(nestNr);
 		playState->removeObject(playAnchor);
 		gameS->removeObject(gameAnchor);
+		delete this;
 	});
 }
 
