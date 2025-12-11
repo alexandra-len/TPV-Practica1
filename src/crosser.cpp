@@ -13,7 +13,7 @@ Crosser::Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj 
 	int textureNr, x, y;
 	float s;
 	if (!(input >> x >> y >> s >> textureNr)) {
-		throw FileFormatError("");
+		throw FileFormatError("Error reading variables.");
 	}
 
 	position = Point2D<int>(x, y);
@@ -22,7 +22,7 @@ Crosser::Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj 
 	int finalTextureIndex = textureNrOffset + textureNr;
 
 	if (finalTextureIndex < 0 || finalTextureIndex >= Game::NUM_TEXTURES) {
-		throw FileFormatError(MAP_FILE);
+		throw FileFormatError("Incorrect texture number.");
 	}
 
 	texture = gameS->getGame()->getTexture((Game::TextureName)(finalTextureIndex));
@@ -32,7 +32,7 @@ Crosser::Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj 
 	if (bj == -1) {
 		backjump = texture->getFrameWidth();
 	}
-	else {
+	else {             
 		backjump = bj;
 	}
 }

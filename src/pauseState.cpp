@@ -75,5 +75,5 @@ void PauseState::render()const
 		0, 0, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT 
 	};
 	SDL_RenderFillRect(game->getRenderer(), & overlay);
-	for (GameObject* g : gameObjects) g->render();
+	GameState::render();
 }
