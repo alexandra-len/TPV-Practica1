@@ -11,9 +11,13 @@ class Button;
 class MainMenuState : public GameState
 {
 private:
+    // Lista de nombres de archivos de mapa disponibles
     std::vector<std::string> maps;
+    // Lista de botones de selección de mapa
     std::vector<Button*> buttons;
+    // Índice del mapa seleccionado actualmente
     int selectedMap = 0;
+
     Button* lArrow;
     Button* rArrow;
 
@@ -24,6 +28,6 @@ public:
     void handleEvent(const SDL_Event&) override;
     void leftArrow();
     void rightArrow();
-    void displayArrows();
+    void displayArrows();// Habilita/deshabilita las flechas según si hay mapas adyacentes
 };
 

@@ -8,7 +8,7 @@ Crosser::Crosser(GameState* g, Texture* t, Point2D<int> p, Vector2D<float> s, in
 	// La velocidad ajustada al frame rate
 	speed = Vector2D<float>(s.getX() / Game::FRAME_RATE, s.getY() / Game::FRAME_RATE);
 }
-
+// Constructor de carga desde archivo
 Crosser::Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj = -1) : SceneObject(g) {
 	int textureNr, x, y;
 	float s;
@@ -19,16 +19,19 @@ Crosser::Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj 
 	position = Point2D<int>(x, y);
 	speed = Vector2D<float>(s / Game::FRAME_RATE, 0);
 
+	// Calcula el índice final de la textura usando el offset
 	int finalTextureIndex = textureNrOffset + textureNr;
 
 	if (finalTextureIndex < 0 || finalTextureIndex >= Game::NUM_TEXTURES) {
 		throw FileFormatError("Incorrect texture number.");
 	}
 
+	// Carga la textura, y establece ancho y alto
 	texture = gameS->getGame()->getTexture((Game::TextureName)(finalTextureIndex));
 	width = texture->getFrameWidth();
 	height = texture->getFrameHeight();
 
+	// Establece 'backjump'. Por defecto es el ancho del objeto si no se proporciona (-1)
 	if (bj == -1) {
 		backjump = texture->getFrameWidth();
 	}
@@ -36,8 +39,9 @@ Crosser::Crosser(GameState* g, std::istream& input, int textureNrOffset, int bj 
 		backjump = bj;
 	}
 }
-
+// Lógica de movimiento y scroll cíclico.
 void Crosser::update() {
+	// Límites de la pantalla ajustados para el 'backjump'
 	int rightLimit = Game::WINDOW_WIDTH + Game::WINDOW_WIDTH_MARGIN - (width - backjump);
 	int leftLimit = -(Game::WINDOW_WIDTH_MARGIN + backjump);
 

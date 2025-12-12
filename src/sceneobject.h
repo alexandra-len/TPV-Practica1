@@ -5,6 +5,8 @@
 #include "SDL3/SDL.h"
 #include "playState.h"
 
+// SceneObject: Clase base abstracta para todos los objetos que se renderizan en el juego.
+
 //class PlayState;
 struct Collision;
 
@@ -18,7 +20,7 @@ public:
 	void render() const override;
 
 	void update() override {};
-
+	// Método virtual puro: Obliga a las clases hijas a implementar su lógica de colisión
 	virtual Collision checkCollision(const SDL_FRect& other) = 0;
 
 protected:
@@ -28,7 +30,7 @@ protected:
 	int width = 0;
 	int height = 0;
 	
-
+	// Devuelve la caja de colisión del objeto
 	virtual SDL_FRect getBoundingBox() const {
 		return SDL_FRect(position.getX(), position.getY(), width, height);
 	}

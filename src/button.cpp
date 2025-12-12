@@ -4,6 +4,7 @@
 #include <iostream>
 using namespace std;
 
+// Constructor: Inicializa colores, el estado de hover/activo y se registra como oyente de eventos
 Button::Button(GameState* g, Texture* t, Point2D<int> p) : Label(g, t, p), hovering(false), active(true) {
 	hoverColor = { 255, 255, 0 };
 	baseColor = { 255, 255, 255 };
@@ -14,7 +15,7 @@ Button::Button(GameState* g, Texture* t, Point2D<int> p) : Label(g, t, p), hover
 Button::~Button() {
 
 }
-
+// Renderizado: Dibuja el botón solo si está activo
 void Button::render() const {
 	if (active) {
 		SDL_FRect rect = SDL_FRect(position.getX(), position.getY(), texture->getFrameWidth(), texture->getFrameHeight());
@@ -27,6 +28,7 @@ void Button::render() const {
 	}
 }
 
+// Asigna la función de callback que se ejecutará al hacer clic
 void Button::connect(Callback c) {
 	callback = c;
 }
@@ -43,6 +45,7 @@ void Button::handleEvent(const SDL_Event& ev) {
 		}
 	}
 }
+// Establece el estado activo/inactivo del botón
 void Button::setActive(bool a) {
 	active = a;
 }

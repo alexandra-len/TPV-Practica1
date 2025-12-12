@@ -45,7 +45,7 @@ PauseState::PauseState(Game* g, PlayState* p) : GameState(g), playState(p)
 
 	addObject(exitButton);
 }
-
+// Pide confirmación y reinicia el juego
 void PauseState::restartGame()
 {
 	const SDL_MessageBoxButtonData buttons[] = {
@@ -64,16 +64,17 @@ void PauseState::restartGame()
 		game->replaceState(new PlayState(game, map));
 	}
 }
-
+// Renderizado: Dibuja la escena de juego y luego la interfaz de pausa
 void PauseState::render()const
 {
 	playState->render();
-
+	// Establece el color de dibujo a negro semi-transparente
 	SDL_SetRenderDrawColor(game->getRenderer(), 0, 0, 0, 128);
+	// Define el rectángulo de superposición que cubre toda la ventana
 	SDL_FRect overlay = 
 	{
 		0, 0, Game::WINDOW_WIDTH, Game::WINDOW_HEIGHT 
 	};
-	SDL_RenderFillRect(game->getRenderer(), & overlay);
-	GameState::render();
+	SDL_RenderFillRect(game->getRenderer(), & overlay);// Dibuja la superposición
+	GameState::render();// Finalmente, renderiza los objetos del GameState (los botones de pausa)
 }
