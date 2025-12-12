@@ -97,6 +97,8 @@ public:
 	SDL_Window* getWindow() const {
 		return window;
 	}
+
+	void freeTextures();
 };
 
 // Implementacion inline de getTexture

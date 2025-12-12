@@ -75,22 +75,27 @@ Game::Game()
 	                          0);
 
 	textures.fill(nullptr);
+	try {
+		if (window == nullptr)
+			throw SDLError();
 
-	if (window == nullptr)
-		throw SDLError();
+		renderer = SDL_CreateRenderer(window, nullptr);
 
-	renderer = SDL_CreateRenderer(window, nullptr);
+		if (renderer == nullptr)
+			throw SDLError();
 
-	if (renderer == nullptr)
-		throw SDLError();
-
-	// Carga las texturas al inicio
-	for (size_t i = 0; i < textures.size(); i++) {
-		auto [name, nrows, ncols] = textureList[i];
-		if (!(filesystem::exists(string(imgBase) + name))) {
-			throw FileNotFoundError(MAP_FILE);
+		// Carga las texturas al inicio
+		for (size_t i = 0; i < textures.size(); i++) {
+			auto [name, nrows, ncols] = textureList[i];
+			if (!(filesystem::exists(string(imgBase) + name))) {
+				throw FileNotFoundError(string(imgBase) + name);
+			}
+			textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
 		}
-		textures[i] = new Texture(renderer, (string(imgBase) + name).c_str(), nrows, ncols);
+	}
+	catch (GameError& e) {
+		freeTextures();
+		throw e;
 	}
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }
@@ -141,4 +146,10 @@ void Game::render() {
 	SDL_RenderClear(renderer);
 	GameStateMachine::render();
 	SDL_RenderPresent(renderer);
+}
+
+void Game::freeTextures() {
+	for (auto& t : textures) {
+		delete t;
+	}
 }
