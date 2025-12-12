@@ -7,9 +7,11 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include "texture.h"
 using namespace std;
 
 constexpr const char* CONFIG_FILE = "config.txt";
+const filesystem::path TEXTS_ROOT = "../assets/images/texts";
 
 MainMenuState::MainMenuState(Game* g) : GameState(g)
 {
@@ -32,23 +34,24 @@ MainMenuState::MainMenuState(Game* g) : GameState(g)
         });
 
     addObject(exitButton);
+    
     // Mapa de nombres de mapa a sus IDs de textura (para los botones)
-    unordered_map<string, Game::TextureName> mapTextures({
-        {"Avispado", Game::AVISPADO},
-        {"Original", Game::ORGINIAL},
-        {"Practica 1", Game::PRACTICA1},
-        {"Trivial", Game::TRIVIAL},
-        {"Veloz", Game::VELOZ}
-    });
+
     // Carga dinámica de mapas y creación de botones:
     int i = 0;
+    
     // Itera sobre todos los archivos en la carpeta de mapas
     for (auto entry : std::filesystem::directory_iterator("../assets/maps")) {
-        string map = entry.path().stem().string();// Obtiene el nombre del archivo sin extensión
+        string map = path2string(entry.path().stem().string());// Obtiene el nombre del archivo sin extensión
         maps.push_back(map);// Añade el nombre del mapa a la lista
 
+        filesystem::path textPath = TEXTS_ROOT / entry.path().filename().replace_extension(".png");
+        string textPathString = path2string(textPath);
+
+        mapTextures[map] = new Texture(game->getRenderer(), textPathString.c_str());
+
         // Crea un botón con la textura correspondiente al nombre del mapa
-        Button* mapButton = new Button(this, game->getTexture(mapTextures[map]), { Game::WINDOW_WIDTH / 2 - game->getTexture(mapTextures[map])->getFrameWidth() / 2, Game::WINDOW_HEIGHT / 2 + game->getTexture(mapTextures[map])->getFrameHeight() });
+        Button* mapButton = new Button(this, mapTextures[map], { Game::WINDOW_WIDTH / 2 - mapTextures[map]->getFrameWidth() / 2, Game::WINDOW_HEIGHT / 2 + mapTextures[map]->getFrameHeight() });
         //Al hacer clic, añade un nuevo PlayState con el mapa seleccionado a la pila
         mapButton->connect([this, i]() {game->pushState(new PlayState(game, maps[i])); });
         mapButton->setActive(false);// Por defecto, todos los botones de mapa están inactivos
@@ -58,14 +61,15 @@ MainMenuState::MainMenuState(Game* g) : GameState(g)
         buttons.push_back(mapButton);
 
         i++;
+
     }
     // Activa el botón del mapa cargado o preseleccionado
     buttons[selectedMap]->setActive(true);
 
     // Crea y posiciona las flechas izquierda y derecha.
     // La posición se calcula para que estén a los lados del botón del mapa
-    lArrow = new Button(this, game->getTexture(Game::LEFT), { game->getTexture(Game::LEFT)->getFrameWidth(), Game::WINDOW_HEIGHT / 2 + game->getTexture(mapTextures["Avispado"])->getFrameHeight() });
-    rArrow = new Button(this, game->getTexture(Game::RIGHT), { Game::WINDOW_WIDTH - game->getTexture(Game::RIGHT)->getFrameWidth(), Game::WINDOW_HEIGHT / 2 + game->getTexture(mapTextures["Avispado"])->getFrameHeight() });
+    lArrow = new Button(this, game->getTexture(Game::LEFT), { game->getTexture(Game::LEFT)->getFrameWidth(), Game::WINDOW_HEIGHT / 2 + mapTextures["Avispado"]->getFrameHeight() });
+    rArrow = new Button(this, game->getTexture(Game::RIGHT), { Game::WINDOW_WIDTH - game->getTexture(Game::RIGHT)->getFrameWidth(), Game::WINDOW_HEIGHT / 2 + mapTextures["Avispado"]->getFrameHeight() });
 
     lArrow->connect([this]() {leftArrow(); });
     rArrow->connect([this]() {rightArrow(); });
@@ -81,6 +85,10 @@ MainMenuState::~MainMenuState()
 {
 	ofstream map(CONFIG_FILE);
 	map << selectedMap;
+
+    for (auto& mapT : mapTextures) {
+        delete mapT.second;
+    }
 }
 
 void MainMenuState::handleEvent(const SDL_Event& event)

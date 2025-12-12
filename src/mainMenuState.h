@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <unordered_map>
+#include <filesystem>
+#include "texture.h"
 
 class Button;
 
@@ -18,6 +20,9 @@ private:
     // Índice del mapa seleccionado actualmente
     int selectedMap = 0;
 
+    // Map con las texturas
+    std::unordered_map<std::string, Texture*> mapTextures;
+
     Button* lArrow;
     Button* rArrow;
 
@@ -29,5 +34,9 @@ public:
     void leftArrow();
     void rightArrow();
     void displayArrows();// Habilita/deshabilita las flechas según si hay mapas adyacentes
+
+    std::string path2string(const std::filesystem::path& p) {
+        return reinterpret_cast<const char*>(p.u8string().c_str());
+    }
 };
 
